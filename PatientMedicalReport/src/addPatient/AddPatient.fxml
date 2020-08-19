@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="540.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="addPatient.AddPatientController">
+   <children>
+      <TextField fx:id="mobNo" layoutX="29.0" layoutY="89.0" prefHeight="25.0" prefWidth="202.0" promptText="Enter Mobile No." />
+      <Label layoutX="4.0" layoutY="8.0" prefHeight="25.0" prefWidth="600.0" text="New Patient Details">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Separator layoutX="4.0" layoutY="32.0" prefHeight="3.0" prefWidth="582.0" />
+      <TextField fx:id="fullName" layoutX="29.0" layoutY="179.0" prefHeight="25.0" prefWidth="202.0" promptText="Enter Name" />
+      <TextField fx:id="email" layoutX="312.0" layoutY="179.0" prefHeight="25.0" prefWidth="219.0" promptText="Enter Email" />
+      <RadioButton fx:id="male" layoutX="312.0" layoutY="93.0" mnemonicParsing="false" text="Male ">
+         <toggleGroup>
+            <ToggleGroup fx:id="genderR" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="others" layoutX="463.0" layoutY="93.0" mnemonicParsing="false" text="Others" toggleGroup="$genderR" />
+      <RadioButton fx:id="female" layoutX="381.0" layoutY="93.0" mnemonicParsing="false" text="Female" toggleGroup="$genderR" />
+      <DatePicker fx:id="dob" editable="false" layoutX="25.0" layoutY="283.0" prefHeight="17.0" prefWidth="131.0" promptText="Select DOB" />
+      <Button fx:id="addBtn" layoutX="463.0" layoutY="450.0" mnemonicParsing="false" onAction="#addPatient" prefHeight="25.0" prefWidth="82.0" text="Add Patient" />
+      <Button fx:id="cancelBtn" layoutX="369.0" layoutY="450.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="25.0" prefWidth="82.0" text="Cancel" />
+      <Label layoutX="29.0" layoutY="62.0" prefHeight="17.0" prefWidth="82.0" text="Mobile No." />
+      <Label layoutX="25.0" layoutY="152.0" prefHeight="17.0" prefWidth="90.0" text="Full Name" />
+      <Label layoutX="29.0" layoutY="253.0" prefHeight="17.0" prefWidth="82.0" text="Date of Birth" />
+      <Label layoutX="174.0" layoutY="253.0" text="Age" />
+      <Label layoutX="312.0" layoutY="152.0" prefHeight="17.0" prefWidth="51.0" text="Email" />
+      <Label layoutX="312.0" layoutY="62.0" prefHeight="17.0" prefWidth="51.0" text="Gender" />
+      <Label fx:id="valMob" layoutX="29.0" layoutY="121.0" prefHeight="25.0" prefWidth="202.0" textFill="#f84646" />
+      <Label fx:id="valName" layoutX="29.0" layoutY="213.0" prefHeight="25.0" prefWidth="202.0" textFill="#f84646" />
+      <Label fx:id="valGender" layoutX="310.0" layoutY="121.0" prefHeight="25.0" prefWidth="202.0" textFill="#f84646" />
+      <Label fx:id="valEmail" layoutX="310.0" layoutY="213.0" prefHeight="25.0" prefWidth="202.0" textFill="#f84646" />
+      <Label fx:id="valDOB" layoutX="25.0" layoutY="317.0" prefHeight="25.0" prefWidth="131.0" textFill="#f84646" />
+      <Label fx:id="ageLabel" layoutX="174.0" layoutY="283.0" prefHeight="25.0" prefWidth="82.0" text="" />
+   </children>
+</AnchorPane>
