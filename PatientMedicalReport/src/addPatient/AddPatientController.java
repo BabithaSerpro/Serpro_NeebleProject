@@ -137,7 +137,7 @@ public class AddPatientController implements Initializable {
 					ps.setString(3, getGender());
 					ps.setString(4, email.getText());
 					ps.setString(5, ((TextField) dob.getEditor()).getText());
-					ps.setString(6, age.getText());
+				    ps.setString(6, ageLabel.getText());
 					flag = ps.executeUpdate();
 
 					if (flag > 0) {
@@ -161,6 +161,11 @@ public class AddPatientController implements Initializable {
 						clearFields();
 					}
 				} catch (SQLException e) {
+					Alert alert = new Alert(Alert.AlertType.WARNING);
+					alert.setTitle("Dr Subodh App");
+					alert.setContentText("Some Error occured during adding data!!..Please try again!");
+					alert.showAndWait();
+					clearFields();
 					e.printStackTrace();
 				}
 			}
