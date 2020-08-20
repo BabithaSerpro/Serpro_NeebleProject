@@ -17,7 +17,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root,800,500);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setTitle("Patient Details");
-			primaryStage.getIcons().add(new Image("file:imgs/sdIcon.png"));
+			primaryStage.getIcons().add(new Image("file:imgs/sdIcon.png")); 
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
