@@ -161,7 +161,7 @@ public class AddPatientController implements Initializable {
 						clearFields();
 					}
 				} catch (SQLException e) {
-					Alert alert = new Alert(Alert.AlertType.WARNING);
+					Alert alert = new Alert(Alert.AlertType.WARNING); 
 					alert.setTitle("Dr Subodh App");
 					alert.setContentText("Some Error occured during adding data!!..Please try again!");
 					alert.showAndWait();
