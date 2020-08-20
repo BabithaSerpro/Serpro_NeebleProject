@@ -9,8 +9,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.jfoenix.controls.JFXButton;
-
 import DBConnection.DBConnectivity;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -23,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -31,14 +30,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class DashboardController {
 	@FXML
 	private AnchorPane mainPane;
 
 	@FXML
-	private JFXButton btn_addPatient;
+	private Button btn_addPatient;
 
 	@FXML
 	private TextField txt_searchBox;
@@ -166,13 +164,12 @@ public class DashboardController {
 	@FXML
 	void addPatients(ActionEvent event) {
 		try {
-			FXMLLoader fxmlloader = new FXMLLoader(
-					DashboardController.class.getResource("/addPatient/AddPatient.fxml"));
+			FXMLLoader fxmlloader = new FXMLLoader(DashboardController.class.getResource("/addPatient/AddPatient.fxml"));
 			Parent workspace = (Parent) fxmlloader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(workspace));
 			stage.setTitle("New Patient Details");
-			stage.getIcons().add(new Image("/imgs/sdIcon.png"));
+			stage.getIcons().add(new Image("file:imgs/sdIcon.png"));
 			stage.setResizable(false);
 			stage.show();
 		} catch (Exception e) {
