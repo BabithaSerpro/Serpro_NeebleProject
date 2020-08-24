@@ -3,16 +3,9 @@ package application;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 
 import DBConnection.DBConnectivity;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -30,6 +23,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import viewPatient.ViewPDController;
 
 public class DashboardController {
 	@FXML
@@ -48,6 +42,8 @@ public class DashboardController {
 	private TableView<PatientData> tbl_patientDetails;
 
 	@FXML
+	private TableColumn<PatientData, Integer> SNo;
+	@FXML
 	private TableColumn<PatientData, Integer> pID;
 	@FXML
 	private TableColumn<PatientData, String> pName;
@@ -62,12 +58,12 @@ public class DashboardController {
 
 	private static TableView<PatientData> tblPatientTable;
 	private static Connection con;
-	private DBClass objDbClass;
 
 	@FXML
 	public void initialize() throws ClassNotFoundException, SQLException {
 		tblPatientTable = tbl_patientDetails;
 		assert tbl_patientDetails != null : "fx:id=\"tbl_patientDetails\" was not injected: check your FXML file 'Dashboard.fxml'.";
+		SNo.setCellValueFactory(new PropertyValueFactory<PatientData, Integer>("serialNum"));
 		pID.setCellValueFactory(new PropertyValueFactory<PatientData, Integer>("patientId"));
 		pName.setCellValueFactory(new PropertyValueFactory<PatientData, String>("patientName"));
 		pAge.setCellValueFactory(new PropertyValueFactory<PatientData, String>("age"));
@@ -75,8 +71,14 @@ public class DashboardController {
 		pmobileNum.setCellValueFactory(new PropertyValueFactory<PatientData, String>("mobileNumber"));
 		pEmail.setCellValueFactory(new PropertyValueFactory<PatientData, String>("emailId"));
 
-		objDbClass = new DBClass();
 		con = DBConnectivity.getConnection();
+
+		tblPatientTable.setOnMouseClicked(e -> {
+			if (tblPatientTable.getSelectionModel().getSelectedItem() != null) {
+				ClickedPatient(tblPatientTable.getSelectionModel().getSelectedItem().getPatientId());
+			}
+
+		});
 		buildData();
 		sidePanel();
 	}
@@ -103,10 +105,11 @@ public class DashboardController {
 	public static void refreshTable() {
 		data.clear();
 		try {
-			String SQL = "SELECT * FROM patient_masterdata";
+			String SQL = "SELECT * FROM patient_masterdata ORDER BY patient_id DESC";
 			ResultSet rs = con.createStatement().executeQuery(SQL);
 			while (rs.next()) {
 				PatientData pd = new PatientData();
+				pd.serialNum.set(rs.getRow());
 				pd.patientId.set(rs.getInt("patient_id"));
 				pd.patientName.set(rs.getString("patient_name"));
 				pd.dob.set(rs.getString("dob"));
@@ -116,9 +119,11 @@ public class DashboardController {
 				pd.emailId.set(rs.getString("emailId"));
 				data.add(pd);
 			}
+//			tblPatientTable.setItems(data);
 			// Search Result
 			flPatient = new FilteredList(data, p -> true);// Pass the data to a filtered list
 			tblPatientTable.setItems(flPatient);// Set the table's items using the filtered list
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error on Building Data");
@@ -128,6 +133,38 @@ public class DashboardController {
 	public void buildData() {
 		try {
 			refreshTable();
+
+//			txt_searchBox.textProperty().addListener((observable, oldValue, newValue) -> {
+//				try {
+//					data.clear();
+//					System.out.println("newvalue "+newValue);
+//					String SQL;
+//					if(!(newValue.matches("[0-9]"))) {
+//						SQL = "SELECT * FROM patient_masterdata WHERE patient_name LIKE '"+ newValue + "'";
+//						
+//					}else {
+//						SQL = "SELECT * FROM patient_masterdata WHERE mobileNumber LIKE '"+ newValue + "'";
+//					}
+//					ResultSet rs = con.createStatement().executeQuery(SQL);
+//					
+//					while (rs.next()) {
+//						PatientData pd = new PatientData();
+//						pd.serialNum.set(rs.getRow());
+//						pd.patientId.set(rs.getInt("patient_id"));
+//						pd.patientName.set(rs.getString("patient_name"));
+//						pd.dob.set(rs.getString("dob"));
+//						pd.age.set(rs.getString("age"));
+//						pd.gender.set(rs.getString("gender"));
+//						pd.mobileNumber.set(rs.getString("mobileNumber"));
+//						pd.emailId.set(rs.getString("emailId"));
+//						data.add(pd);
+//					}
+//					tblPatientTable.setItems(data);
+//				} catch (SQLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			});
 
 			txt_searchBox.textProperty().addListener((observable, oldValue, newValue) -> {
 				flPatient.setPredicate(p -> {
@@ -145,19 +182,38 @@ public class DashboardController {
 					return false; // Does not match.
 				});
 			});
-			txt_searchBox.setOnKeyReleased(keyEvent -> {
-				if (keyEvent.getText().matches("[0-9]")) {
-					flPatient.setPredicate(p -> p.getMobileNumber().contains(txt_searchBox.getText().trim()));
-				} else {
-					flPatient.setPredicate(p -> p.getPatientName().toLowerCase()
-							.contains(txt_searchBox.getText().toLowerCase().trim()));
-				}
-
-			});
+			//not required
+//			txt_searchBox.setOnKeyReleased(keyEvent -> {
+//				if (keyEvent.getText().matches("[0-9]")) {
+//					flPatient.setPredicate(p -> p.getMobileNumber().contains(txt_searchBox.getText().trim()));
+//				} else {
+//					flPatient.setPredicate(p -> p.getPatientName().toLowerCase()
+//							.contains(txt_searchBox.getText().toLowerCase().trim()));
+//				}
+//
+//			});
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error on Building Data");
+		}
+	}
+
+	private static void ClickedPatient(int patientID) {
+		try {
+			FXMLLoader fxmlloader = new FXMLLoader(DashboardController.class.getResource("/viewPatient/ViewPatientDetails.fxml"));
+			Parent workspace = (Parent) fxmlloader.load();
+			Stage stage = new Stage();
+			stage.setScene(new Scene(workspace));
+			stage.setTitle("Patient Details");
+			stage.getIcons().add(new Image("file:imgs/sdIcon.png"));
+			stage.setResizable(false);
+			stage.show();
+
+			ViewPDController.ViewDetails(patientID);
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
