@@ -8,7 +8,7 @@ public class DBConnectivity {
 		Connection con = null;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/drsubodhapp","root","Babitha@123");
+			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/drsubodhapp","root","root");
 			return con;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import DBConnection.DBConnectivity;
 import application.DashboardController;
 import application.PatientData;
@@ -72,21 +71,6 @@ public class AddPatientController implements Initializable {
 	private Button addBtn;
 
 	@FXML
-	private Label valMob;
-
-	@FXML
-	private Label valName;
-
-	@FXML
-	private Label valGender;
-
-	@FXML
-	private Label valEmail;
-
-	@FXML
-	private Label valDOB;
-
-	@FXML
 	private Label ageLabel;
 
 	private Connection connection;
@@ -97,6 +81,8 @@ public class AddPatientController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
+		// disable future date
 		dob.setDayCellFactory(param -> new DateCell() {
 			@Override
 			public void updateItem(LocalDate date, boolean empty) {
@@ -105,11 +91,25 @@ public class AddPatientController implements Initializable {
 			}
 		});
 
+		/*
+		 * dob.setOnAction(e -> { LocalDate today = LocalDate.now(); LocalDate birthday
+		 * = dob.getValue(); int years = Period.between(birthday, today).getYears();
+		 * ageLabel.setText(String.valueOf(years) + " years"); });
+		 */
+
+		// set age from calender selection
 		dob.setOnAction(e -> {
 			LocalDate today = LocalDate.now();
 			LocalDate birthday = dob.getValue();
-			int years = Period.between(birthday, today).getYears();
-			ageLabel.setText(String.valueOf(years) + " years");
+			Period p = Period.between(birthday, today);
+			if (p.getYears() <= 0) {
+				ageLabel.setText(p.getMonths() + " months");
+				if (p.getMonths() <= 0) {
+					ageLabel.setText(p.getDays() + " days");
+				}
+			} else {
+				ageLabel.setText(p.getYears() + " years " /* + p.getMonths() + " months" */);
+			}
 		});
 	}
 
@@ -118,14 +118,18 @@ public class AddPatientController implements Initializable {
 
 		if (validateFields() && validateMobileNo() && validateName() && validateEmail()) {
 
-			if (check == true) {
+			if (check == true) { // check existing patient
 				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Exist");
+				alert.setTitle("Dr Subodh App");
 				alert.setHeaderText(null);
 				alert.setContentText("Patient Already Exist");
-				alert.showAndWait();
-				clearFields();
-			} else {
+				alert.showAndWait().ifPresent(bt -> {
+					if (bt == ButtonType.OK) {
+						((Node) (event.getSource())).getScene().getWindow().hide();
+						DashboardController.refreshTable();
+					}
+				});
+			} else { // insert new patient
 				String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
 				String insert = "INSERT into patient_masterdata (mobileNumber,patient_name,gender,emailId,dob,age,active,created_timestamp,modified_timestamp) values(?,?,?,?,?,?,'Y','"
 						+ timeStamp + "','" + timeStamp + "')";
@@ -137,16 +141,17 @@ public class AddPatientController implements Initializable {
 					ps.setString(3, getGender());
 					ps.setString(4, email.getText());
 					ps.setString(5, ((TextField) dob.getEditor()).getText());
-				    ps.setString(6, ageLabel.getText());
+					ps.setString(6, ageLabel.getText());
 					flag = ps.executeUpdate();
 
-					if (flag > 0) {
+					if (flag > 0) { // redirecting to dashboard
 						TableView<PatientData> patientTable = DashboardController.getPatienttable();
 						FXMLLoader fxmlLoader;
 						Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 						alert.setTitle("Dr Subodh App");
 						alert.getButtonTypes().setAll(ButtonType.OK);
 						alert.getDialogPane().setHeaderText("Patient added sucessfully!");
+						clearFields();
 						alert.showAndWait().ifPresent(bt -> {
 							if (bt == ButtonType.OK) {
 								((Node) (event.getSource())).getScene().getWindow().hide();
@@ -160,8 +165,8 @@ public class AddPatientController implements Initializable {
 						alert.showAndWait();
 						clearFields();
 					}
-				} catch (SQLException e) {
-					Alert alert = new Alert(Alert.AlertType.WARNING); 
+				} catch (SQLException e) { // catching exception if any backend error occurs
+					Alert alert = new Alert(Alert.AlertType.ERROR);
 					alert.setTitle("Dr Subodh App");
 					alert.setContentText("Some Error occured during adding data!!..Please try again!");
 					alert.showAndWait();
@@ -176,7 +181,7 @@ public class AddPatientController implements Initializable {
 		cancelBtn.getScene().getWindow().hide();
 	}
 
-	public String getGender() {
+	public String getGender() { //selection of gender
 		String gen = "";
 		if (male.isSelected()) {
 			gen = "Male";
@@ -188,56 +193,85 @@ public class AddPatientController implements Initializable {
 		return gen;
 	}
 
-	private boolean validateFields() {
+	private boolean validateFields() { // null validation of each field
 		if (mobNo.getText().isEmpty()) {
-			valMob.setText("Please Enter Valid Mobile Number");
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Dr. Subodh App");
+			alert.setHeaderText(null);
+			alert.setContentText("Mobile Number cannot be Empty");
+			alert.showAndWait();
 			return false;
 		} else if (fullName.getText().isEmpty()) {
-			valName.setText("Please Enter Valid Full Name");
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Dr. Subodh App");
+			alert.setHeaderText(null);
+			alert.setContentText("Full Name cannot be Empty");
+			alert.showAndWait();
 			return false;
 		} else if (!(male.isSelected() || female.isSelected() || others.isSelected())) {
-			valGender.setText("Please Select Gender");
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Dr. Subodh App");
+			alert.setHeaderText(null);
+			alert.setContentText("Please Select Gender");
+			alert.showAndWait();
 			return false;
 		} else if (((TextField) dob.getEditor()).getText().isEmpty()) {
-			valDOB.setText("Please Select DOB");
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Dr. Subodh App");
+			alert.setHeaderText(null);
+			alert.setContentText("Please Select DOB");
+			alert.showAndWait();
 			return false;
+
 		}
 		return true;
 
 	}
 
-	private boolean validateMobileNo() {
-		Pattern p = Pattern.compile("(0|91)?[6-9][0-9]{9}");
+	private boolean validateMobileNo() {  //Mobile No. Validation
+		Pattern p = Pattern.compile("(0|91)?[5-9][0-9]{9}");
 		Matcher m = p.matcher(mobNo.getText());
 		if (m.find() && m.group().equals(mobNo.getText())) {
 			return true;
 		} else {
-			valMob.setText("Please Enter Valid Mobile Number");
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Dr. Subodh App");
+			alert.setHeaderText(null);
+			alert.setContentText("Please Enter Valid Mobile Number");
+			alert.showAndWait();
 			return false;
 		}
 
 	}
 
-	private boolean validateName() {
+	private boolean validateName() { //Name Validation
 
 		Pattern p = Pattern.compile("[a-zA-Z\\s]+");
 		Matcher m = p.matcher(fullName.getText());
 		if (m.find() && m.group().equals(fullName.getText())) {
 			return true;
 		} else {
-			valName.setText("Please Enter Valid Name");
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Dr. Subodh App");
+			alert.setHeaderText(null);
+			alert.setContentText("Please Enter Valid Name");
+			alert.showAndWait();
 			return false;
 		}
 	}
 
-	private boolean validateEmail() {
+	private boolean validateEmail() {  //Email Validation
 		if (!(email.getText().isEmpty())) {
 			Pattern p = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+");
 			Matcher m = p.matcher(email.getText());
 			if (m.find() && m.group().equals(email.getText())) {
 				return true;
 			} else {
-				valEmail.setText("Please Enter Valid Email");
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Dr. Subodh App");
+				alert.setHeaderText(null);
+				alert.setContentText("Please Enter Valid Email");
+				alert.showAndWait();
 				return false;
 			}
 
@@ -245,21 +279,18 @@ public class AddPatientController implements Initializable {
 		return true;
 	}
 
-	public void clearFields() {
+	public void clearFields() { // clearing fileds 
 		mobNo.clear();
 		fullName.clear();
 		email.clear();
-		dob.setValue(null);
+		dob.getEditor().setText("");
 		male.setSelected(false);
 		female.setSelected(false);
 		others.setSelected(false);
 		ageLabel.setText("");
-		valMob.setText("");
-		valName.setText("");
-		valGender.setText("");
-		valEmail.setText("");
-		valDOB.setText("");
+
 	}
+
 	public boolean checkPatientAlreadyExist(String mobileNo) throws Exception {
 		Connection connection = DBConnectivity.getConnection();
 		Statement stm = connection.createStatement();
