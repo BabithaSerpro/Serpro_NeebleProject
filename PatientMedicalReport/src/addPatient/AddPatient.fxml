@@ -4,39 +4,42 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="540.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="addPatient.AddPatientController">
+<AnchorPane prefHeight="529.0" prefWidth="766.0" style="-fx-background-color: white;" stylesheets="@addPatient.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="addPatient.AddPatientController">
    <children>
-      <TextField fx:id="mobNo" layoutX="29.0" layoutY="89.0" prefHeight="25.0" prefWidth="202.0" promptText="Enter Mobile No." />
-      <Label layoutX="4.0" layoutY="8.0" prefHeight="25.0" prefWidth="600.0" text="New Patient Details">
+      <TextField fx:id="mobNo" layoutX="40.0" layoutY="89.0" prefHeight="27.0" prefWidth="291.0" promptText="Enter Mobile No." />
+      <Label fx:id="topLabel" prefHeight="25.0" prefWidth="770.0" style="-fx-background-color: rgba(46,172,210,1);" text="       New Patient Details" textFill="#fefefd">
          <font>
-            <Font size="16.0" />
+            <Font size="14.0" />
          </font>
       </Label>
-      <Separator layoutX="4.0" layoutY="32.0" prefHeight="3.0" prefWidth="582.0" />
-      <TextField fx:id="fullName" layoutX="29.0" layoutY="179.0" prefHeight="25.0" prefWidth="202.0" promptText="Enter Name" />
-      <TextField fx:id="email" layoutX="312.0" layoutY="179.0" prefHeight="25.0" prefWidth="219.0" promptText="Enter Email" />
-      <RadioButton fx:id="male" layoutX="312.0" layoutY="93.0" mnemonicParsing="false" text="Male ">
+      <TextField fx:id="fullName" layoutX="37.0" layoutY="179.0" prefHeight="27.0" prefWidth="291.0" promptText="Enter Name" />
+      <TextField fx:id="email" layoutX="395.0" layoutY="179.0" prefHeight="25.0" prefWidth="291.0" promptText="Enter Email" />
+      <RadioButton fx:id="male" layoutX="399.0" layoutY="94.0" mnemonicParsing="false" selected="true" stylesheets="@addPatient.css" text="Male " textFill="#a2a5a8">
          <toggleGroup>
             <ToggleGroup fx:id="genderR" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="others" layoutX="463.0" layoutY="93.0" mnemonicParsing="false" text="Others" toggleGroup="$genderR" />
-      <RadioButton fx:id="female" layoutX="381.0" layoutY="93.0" mnemonicParsing="false" text="Female" toggleGroup="$genderR" />
-      <DatePicker fx:id="dob" editable="false" layoutX="25.0" layoutY="283.0" prefHeight="17.0" prefWidth="131.0" promptText="Select DOB" />
-      <Button fx:id="addBtn" layoutX="463.0" layoutY="450.0" mnemonicParsing="false" onAction="#addPatient" prefHeight="25.0" prefWidth="82.0" text="Add Patient" />
-      <Button fx:id="cancelBtn" layoutX="369.0" layoutY="450.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="25.0" prefWidth="82.0" text="Cancel" />
-      <Label layoutX="29.0" layoutY="62.0" prefHeight="17.0" prefWidth="82.0" text="Mobile No." />
-      <Label layoutX="25.0" layoutY="152.0" prefHeight="17.0" prefWidth="90.0" text="Full Name" />
-      <Label layoutX="29.0" layoutY="253.0" prefHeight="17.0" prefWidth="82.0" text="Date of Birth" />
-      <Label layoutX="174.0" layoutY="253.0" text="Age" />
-      <Label layoutX="312.0" layoutY="152.0" prefHeight="17.0" prefWidth="51.0" text="Email" />
-      <Label layoutX="312.0" layoutY="62.0" prefHeight="17.0" prefWidth="51.0" text="Gender" />
-      <Label fx:id="ageLabel" layoutX="174.0" layoutY="283.0" prefHeight="25.0" prefWidth="141.0" text="" />
+      <RadioButton fx:id="others" layoutX="588.0" layoutY="94.0" mnemonicParsing="false" stylesheets="@addPatient.css" text="Others" textFill="#a2a5a8" toggleGroup="$genderR" />
+      <RadioButton fx:id="female" layoutX="495.0" layoutY="94.0" mnemonicParsing="false" stylesheets="@addPatient.css" text="Female" textFill="#a2a5a8" toggleGroup="$genderR" />
+      <DatePicker fx:id="dob" layoutX="37.0" layoutY="282.0" prefHeight="17.0" prefWidth="131.0" promptText="Select DOB" styleClass="arrow-button" stylesheets="@addPatient.css" />
+      <Button fx:id="addBtn" layoutX="562.0" layoutY="450.0" mnemonicParsing="false" onAction="#addPatient" prefHeight="27.0" prefWidth="114.0" style="-fx-background-color: rgba(46,172,210,1);" text="Save Changes" textFill="#fefefd" />
+      <Button fx:id="cancelBtn" layoutX="421.0" layoutY="450.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="27.0" prefWidth="114.0" style="-fx-background-color: rgba(255,255,255,1);" text="Cancel" textFill="#018baf" />
+      <Label layoutX="42.0" layoutY="62.0" prefHeight="17.0" prefWidth="148.0" text="Mobile Number" textFill="#a2a5a8" />
+      <Label layoutX="40.0" layoutY="152.0" prefHeight="17.0" prefWidth="90.0" text="Full Name" textFill="#a2a5a8" />
+      <Label layoutX="38.0" layoutY="253.0" prefHeight="17.0" prefWidth="82.0" text="Date of Birth" textFill="#a2a5a8" />
+      <Label layoutX="198.0" layoutY="253.0" text="Age" textFill="#a2a5a8" />
+      <Label layoutX="397.0" layoutY="152.0" prefHeight="17.0" prefWidth="51.0" text="Email" textFill="#a2a5a8" />
+      <Label layoutX="402.0" layoutY="62.0" prefHeight="17.0" prefWidth="51.0" text="Gender" textFill="#a2a5a8" />
+      <TextField fx:id="ageLabel" editable="false" layoutX="198.0" layoutY="282.0" prefHeight="27.0" prefWidth="131.0" />
+      <Button fx:id="close" alignment="CENTER" layoutX="735.0" layoutY="1.0" mnemonicParsing="false" onAction="#closeButton" prefHeight="10.0" prefWidth="28.0" style="-fx-background-color: rgba(46,172,210,1);" text="X" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="10.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

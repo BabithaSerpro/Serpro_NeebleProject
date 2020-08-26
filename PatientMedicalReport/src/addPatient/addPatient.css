@@ -1,0 +1,44 @@
+.radio-button:selected .radio .dot {
+    -fx-background-color: #2eacd2;
+    -fx-background-insets: 0.0;
+    -fx-text-fill:#2eacd2;
+}
+
+.radio-button:selected .label {
+    -fx-text-fill:#2eacd2;
+}
+
+.text-field {
+
+	-fx-background-color: white;
+	-fx-background-radius:5px;
+	-fx-border-color:#B3BDC6;
+	-fx-border-radius:5px;
+}
+
+#topLabel{
+	-fx-background-radius:5px;
+	-fx-border-color:#B3BDC6;
+	-fx-border-radius:5px;
+}
+
+#pAnchor{
+	-fx-background-color: rgba(0,0,0,0.0);
+}
+
+#cAnchor{
+	-fx-background-radius: 10;
+}
+.date-picker:editable > .arrow-button > * {
+    -fx-opacity: 0; /* Set the node in the button to be visible */
+}
+
+.date-picker > .arrow-button {
+    -fx-background-image:url("/images/calendar.png");  /* Url of the icon */
+    -fx-background-size: 60% 60%; /* Can be `cover` or `100% 100%` ect. */
+    -fx-background-repeat: no-repeat; /* Put the icon in the center */
+    -fx-background-position: center center;
+    -fx-background-color: #2eacd2;
+    
+}
+

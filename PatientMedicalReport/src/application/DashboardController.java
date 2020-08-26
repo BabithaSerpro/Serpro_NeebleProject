@@ -30,6 +30,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class DashboardController {
 	@FXML
@@ -171,6 +172,7 @@ public class DashboardController {
 			stage.setTitle("New Patient Details");
 			stage.getIcons().add(new Image("file:imgs/sdIcon.png"));
 			stage.setResizable(false);
+			stage.initStyle(StageStyle.UNDECORATED);
 			stage.show();
 		} catch (Exception e) {
 			e.printStackTrace();

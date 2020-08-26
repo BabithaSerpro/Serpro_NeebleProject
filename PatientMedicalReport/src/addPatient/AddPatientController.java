@@ -20,8 +20,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
@@ -61,9 +66,7 @@ public class AddPatientController implements Initializable {
 	@FXML
 	private DatePicker dob;
 
-	@FXML
-	private TextField age;
-
+	
 	@FXML
 	private Button cancelBtn;
 
@@ -71,17 +74,33 @@ public class AddPatientController implements Initializable {
 	private Button addBtn;
 
 	@FXML
-	private Label ageLabel;
-
+	private TextField ageLabel;
+	
 	private Connection connection;
 
 	private PreparedStatement ps;
+	
+	private ResultSet rs;
 
 	private int flag;
+	
+	public int pId;
+
+	public int getpId() {
+		return pId;
+	}
+
+	public void setpId(int pId) {
+		this.pId = pId;
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+        //disable editor
+		dob.getEditor().setDisable(true);
+		dob.setStyle("-fx-opacity: 1");
+		dob.getEditor().setStyle("-fx-opacity: 1");
+		
 		// disable future date
 		dob.setDayCellFactory(param -> new DateCell() {
 			@Override
@@ -91,11 +110,6 @@ public class AddPatientController implements Initializable {
 			}
 		});
 
-		/*
-		 * dob.setOnAction(e -> { LocalDate today = LocalDate.now(); LocalDate birthday
-		 * = dob.getValue(); int years = Period.between(birthday, today).getYears();
-		 * ageLabel.setText(String.valueOf(years) + " years"); });
-		 */
 
 		// set age from calender selection
 		dob.setOnAction(e -> {
@@ -108,7 +122,7 @@ public class AddPatientController implements Initializable {
 					ageLabel.setText(p.getDays() + " days");
 				}
 			} else {
-				ageLabel.setText(p.getYears() + " years " /* + p.getMonths() + " months" */);
+				ageLabel.setText(p.getYears() + " years "  + p.getMonths() + " months" );
 			}
 		});
 	}
@@ -119,23 +133,30 @@ public class AddPatientController implements Initializable {
 		if (validateFields() && validateMobileNo() && validateName() && validateEmail()) {
 
 			if (check == true) { // check existing patient
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Dr Subodh App");
-				alert.setHeaderText(null);
-				alert.setContentText("Patient Already Exist");
-				alert.showAndWait().ifPresent(bt -> {
-					if (bt == ButtonType.OK) {
-						((Node) (event.getSource())).getScene().getWindow().hide();
-						DashboardController.refreshTable();
-					}
-				});
+				/*
+				 * Alert alert = new Alert(AlertType.INFORMATION);
+				 * alert.setTitle("Dr Subodh App"); alert.setHeaderText(null);
+				 * alert.setContentText("Patient Already Exist");
+				 * alert.showAndWait().ifPresent(bt -> { if (bt == ButtonType.OK) { ((Node)
+				 * (event.getSource())).getScene().getWindow().hide();
+				 * DashboardController.refreshTable(); } });
+				 */
+				
+				Stage stage = new Stage();
+				Parent root = FXMLLoader.load(getClass().getResource("/addPatient/exists.fxml"));
+				Scene scene = new Scene(root);
+				stage.initStyle(StageStyle.TRANSPARENT);
+				scene.setFill(Color.TRANSPARENT);
+				stage.setScene(scene);
+				stage.show();
+				
 			} else { // insert new patient
 				String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
 				String insert = "INSERT into patient_masterdata (mobileNumber,patient_name,gender,emailId,dob,age,active,created_timestamp,modified_timestamp) values(?,?,?,?,?,?,'Y','"
 						+ timeStamp + "','" + timeStamp + "')";
 				connection = DBConnectivity.getConnection();
 				try {
-					ps = connection.prepareStatement(insert);
+					ps = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 					ps.setString(1, mobNo.getText());
 					ps.setString(2, fullName.getText());
 					ps.setString(3, getGender());
@@ -143,33 +164,58 @@ public class AddPatientController implements Initializable {
 					ps.setString(5, ((TextField) dob.getEditor()).getText());
 					ps.setString(6, ageLabel.getText());
 					flag = ps.executeUpdate();
+					rs = ps.getGeneratedKeys();
 
+					if (rs.next()) {
+						pId = rs.getInt(1);
+						System.out.println(pId);
+					}
+					System.out.println("Data " + getpId());
 					if (flag > 0) { // redirecting to dashboard
-						TableView<PatientData> patientTable = DashboardController.getPatienttable();
-						FXMLLoader fxmlLoader;
-						Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-						alert.setTitle("Dr Subodh App");
-						alert.getButtonTypes().setAll(ButtonType.OK);
-						alert.getDialogPane().setHeaderText("Patient added sucessfully!");
+						/*
+						 * TableView<PatientData> patientTable = DashboardController.getPatienttable();
+						 * FXMLLoader fxmlLoader; Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+						 * alert.setTitle("Dr Subodh App");
+						 * alert.getButtonTypes().setAll(ButtonType.OK);
+						 * alert.getDialogPane().setHeaderText("Patient added sucessfully!");
+						 * clearFields(); alert.showAndWait().ifPresent(bt -> { if (bt == ButtonType.OK)
+						 * { ((Node) (event.getSource())).getScene().getWindow().hide();
+						 * DashboardController.refreshTable(); } });
+						 */
+						
+						Stage stage = new Stage();
+						Parent root = FXMLLoader.load(getClass().getResource("/addPatient/success.fxml"));
+						Scene scene = new Scene(root);
+						stage.initStyle(StageStyle.TRANSPARENT);
+						scene.setFill(Color.TRANSPARENT);
+						stage.setScene(scene);
+						stage.show();
 						clearFields();
-						alert.showAndWait().ifPresent(bt -> {
-							if (bt == ButtonType.OK) {
-								((Node) (event.getSource())).getScene().getWindow().hide();
-								DashboardController.refreshTable();
-							}
-						});
 					} else {
-						Alert alert = new Alert(Alert.AlertType.WARNING);
-						alert.setTitle("Dr Subodh App");
-						alert.setContentText("Some Error occured during adding data!!..Please try again!");
-						alert.showAndWait();
+						/*
+						 * Alert alert = new Alert(Alert.AlertType.WARNING);
+						 * alert.setTitle("Dr Subodh App"); alert.
+						 * setContentText("Some Error occured during adding data!!..Please try again!");
+						 * alert.showAndWait(); clearFields();
+						 */
+						Stage stage = new Stage();
+						Parent root = FXMLLoader.load(getClass().getResource("/addPatient/failure.fxml"));
+						Scene scene = new Scene(root);
+						stage.initStyle(StageStyle.TRANSPARENT);
+						scene.setFill(Color.TRANSPARENT);
+						stage.setScene(scene);
+						stage.show();
 						clearFields();
+						
 					}
 				} catch (SQLException e) { // catching exception if any backend error occurs
-					Alert alert = new Alert(Alert.AlertType.ERROR);
-					alert.setTitle("Dr Subodh App");
-					alert.setContentText("Some Error occured during adding data!!..Please try again!");
-					alert.showAndWait();
+					Stage stage = new Stage();
+					Parent root = FXMLLoader.load(getClass().getResource("/addPatient/failure.fxml"));
+					Scene scene = new Scene(root);
+					stage.initStyle(StageStyle.TRANSPARENT);
+					scene.setFill(Color.TRANSPARENT);
+					stage.setScene(scene);
+					stage.show();
 					clearFields();
 					e.printStackTrace();
 				}
@@ -198,14 +244,16 @@ public class AddPatientController implements Initializable {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
-			alert.setContentText("Mobile Number cannot be Empty");
+			alert.setContentText("Mobile Number Cannot Be Empty");
+			alert.initStyle(StageStyle.TRANSPARENT);
 			alert.showAndWait();
 			return false;
 		} else if (fullName.getText().isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
-			alert.setContentText("Full Name cannot be Empty");
+			alert.setContentText("Full Name Cannot Be Empty");
+			alert.initStyle(StageStyle.TRANSPARENT);
 			alert.showAndWait();
 			return false;
 		} else if (!(male.isSelected() || female.isSelected() || others.isSelected())) {
@@ -213,6 +261,7 @@ public class AddPatientController implements Initializable {
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
 			alert.setContentText("Please Select Gender");
+			alert.initStyle(StageStyle.TRANSPARENT);
 			alert.showAndWait();
 			return false;
 		} else if (((TextField) dob.getEditor()).getText().isEmpty()) {
@@ -220,6 +269,7 @@ public class AddPatientController implements Initializable {
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
 			alert.setContentText("Please Select DOB");
+			alert.initStyle(StageStyle.TRANSPARENT);
 			alert.showAndWait();
 			return false;
 
@@ -238,6 +288,7 @@ public class AddPatientController implements Initializable {
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
 			alert.setContentText("Please Enter Valid Mobile Number");
+			alert.initStyle(StageStyle.TRANSPARENT);
 			alert.showAndWait();
 			return false;
 		}
@@ -255,6 +306,7 @@ public class AddPatientController implements Initializable {
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
 			alert.setContentText("Please Enter Valid Name");
+			alert.initStyle(StageStyle.TRANSPARENT);
 			alert.showAndWait();
 			return false;
 		}
@@ -271,6 +323,7 @@ public class AddPatientController implements Initializable {
 				alert.setTitle("Dr. Subodh App");
 				alert.setHeaderText(null);
 				alert.setContentText("Please Enter Valid Email");
+				alert.initStyle(StageStyle.TRANSPARENT);
 				alert.showAndWait();
 				return false;
 			}
@@ -287,7 +340,7 @@ public class AddPatientController implements Initializable {
 		male.setSelected(false);
 		female.setSelected(false);
 		others.setSelected(false);
-		ageLabel.setText("");
+		ageLabel.clear();
 
 	}
 
@@ -296,5 +349,10 @@ public class AddPatientController implements Initializable {
 		Statement stm = connection.createStatement();
 		ResultSet rst = stm.executeQuery("select * from patient_masterdata where mobileNumber= '" + mobileNo + "' ");
 		return rst.next();
+	}
+	
+	public void closeButton(ActionEvent event) {
+		Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+		stage.close();
 	}
 }
