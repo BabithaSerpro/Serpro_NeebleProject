@@ -28,7 +28,7 @@
          <font>
             <Font size="18.0" />
          </font></TextField>
-      <RadioButton fx:id="male" layoutX="460.0" layoutY="94.0" mnemonicParsing="false" selected="true" stylesheets="@addPatient.css" text="Male " textFill="#a2a5a8">
+      <RadioButton fx:id="male" layoutX="460.0" layoutY="94.0" mnemonicParsing="false" stylesheets="@addPatient.css" text="Male " textFill="#a2a5a8">
          <toggleGroup>
             <ToggleGroup fx:id="genderR" />
          </toggleGroup>
