@@ -9,13 +9,18 @@
 }
 
 .text-field {
-
+    -fx-font-family: "Roboto";
+    -fx-font-size: 18;
 	-fx-background-color: white;
 	-fx-background-radius:5px;
 	-fx-border-color:#B3BDC6;
 	-fx-border-radius:5px;
 }
 
+.label{
+	-fx-font-family: "Roboto";
+	-fx-font-size: 18;
+}
 #topLabel{
 	-fx-background-radius:5px;
 	-fx-border-color:#B3BDC6;
@@ -35,10 +40,11 @@
 
 .date-picker > .arrow-button {
     -fx-background-image:url("/images/calendar.png");  /* Url of the icon */
-    -fx-background-size: 60% 60%; /* Can be `cover` or `100% 100%` ect. */
+    -fx-background-size: 80% 80%; /* Can be `cover` or `100% 100%` ect. */
     -fx-background-repeat: no-repeat; /* Put the icon in the center */
     -fx-background-position: center center;
     -fx-background-color: #2eacd2;
     
 }
+
 

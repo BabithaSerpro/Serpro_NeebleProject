@@ -35,12 +35,13 @@ public class SuccessController implements Initializable {
 	
 	public void okBtn(ActionEvent event) throws Exception {
 		ok.getScene().getWindow().hide();
-		DashboardController.refreshTable();
+		
 		Stage add = new Stage();
 		Parent root = FXMLLoader.load(getClass().getResource("/application/Dashboard.fxml"));
 		Scene scene = new Scene(root);
 		add.setScene(scene);
 		add.show();
+		DashboardController.refreshTable();
 	}
 
 }

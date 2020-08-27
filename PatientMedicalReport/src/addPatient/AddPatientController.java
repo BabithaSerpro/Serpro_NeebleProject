@@ -30,6 +30,7 @@ import javafx.stage.StageStyle;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
@@ -66,7 +67,6 @@ public class AddPatientController implements Initializable {
 	@FXML
 	private DatePicker dob;
 
-	
 	@FXML
 	private Button cancelBtn;
 
@@ -75,15 +75,15 @@ public class AddPatientController implements Initializable {
 
 	@FXML
 	private TextField ageLabel;
-	
+
 	private Connection connection;
 
 	private PreparedStatement ps;
-	
+
 	private ResultSet rs;
 
 	private int flag;
-	
+
 	public int pId;
 
 	public int getpId() {
@@ -96,11 +96,11 @@ public class AddPatientController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-        //disable editor
+		// disable editor
 		dob.getEditor().setDisable(true);
 		dob.setStyle("-fx-opacity: 1");
 		dob.getEditor().setStyle("-fx-opacity: 1");
-		
+
 		// disable future date
 		dob.setDayCellFactory(param -> new DateCell() {
 			@Override
@@ -109,7 +109,6 @@ public class AddPatientController implements Initializable {
 				setDisable(empty || date.compareTo(LocalDate.now()) > 0);
 			}
 		});
-
 
 		// set age from calender selection
 		dob.setOnAction(e -> {
@@ -122,7 +121,7 @@ public class AddPatientController implements Initializable {
 					ageLabel.setText(p.getDays() + " days");
 				}
 			} else {
-				ageLabel.setText(p.getYears() + " years "  + p.getMonths() + " months" );
+				ageLabel.setText(p.getYears() + " years " + p.getMonths() + " months");
 			}
 		});
 	}
@@ -141,7 +140,7 @@ public class AddPatientController implements Initializable {
 				 * (event.getSource())).getScene().getWindow().hide();
 				 * DashboardController.refreshTable(); } });
 				 */
-				
+
 				Stage stage = new Stage();
 				Parent root = FXMLLoader.load(getClass().getResource("/addPatient/exists.fxml"));
 				Scene scene = new Scene(root);
@@ -149,7 +148,8 @@ public class AddPatientController implements Initializable {
 				scene.setFill(Color.TRANSPARENT);
 				stage.setScene(scene);
 				stage.show();
-				
+				clearFields();
+
 			} else { // insert new patient
 				String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
 				String insert = "INSERT into patient_masterdata (mobileNumber,patient_name,gender,emailId,dob,age,active,created_timestamp,modified_timestamp) values(?,?,?,?,?,?,'Y','"
@@ -182,7 +182,7 @@ public class AddPatientController implements Initializable {
 						 * { ((Node) (event.getSource())).getScene().getWindow().hide();
 						 * DashboardController.refreshTable(); } });
 						 */
-						
+
 						Stage stage = new Stage();
 						Parent root = FXMLLoader.load(getClass().getResource("/addPatient/success.fxml"));
 						Scene scene = new Scene(root);
@@ -206,7 +206,7 @@ public class AddPatientController implements Initializable {
 						stage.setScene(scene);
 						stage.show();
 						clearFields();
-						
+
 					}
 				} catch (SQLException e) { // catching exception if any backend error occurs
 					Stage stage = new Stage();
@@ -227,7 +227,7 @@ public class AddPatientController implements Initializable {
 		cancelBtn.getScene().getWindow().hide();
 	}
 
-	public String getGender() { //selection of gender
+	public String getGender() { // selection of gender
 		String gen = "";
 		if (male.isSelected()) {
 			gen = "Male";
@@ -246,7 +246,12 @@ public class AddPatientController implements Initializable {
 			alert.setHeaderText(null);
 			alert.setContentText("Mobile Number Cannot Be Empty");
 			alert.initStyle(StageStyle.TRANSPARENT);
-			alert.showAndWait();
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(
+			   getClass().getResource("myDialogs.css").toExternalForm());
+			dialogPane.getStyleClass().add("myDialog");
+			alert.showAndWait();		
+			
 			return false;
 		} else if (fullName.getText().isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING);
@@ -254,6 +259,10 @@ public class AddPatientController implements Initializable {
 			alert.setHeaderText(null);
 			alert.setContentText("Full Name Cannot Be Empty");
 			alert.initStyle(StageStyle.TRANSPARENT);
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(
+			getClass().getResource("myDialogs.css").toExternalForm());
+			dialogPane.getStyleClass().add("myDialog");
 			alert.showAndWait();
 			return false;
 		} else if (!(male.isSelected() || female.isSelected() || others.isSelected())) {
@@ -262,6 +271,10 @@ public class AddPatientController implements Initializable {
 			alert.setHeaderText(null);
 			alert.setContentText("Please Select Gender");
 			alert.initStyle(StageStyle.TRANSPARENT);
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(
+			getClass().getResource("myDialogs.css").toExternalForm());
+			dialogPane.getStyleClass().add("myDialog");
 			alert.showAndWait();
 			return false;
 		} else if (((TextField) dob.getEditor()).getText().isEmpty()) {
@@ -270,6 +283,10 @@ public class AddPatientController implements Initializable {
 			alert.setHeaderText(null);
 			alert.setContentText("Please Select DOB");
 			alert.initStyle(StageStyle.TRANSPARENT);
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(
+			getClass().getResource("myDialogs.css").toExternalForm());
+			dialogPane.getStyleClass().add("myDialog");
 			alert.showAndWait();
 			return false;
 
@@ -278,7 +295,7 @@ public class AddPatientController implements Initializable {
 
 	}
 
-	private boolean validateMobileNo() {  //Mobile No. Validation
+	private boolean validateMobileNo() { // Mobile No. Validation
 		Pattern p = Pattern.compile("(0|91)?[5-9][0-9]{9}");
 		Matcher m = p.matcher(mobNo.getText());
 		if (m.find() && m.group().equals(mobNo.getText())) {
@@ -289,13 +306,17 @@ public class AddPatientController implements Initializable {
 			alert.setHeaderText(null);
 			alert.setContentText("Please Enter Valid Mobile Number");
 			alert.initStyle(StageStyle.TRANSPARENT);
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(
+			getClass().getResource("myDialogs.css").toExternalForm());
+			dialogPane.getStyleClass().add("myDialog");
 			alert.showAndWait();
 			return false;
 		}
 
 	}
 
-	private boolean validateName() { //Name Validation
+	private boolean validateName() { // Name Validation
 
 		Pattern p = Pattern.compile("[a-zA-Z\\s]+");
 		Matcher m = p.matcher(fullName.getText());
@@ -307,12 +328,16 @@ public class AddPatientController implements Initializable {
 			alert.setHeaderText(null);
 			alert.setContentText("Please Enter Valid Name");
 			alert.initStyle(StageStyle.TRANSPARENT);
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(
+			getClass().getResource("myDialogs.css").toExternalForm());
+			dialogPane.getStyleClass().add("myDialog");
 			alert.showAndWait();
 			return false;
 		}
 	}
 
-	private boolean validateEmail() {  //Email Validation
+	private boolean validateEmail() { // Email Validation
 		if (!(email.getText().isEmpty())) {
 			Pattern p = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+");
 			Matcher m = p.matcher(email.getText());
@@ -324,6 +349,10 @@ public class AddPatientController implements Initializable {
 				alert.setHeaderText(null);
 				alert.setContentText("Please Enter Valid Email");
 				alert.initStyle(StageStyle.TRANSPARENT);
+				DialogPane dialogPane = alert.getDialogPane();
+				dialogPane.getStylesheets().add(
+				getClass().getResource("myDialogs.css").toExternalForm());
+				dialogPane.getStyleClass().add("myDialog");
 				alert.showAndWait();
 				return false;
 			}
@@ -332,7 +361,7 @@ public class AddPatientController implements Initializable {
 		return true;
 	}
 
-	public void clearFields() { // clearing fileds 
+	public void clearFields() { // clearing fileds
 		mobNo.clear();
 		fullName.clear();
 		email.clear();
@@ -350,7 +379,7 @@ public class AddPatientController implements Initializable {
 		ResultSet rst = stm.executeQuery("select * from patient_masterdata where mobileNumber= '" + mobileNo + "' ");
 		return rst.next();
 	}
-	
+
 	public void closeButton(ActionEvent event) {
 		Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 		stage.close();

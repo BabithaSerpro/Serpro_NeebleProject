@@ -18,7 +18,7 @@
                   <Font name="FontAwesome Regular" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="115.0" layoutY="86.0" prefHeight="24.0" prefWidth="149.0" text="Patient Already Exists!!" textFill="#626568">
+            <Label layoutX="109.0" layoutY="86.0" prefHeight="27.0" prefWidth="201.0" text="Patient Already Exists!!" textFill="#626568">
                <font>
                   <Font size="14.0" />
                </font>

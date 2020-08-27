@@ -23,11 +23,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-<<<<<<< HEAD
+
 import javafx.stage.StageStyle;
-=======
 import viewPatient.ViewPDController;
->>>>>>> branch 'master' of https://github.com/BabithaSerpro/Serpro_NeebleProject.git
+
 
 public class DashboardController {
 	@FXML

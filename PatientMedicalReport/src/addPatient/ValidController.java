@@ -15,12 +15,12 @@ public class ValidController {
 	private Button ok;
 
 	public void okBtn(ActionEvent event) throws Exception {
-		ok.getScene().getWindow().hide();
-		DashboardController.refreshTable();
+		ok.getScene().getWindow().hide();		
 		Stage add = new Stage();
 		Parent root = FXMLLoader.load(getClass().getResource("/application/Dashboard.fxml"));
 		Scene scene = new Scene(root);
 		add.setScene(scene);
 		add.show();
+		DashboardController.refreshTable();
 	}
 }
