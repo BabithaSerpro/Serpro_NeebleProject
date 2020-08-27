@@ -11,12 +11,13 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DashboardController">
    <bottom>
-		<AnchorPane prefHeight="400.0" prefWidth="670.0" BorderPane.alignment="CENTER">
+		<AnchorPane id="pane" prefHeight="400.0" prefWidth="670.0" BorderPane.alignment="CENTER" stylesheets="@application.css">
 			<Label alignment="CENTER" layoutX="320.0" layoutY="-31.0" prefHeight="22.0" prefWidth="188.0" text="Patient Medical Report Application" />
 			<TextField fx:id="txt_searchBox" layoutX="203.0" layoutY="16.0" prefHeight="25.0" prefWidth="401.0" promptText="Search Patient using Mobile number or Name" />
-			<Button fx:id="btn_addPatient" layoutX="612.0" layoutY="16.0" text="Add Patient" onAction="#addPatients"/>
-			<TableView fx:id="tbl_patientDetails" layoutX="194.0" layoutY="55.0" prefHeight="251.0" prefWidth="502.0">
+			<Button id="btn_addPatient" fx:id="btn_addPatient" layoutX="612.0" layoutY="16.0" text="Add Patient" onAction="#addPatients"/>
+			<TableView id="tbl_patientDetails" fx:id="tbl_patientDetails" layoutX="194.0" layoutY="55.0" prefHeight="251.0" prefWidth="502.0">
 				<columns>
+					<TableColumn fx:id="SNo" prefWidth="40.0" text="Sl No" />
 					<TableColumn fx:id="pID" prefWidth="67.0" text="Patient ID" />
 					<TableColumn fx:id="pName" prefWidth="93.0" text="Patient Name" />
 					<TableColumn fx:id="pAge" prefWidth="51.0" text="Age" />
