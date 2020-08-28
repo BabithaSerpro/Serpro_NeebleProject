@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="pane_profile" fx:id="pane_profile" prefHeight="540.0" prefWidth="307.0" style="-fx-background-color: #edf0f9;;" stylesheets="@../cssFiles/application.css" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.HomePageController">
+   <children>
+      <AnchorPane prefHeight="244.0" prefWidth="307.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <AnchorPane layoutY="-1.0" prefHeight="90.0" prefWidth="307.0" style="-fx-background-color: #2dacd3;" />
+            <Circle fill="WHITE" layoutX="149.0" layoutY="113.0" radius="70.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle id="profile" fx:id="profile" fill="#2dacd3" layoutX="72.0" layoutY="33.0" radius="57.0" stroke="WHITE" strokeType="INSIDE" translateX="77.5" translateY="77.5" translateZ="77.5" />
+            <Text id="txt_Wshes" fx:id="txt_Wshes" fill="#a2a5a8" layoutX="61.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="185.4316420853138">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <Text id="txt_name" fill="#2dacd3" layoutX="48.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dr. Subodh Khare" textAlignment="CENTER" wrappingWidth="219.1464822292328">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="90.0" fitWidth="87.0" layoutX="106.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imgs/user.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="274.0" prefHeight="273.0" prefWidth="307.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <Text fill="#a2a5a8" layoutX="22.0" layoutY="42.841796875" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL NUMBERS OF TESTS" AnchorPane.topAnchor="19.1015625">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <Text fill="#a2a5a8" layoutX="58.0" layoutY="128.740234375" strokeType="OUTSIDE" strokeWidth="0.0" text="COMPLETED TESTS" AnchorPane.leftAnchor="58.0" AnchorPane.topAnchor="105.0">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <Text fill="#a2a5a8" layoutX="72.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PENDING TESTS" AnchorPane.leftAnchor="72.0" AnchorPane.topAnchor="187.259765625">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <Text fx:id="txt_totalTest" fill="#2dacd3" layoutX="122.0" layoutY="78.3671875" strokeType="OUTSIDE" strokeWidth="0.0" text="000" AnchorPane.topAnchor="43.8359375">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Text>
+            <Text fx:id="txt_completedTest" fill="#2dacd3" layoutX="122.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="000">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Text>
+            <Text fx:id="txt_pendingTest" fill="#2dacd3" layoutX="122.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="000">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

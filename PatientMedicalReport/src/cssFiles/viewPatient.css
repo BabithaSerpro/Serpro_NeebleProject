@@ -1,0 +1,99 @@
+#btn_edit{
+	-fx-background-image: url("/imgs/edit.png");
+    -fx-background-repeat: no-repeat;
+	-fx-background-position: center  ;
+	-fx-pref-width: 20px;
+	-fx-pref-height: 20px;
+	-fx-background-color: transparent;
+  	-fx-min-width: -fx-pref-width;
+    -fx-max-width: -fx-pref-width;
+    -fx-min-height: -fx-pref-height;
+    -fx-max-height: -fx-pref-height;
+}
+#btn_Close{
+	-fx-background-image: url("/imgs/cancel.png");
+    -fx-background-repeat: no-repeat;
+	-fx-background-position: center  ;
+	-fx-pref-width: 20px;
+	-fx-pref-height: 20px;
+	-fx-background-color: transparent;
+  	-fx-min-width: -fx-pref-width;
+    -fx-max-width: -fx-pref-width;
+    -fx-min-height: -fx-pref-height;
+    -fx-max-height: -fx-pref-height;
+}
+
+#pane_viewDetails .label{
+	-fx-font-family: "Roboto";
+}
+#tbl_testDetails .column-header{
+	-fx-background-color: white;
+    -fx-pref-height:50px;
+    -fx-font-family: "Roboto";
+}
+
+#tbl_testDetails{
+   -fx-background-color: white;
+}
+#tbl_testDetails:focused{
+    -fx-background-color: white;
+}
+#tbl_testDetails .column-header-background{
+    -fx-background-color:white;
+    -fx-cell-size: 50px;
+}
+#tbl_testDetails .column-header-background .label{
+    -fx-background-color: white;
+    -fx-text-fill: #2dacd3;
+    -fx-font-family: "Roboto";
+    -fx-font-size: 15px;
+    -fx-alignment: center;
+}
+#tbl_testDetails .column-header {
+    -fx-background-color: white;
+    -fx-pref-height:50px;
+
+}
+#tbl_testDetails .table-cell{
+    -fx-text-fill: #334E66;
+    -fx-cell-size: 50px;
+}
+
+.table-view .table-column {
+  -fx-alignment: CENTER;
+}
+ .table-row-cell{
+    -fx-background-color: white;
+    -fx-background-insets: 0.0, 0.0 0.0 1.0 0.0;
+    -fx-padding: 0.0em; 
+    -fx-cell-size: 50px;
+    -fx-font-family: "Roboto";
+    -fx-text-fill: #a2a5a8;
+    -fx-font-size: 16px;
+    -fx-alignment: CENTER-LEFT;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view .filler{
+	 -fx-background-color:white;
+}
+.table-row-cell:even{
+    -fx-background-color:#f2fafd;
+    -fx-background-insets: 0.0, 0.0 0.0 1.0 0.0;
+    -fx-padding: 0.0em; /* 0 */  
+}
+
+.table-row-cell:selected {
+    -fx-background-color: lightgray;
+    -fx-background-insets: 0.0;
+    -fx-table-cell-border-color: lightgray;
+}
+
+.table-view > .virtual-flow > .scroll-bar:vertical,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track-background
+ {
+   
+    -fx-background-color: #E6E7EE;
+    -fx-border-radius:1.0px;
+}

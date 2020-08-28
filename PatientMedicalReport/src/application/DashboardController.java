@@ -1,45 +1,33 @@
 package application;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Calendar;
-
 import DBConnection.DBConnectivity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-
-import javafx.stage.StageStyle;
 import viewPatient.ViewPDController;
 
-
 public class DashboardController {
-	@FXML
-	private AnchorPane mainPane;
-
 	@FXML
 	private Button btn_addPatient;
 
 	@FXML
 	private TextField txt_searchBox;
-
-	@FXML
-	private Label lbl_Wishes;
 
 	@FXML
 	private TableView<PatientData> tbl_patientDetails;
@@ -59,8 +47,15 @@ public class DashboardController {
 	@FXML
 	private TableColumn<PatientData, String> pEmail;
 
+	@FXML
+    private Pagination pgnation;
+	
 	private static TableView<PatientData> tblPatientTable;
 	private static Connection con;
+	private static final int ROWS_PER_PAGE = 10;
+	private static ObservableList<PatientData> data = FXCollections.observableArrayList();
+	private static FilteredList<PatientData> flPatient;
+
 
 	@FXML
 	public void initialize() throws ClassNotFoundException, SQLException {
@@ -75,36 +70,39 @@ public class DashboardController {
 		pEmail.setCellValueFactory(new PropertyValueFactory<PatientData, String>("emailId"));
 
 		con = DBConnectivity.getConnection();
+		refreshTable();
+		buildData();
 
-		tblPatientTable.setOnMouseClicked(e -> {
+		int totalPage = (int) (Math.ceil(data.size() * 1.0 / ROWS_PER_PAGE));
+        pgnation.setPageCount(totalPage);
+        pgnation.setCurrentPageIndex(0);
+        changeTableView(0, ROWS_PER_PAGE);
+        pgnation.currentPageIndexProperty().addListener(
+                (observable, oldValue, newValue) -> changeTableView(newValue.intValue(), ROWS_PER_PAGE));
+
+        tblPatientTable.setOnMouseClicked(e -> {
 			if (tblPatientTable.getSelectionModel().getSelectedItem() != null) {
 				ClickedPatient(tblPatientTable.getSelectionModel().getSelectedItem().getPatientId());
 			}
 
 		});
-		buildData();
-		sidePanel();
+		
 	}
 
-	public void sidePanel() {
-		Calendar cal = Calendar.getInstance();
+	private void changeTableView(int index, int limit) {
 
-		int timeOfDay = cal.get(Calendar.HOUR_OF_DAY);
+        int fromIndex = index * limit;
+        int toIndex = Math.min(fromIndex + limit, data.size());
 
-		if (timeOfDay >= 0 && timeOfDay < 12) {
-			lbl_Wishes.setText("Good Morning!");
-		} else if (timeOfDay >= 12 && timeOfDay < 16) {
-			lbl_Wishes.setText("Good Afternoon!");
-		} else if (timeOfDay >= 16 && timeOfDay < 21) {
-			lbl_Wishes.setText("Good Evening!");
-		} else if (timeOfDay >= 21 && timeOfDay < 24) {
-			lbl_Wishes.setText("Good Night!");
-		}
-	}
+        int minIndex = Math.min(toIndex, data.size());
+        SortedList<PatientData> sortedData = new SortedList<>(
+                FXCollections.observableArrayList(data.subList(Math.min(fromIndex, minIndex), minIndex)));
+        sortedData.comparatorProperty().bind(tblPatientTable.comparatorProperty());
 
-	private static ObservableList<PatientData> data = FXCollections.observableArrayList();
-	private static FilteredList<PatientData> flPatient;
+        tblPatientTable.setItems(sortedData);
 
+    }
+	
 	public static void refreshTable() {
 		data.clear();
 		try {
@@ -122,11 +120,8 @@ public class DashboardController {
 				pd.emailId.set(rs.getString("emailId"));
 				data.add(pd);
 			}
-//			tblPatientTable.setItems(data);
+			tblPatientTable.setItems(data);
 			// Search Result
-			flPatient = new FilteredList(data, p -> true);// Pass the data to a filtered list
-			tblPatientTable.setItems(flPatient);// Set the table's items using the filtered list
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error on Building Data");
@@ -137,63 +132,52 @@ public class DashboardController {
 		try {
 			refreshTable();
 
-//			txt_searchBox.textProperty().addListener((observable, oldValue, newValue) -> {
-//				try {
-//					data.clear();
-//					System.out.println("newvalue "+newValue);
-//					String SQL;
-//					if(!(newValue.matches("[0-9]"))) {
-//						SQL = "SELECT * FROM patient_masterdata WHERE patient_name LIKE '"+ newValue + "'";
-//						
-//					}else {
-//						SQL = "SELECT * FROM patient_masterdata WHERE mobileNumber LIKE '"+ newValue + "'";
-//					}
-//					ResultSet rs = con.createStatement().executeQuery(SQL);
-//					
-//					while (rs.next()) {
-//						PatientData pd = new PatientData();
-//						pd.serialNum.set(rs.getRow());
-//						pd.patientId.set(rs.getInt("patient_id"));
-//						pd.patientName.set(rs.getString("patient_name"));
-//						pd.dob.set(rs.getString("dob"));
-//						pd.age.set(rs.getString("age"));
-//						pd.gender.set(rs.getString("gender"));
-//						pd.mobileNumber.set(rs.getString("mobileNumber"));
-//						pd.emailId.set(rs.getString("emailId"));
-//						data.add(pd);
-//					}
-//					tblPatientTable.setItems(data);
-//				} catch (SQLException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			});
-
-			txt_searchBox.textProperty().addListener((observable, oldValue, newValue) -> {
-				flPatient.setPredicate(p -> {
-					// If filter text is empty, display all persons.
-					if (newValue == null || newValue.isEmpty()) {
-						return true;
+			txt_searchBox.setOnKeyReleased(e->{
+				if(txt_searchBox.getText().equals("")) {
+					refreshTable();
+				}else {
+					try {
+						data.clear();
+						String SQL;
+						SQL = "SELECT * FROM patient_masterdata WHERE patient_name LIKE '%"+ txt_searchBox.getText() + "%'  OR mobileNumber LIKE '%"+ txt_searchBox.getText() +"%'";
+						ResultSet rs = con.createStatement().executeQuery(SQL);
+						
+						while (rs.next()) {
+							PatientData pd = new PatientData();
+							pd.serialNum.set(rs.getRow());
+							pd.patientId.set(rs.getInt("patient_id"));
+							pd.patientName.set(rs.getString("patient_name"));
+							pd.dob.set(rs.getString("dob"));
+							pd.age.set(rs.getString("age"));
+							pd.gender.set(rs.getString("gender"));
+							pd.mobileNumber.set(rs.getString("mobileNumber"));
+							pd.emailId.set(rs.getString("emailId"));
+							data.add(pd);
+						}
+						tblPatientTable.setItems(data);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-
-					if (String.valueOf(p.getMobileNumber()).contains(txt_searchBox.getText())) {
-						return true; // Filter matches mobile number.
-					} else if (String.valueOf(p.getPatientName()).toLowerCase()
-							.contains(txt_searchBox.getText().toLowerCase())) {
-						return true; // Filter matches name.
-					}
-					return false; // Does not match.
-				});
+				}
+				
 			});
-			//not required
-//			txt_searchBox.setOnKeyReleased(keyEvent -> {
-//				if (keyEvent.getText().matches("[0-9]")) {
-//					flPatient.setPredicate(p -> p.getMobileNumber().contains(txt_searchBox.getText().trim()));
-//				} else {
-//					flPatient.setPredicate(p -> p.getPatientName().toLowerCase()
-//							.contains(txt_searchBox.getText().toLowerCase().trim()));
-//				}
+
+//			txt_searchBox.textProperty().addListener((observable, oldValue, newValue) -> {
+//				flPatient.setPredicate(p -> {
+//					// If filter text is empty, display all persons.
+//					if (newValue == null || newValue.isEmpty()) {
+//						return true;
+//					}
 //
+//					if (String.valueOf(p.getMobileNumber()).contains(txt_searchBox.getText())) {
+//						return true; // Filter matches mobile number.
+//					} else if (String.valueOf(p.getPatientName()).toLowerCase()
+//							.contains(txt_searchBox.getText().toLowerCase())) {
+//						return true; // Filter matches name.
+//					}
+//					return false; // Does not match.
+//				});
 //			});
 
 		} catch (Exception e) {
@@ -204,15 +188,28 @@ public class DashboardController {
 
 	private static void ClickedPatient(int patientID) {
 		try {
-			FXMLLoader fxmlloader = new FXMLLoader(DashboardController.class.getResource("/viewPatient/ViewPatientDetails.fxml"));
-			Parent workspace = (Parent) fxmlloader.load();
-			Stage stage = new Stage();
-			stage.setScene(new Scene(workspace));
-			stage.setTitle("Patient Details");
-			stage.getIcons().add(new Image("file:imgs/sdIcon.png"));
-			stage.setResizable(false);
-			stage.show();
-
+			try {
+				AnchorPane pane=MainScreenController.getHomePage();
+				for(int i=0;i<pane.getChildren().size();i++) {
+					String paneID=pane.getChildren().get(i).getId();
+					switch (paneID) {
+						case "pane_Dashboard":
+							MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+							break;
+//						case "pane_viewDetails":
+//							MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+//							break;
+					}
+				}
+				Parent root = FXMLLoader.load(DashboardController.class.getResource("/viewPatient/ViewPatientDetails.fxml"));
+				MainScreenController.getHomePage().getChildren().add(root);
+				root.setTranslateX(370);
+				root.setTranslateY(30);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			ViewPDController.ViewDetails(patientID);
 
 		} catch (Exception e) {
@@ -223,15 +220,23 @@ public class DashboardController {
 	@FXML
 	void addPatients(ActionEvent event) {
 		try {
-			FXMLLoader fxmlloader = new FXMLLoader(DashboardController.class.getResource("/addPatient/AddPatient.fxml"));
-			Parent workspace = (Parent) fxmlloader.load();
-			Stage stage = new Stage();
-			stage.setScene(new Scene(workspace));
-			stage.setTitle("New Patient Details");
-			stage.getIcons().add(new Image("file:imgs/sdIcon.png"));
-			stage.setResizable(false);
-			stage.initStyle(StageStyle.UNDECORATED);
-			stage.show();
+			AnchorPane pane=MainScreenController.getHomePage();
+			for(int i=0;i<pane.getChildren().size();i++) {
+				String paneID=pane.getChildren().get(i).getId();
+				switch (paneID) {
+					case "pane_Dashboard":
+						MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+						break;
+					case "pane_viewDetails":
+						MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+						break;
+				}
+			}
+			Parent root = FXMLLoader.load(DashboardController.class.getResource("/addPatient/AddPatient.fxml"));
+			root.getStylesheets().add(getClass().getResource("/cssFiles/addPatient.css").toExternalForm());
+			MainScreenController.getHomePage().getChildren().add(root);
+			root.setTranslateX(370);
+			root.setTranslateY(30);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Cant load window");

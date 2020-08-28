@@ -5,32 +5,92 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane_viewDetails" prefHeight="496.0" prefWidth="716.0" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewPatient.ViewPDController">
+<AnchorPane id="pane_viewDetails" fx:id="pane_viewDetails" prefHeight="546.0" prefWidth="800.0" style="-fx-background-color: #ffffff;" stylesheets="@../cssFiles/viewPatient.css" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewPatient.ViewPDController">
    <children>
-      <Label layoutX="29.0" layoutY="80.0" prefHeight="29.0" prefWidth="97.0" text="Patient Name" />
-      <Label layoutX="390.0" layoutY="192.0" text="Age" />
-      <Label layoutX="29.0" layoutY="186.0" prefHeight="29.0" prefWidth="84.0" text="Date Of Birth" />
-      <Label layoutX="386.0" layoutY="141.0" text="Email" />
-      <Label layoutX="385.0" layoutY="86.0" text="Gender" />
-      <Label layoutX="29.0" layoutY="141.0" text="Mobile Number" />
-      <Label alignment="CENTER" layoutX="223.0" layoutY="35.0" prefHeight="17.0" prefWidth="84.0" text="Patient Detail" textAlignment="CENTER" />
-      <Label fx:id="lbl_mobileNumber" layoutX="41.0" layoutY="168.0" prefHeight="17.0" prefWidth="84.0" />
-      <Label fx:id="lbl_age" layoutX="391.0" layoutY="218.0" prefHeight="17.0" prefWidth="48.0" />
-      <Label fx:id="lbl_email" layoutX="394.0" layoutY="163.0" prefHeight="17.0" prefWidth="120.0" />
-      <Label fx:id="lbl_gender" layoutX="394.0" layoutY="104.0" prefHeight="17.0" prefWidth="61.0" />
-      <Label fx:id="lbl_dob" layoutX="42.0" layoutY="218.0" prefHeight="17.0" prefWidth="61.0" />
-      <Label fx:id="lbl_patientName" layoutX="41.0" layoutY="109.0" prefHeight="17.0" prefWidth="61.0" />
-      <Button fx:id="btn_addTest" layoutX="616.0" layoutY="438.0" mnemonicParsing="false" onAction="#addTest" text="Add Test" />
-      <TableView fx:id="tbl_testDetails" layoutX="42.0" layoutY="262.0" prefHeight="160.0" prefWidth="651.0">
+      <Label layoutX="39.0" layoutY="138.0" prefHeight="30.0" prefWidth="130.0" text="Patient Name" textFill="#a2a5a8" AnchorPane.leftAnchor="60.0">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label layoutX="443.0" layoutY="201.0" text="Age" textFill="#a2a5a8" AnchorPane.leftAnchor="480.0">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label layoutX="42.0" layoutY="201.0" prefHeight="29.0" prefWidth="120.0" text="Date Of Birth" textFill="#a2a5a8" AnchorPane.leftAnchor="60.0">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label layoutX="443.0" layoutY="138.0" prefHeight="27.0" prefWidth="61.0" text="Email" textFill="#a2a5a8" AnchorPane.leftAnchor="480.0">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label layoutX="443.0" layoutY="73.0" prefHeight="27.0" prefWidth="71.0" text="Gender" textFill="#a2a5a8" AnchorPane.leftAnchor="480.0">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label layoutX="39.0" layoutY="73.0" text="Mobile Number" textFill="#a2a5a8" AnchorPane.leftAnchor="60.0">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label fx:id="lbl_mobileNumber" layoutX="72.0" layoutY="104.0" prefHeight="25.0" prefWidth="144.0" textFill="#2eacd5" AnchorPane.leftAnchor="86.0">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label fx:id="lbl_age" layoutX="466.0" layoutY="236.0" prefHeight="25.0" prefWidth="188.0" textFill="#2eacd5" AnchorPane.leftAnchor="510.0">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label fx:id="lbl_email" layoutX="454.0" layoutY="174.0" prefHeight="25.0" prefWidth="207.0" textFill="#2eacd5" AnchorPane.leftAnchor="510.0">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label fx:id="lbl_gender" layoutX="464.0" layoutY="104.0" prefHeight="25.0" prefWidth="163.0" textFill="#2eacd5" AnchorPane.leftAnchor="510.0">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label fx:id="lbl_dob" layoutX="66.0" layoutY="236.0" prefHeight="25.0" prefWidth="242.0" textFill="#2eacd5" AnchorPane.leftAnchor="86.0">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label fx:id="lbl_patientName" layoutX="73.0" layoutY="174.0" prefHeight="25.0" prefWidth="207.0" textFill="#2eacd5" AnchorPane.leftAnchor="86.0">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Button fx:id="btn_addTest" layoutX="683.0" layoutY="487.0" mnemonicParsing="false" onAction="#addTest" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #2eacd5;;" text="Add Test" textFill="#f8f8f8">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <TableView fx:id="tbl_testDetails" layoutX="20.0" layoutY="291.0" prefHeight="183.0" prefWidth="763.0">
         <columns>
-          <TableColumn prefWidth="232.0" text="Test Name" />
-          <TableColumn minWidth="0.0" prefWidth="98.0" text="Date" />
-            <TableColumn prefWidth="134.0" text="Status" />
-            <TableColumn prefWidth="53.0" text="View" />
-            <TableColumn prefWidth="52.0" text="Edit" />
-            <TableColumn prefWidth="81.0" text="Delete" />
+          <TableColumn prefWidth="288.0" text="Test Name" />
+          <TableColumn minWidth="0.0" prefWidth="127.0" text="Date" />
+            <TableColumn prefWidth="93.0" text="Status" />
+            <TableColumn text="View" />
+            <TableColumn prefWidth="68.0" text="Edit" />
+            <TableColumn prefWidth="148.0" text="Delete" />
         </columns>
       </TableView>
+      <AnchorPane prefHeight="40.0" prefWidth="800.0" style="-fx-background-color: #2eacd5;;">
+         <children>
+            <Label layoutX="14.0" layoutY="7.0" text="Patient ID: " textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_patientName_top" layoutX="245.0" layoutY="7.0" prefHeight="25.0" prefWidth="175.0" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_ID" layoutX="91.0" layoutY="7.0" prefHeight="25.0" prefWidth="144.0" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Button fx:id="btn_edit" layoutX="712.0" layoutY="7.0" mnemonicParsing="false" onAction="#editDetails" />
+            <Button fx:id="btn_Close" layoutX="751.0" layoutY="7.0" mnemonicParsing="false" onAction="#closeTab" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
