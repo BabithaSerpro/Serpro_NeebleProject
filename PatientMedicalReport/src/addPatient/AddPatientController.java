@@ -23,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.StageStyle;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.DialogPane;
@@ -37,7 +38,7 @@ import javafx.scene.control.DateCell;
 public class AddPatientController implements Initializable {
 	@FXML
 	public AnchorPane pane_newPatient;
-	
+
 	@FXML
 	private TextField mobNo;
 
@@ -62,7 +63,6 @@ public class AddPatientController implements Initializable {
 	@FXML
 	private DatePicker dob;
 
-	
 	@FXML
 	private Button cancelBtn;
 
@@ -71,17 +71,17 @@ public class AddPatientController implements Initializable {
 
 	@FXML
 	private TextField ageLabel;
-	
+
 	private static AnchorPane paneNewPatient;
 
 	private Connection connection;
 
 	private PreparedStatement ps;
-	
+
 	private ResultSet rs;
 
 	private int flag;
-	
+
 	public static int pId;
 
 	public static int getpId() {
@@ -89,17 +89,17 @@ public class AddPatientController implements Initializable {
 	}
 
 	public void setpId(int id) {
-		pId=id;
+		pId = id;
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		paneNewPatient=pane_newPatient;
-        //disable editor
+		paneNewPatient = pane_newPatient;
+		// disable editor
 		dob.getEditor().setDisable(true);
 		dob.setStyle("-fx-opacity: 1");
 		dob.getEditor().setStyle("-fx-opacity: 1");
-		
+
 		// disable future date
 		dob.setDayCellFactory(param -> new DateCell() {
 			@Override
@@ -108,7 +108,6 @@ public class AddPatientController implements Initializable {
 				setDisable(empty || date.compareTo(LocalDate.now()) > 0);
 			}
 		});
-
 
 		// set age from calender selection
 		dob.setOnAction(e -> {
@@ -121,7 +120,7 @@ public class AddPatientController implements Initializable {
 					ageLabel.setText(p.getDays() + " days");
 				}
 			} else {
-				ageLabel.setText(p.getYears() + " years "  + p.getMonths() + " months" );
+				ageLabel.setText(p.getYears() + " years " + p.getMonths() + " months");
 			}
 		});
 	}
@@ -132,15 +131,7 @@ public class AddPatientController implements Initializable {
 		if (validateFields() && validateMobileNo() && validateName() && validateEmail()) {
 
 			if (check == true) { // check existing patient
-				/*
-				 * Alert alert = new Alert(AlertType.INFORMATION);
-				 * alert.setTitle("Dr Subodh App"); alert.setHeaderText(null);
-				 * alert.setContentText("Patient Already Exist");
-				 * alert.showAndWait().ifPresent(bt -> { if (bt == ButtonType.OK) { ((Node)
-				 * (event.getSource())).getScene().getWindow().hide();
-				 * DashboardController.refreshTable(); } });
-				 */
-				
+
 				Parent root = FXMLLoader.load(getClass().getResource("/addPatient/exists.fxml"));
 				paneNewPatient.getChildren().add(root);
 				clearFields();
@@ -164,30 +155,16 @@ public class AddPatientController implements Initializable {
 						pId = rs.getInt(1);
 					}
 					if (flag > 0) { // redirecting to dashboard
-						/*
-						 * TableView<PatientData> patientTable = DashboardController.getPatienttable();
-						 * FXMLLoader fxmlLoader; Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-						 * alert.setTitle("Dr Subodh App");
-						 * alert.getButtonTypes().setAll(ButtonType.OK);
-						 * alert.getDialogPane().setHeaderText("Patient added sucessfully!");
-						 * clearFields(); alert.showAndWait().ifPresent(bt -> { if (bt == ButtonType.OK)
-						 * { ((Node) (event.getSource())).getScene().getWindow().hide();
-						 * DashboardController.refreshTable(); } });
-						 */
+
 						Parent root = FXMLLoader.load(getClass().getResource("/addPatient/success.fxml"));
 						paneNewPatient.getChildren().add(root);
 						clearFields();
 					} else {
-						/*
-						 * Alert alert = new Alert(Alert.AlertType.WARNING);
-						 * alert.setTitle("Dr Subodh App"); alert.
-						 * setContentText("Some Error occured during adding data!!..Please try again!");
-						 * alert.showAndWait(); clearFields();
-						 */
+
 						Parent root = FXMLLoader.load(getClass().getResource("/addPatient/failure.fxml"));
 						pane_newPatient.getChildren().add(root);
 						clearFields();
-						
+
 					}
 				} catch (SQLException e) { // catching exception if any backend error occurs
 					Parent root = FXMLLoader.load(getClass().getResource("/addPatient/failure.fxml"));
@@ -200,24 +177,24 @@ public class AddPatientController implements Initializable {
 	}
 
 	public void cancelBtn(ActionEvent event) throws IOException {
-		AnchorPane pane=MainScreenController.getHomePage();
-		for(int i=0;i<pane.getChildren().size();i++) {
-			String paneID=pane.getChildren().get(i).getId();
+		AnchorPane pane = MainScreenController.getHomePage();
+		for (int i = 0; i < pane.getChildren().size(); i++) {
+			String paneID = pane.getChildren().get(i).getId();
 			switch (paneID) {
-				case "pane_Dashboard":
-					MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
-					break;
-				case "pane_viewDetails":
-					MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-					break;
-				case "pane_newPatient":
-					MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-					break;
+			case "pane_Dashboard":
+				MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
+				break;
+			case "pane_viewDetails":
+				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+				break;
+			case "pane_newPatient":
+				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+				break;
 			}
 		}
 	}
 
-	public String getGender() { //selection of gender
+	public String getGender() { // selection of gender
 		String gen = "";
 		if (male.isSelected()) {
 			gen = "Male";
@@ -234,20 +211,21 @@ public class AddPatientController implements Initializable {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
+			alert.initStyle(StageStyle.TRANSPARENT);
 			alert.setContentText("Mobile Number Cannot Be Empty");
 			DialogPane dialogPane = alert.getDialogPane();
-			dialogPane.getStylesheets().add(getClass().getResource("/cssFiles/myDialogs.css").toExternalForm());
-			dialogPane.getStyleClass().add("/cssFiles/myDialogs.css");
-			alert.showAndWait();		
+			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
+			dialogPane.getStyleClass().add("myDialog");
+			alert.showAndWait();
 			return false;
 		} else if (fullName.getText().isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
+			alert.initStyle(StageStyle.TRANSPARENT);
 			alert.setContentText("Full Name Cannot Be Empty");
 			DialogPane dialogPane = alert.getDialogPane();
-			dialogPane.getStylesheets().add(
-			getClass().getResource("/cssFiles/myDialogs.css").toExternalForm());
+			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
 			dialogPane.getStyleClass().add("myDialog");
 			alert.showAndWait();
 			return false;
@@ -255,10 +233,10 @@ public class AddPatientController implements Initializable {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
+			alert.initStyle(StageStyle.TRANSPARENT);
 			alert.setContentText("Please Select Gender");
 			DialogPane dialogPane = alert.getDialogPane();
-			dialogPane.getStylesheets().add(
-			getClass().getResource("/cssFiles/myDialogs.css").toExternalForm());
+			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
 			dialogPane.getStyleClass().add("myDialog");
 			alert.showAndWait();
 			return false;
@@ -266,10 +244,10 @@ public class AddPatientController implements Initializable {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
+			alert.initStyle(StageStyle.TRANSPARENT);
 			alert.setContentText("Please Select DOB");
 			DialogPane dialogPane = alert.getDialogPane();
-			dialogPane.getStylesheets().add(
-			getClass().getResource("/cssFiles/myDialogs.css").toExternalForm());
+			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
 			dialogPane.getStyleClass().add("myDialog");
 			alert.showAndWait();
 			return false;
@@ -288,10 +266,10 @@ public class AddPatientController implements Initializable {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
+			alert.initStyle(StageStyle.TRANSPARENT);
 			alert.setContentText("Please Enter Valid Mobile Number");
 			DialogPane dialogPane = alert.getDialogPane();
-			dialogPane.getStylesheets().add(
-			getClass().getResource("/cssFiles/myDialogs.css").toExternalForm());
+			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
 			dialogPane.getStyleClass().add("myDialog");
 			alert.showAndWait();
 			return false;
@@ -309,10 +287,10 @@ public class AddPatientController implements Initializable {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
+			alert.initStyle(StageStyle.TRANSPARENT);
 			alert.setContentText("Please Enter Valid Name");
 			DialogPane dialogPane = alert.getDialogPane();
-			dialogPane.getStylesheets().add(
-			getClass().getResource("/cssFiles/myDialogs.css").toExternalForm());
+			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
 			dialogPane.getStyleClass().add("myDialog");
 			alert.showAndWait();
 			return false;
@@ -329,10 +307,10 @@ public class AddPatientController implements Initializable {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Dr. Subodh App");
 				alert.setHeaderText(null);
+				alert.initStyle(StageStyle.TRANSPARENT);
 				alert.setContentText("Please Enter Valid Email");
 				DialogPane dialogPane = alert.getDialogPane();
-				dialogPane.getStylesheets().add(
-				getClass().getResource("/cssFiles/myDialogs.css").toExternalForm());
+				dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
 				dialogPane.getStyleClass().add("myDialog");
 				alert.showAndWait();
 				return false;
@@ -342,7 +320,7 @@ public class AddPatientController implements Initializable {
 		return true;
 	}
 
-	public void clearFields() { // clearing fileds 
+	public void clearFields() { // clearing fileds
 		mobNo.clear();
 		fullName.clear();
 		email.clear();
@@ -360,12 +338,12 @@ public class AddPatientController implements Initializable {
 		ResultSet rst = stm.executeQuery("select * from patient_masterdata where mobileNumber= '" + mobileNo + "' ");
 		return rst.next();
 	}
-	
+
 //	public void closeButton(ActionEvent event) {
 //		Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 //		stage.close();
 //	}
-	
+
 	public static AnchorPane getPaneNewPatient() {
 		return paneNewPatient;
 	}

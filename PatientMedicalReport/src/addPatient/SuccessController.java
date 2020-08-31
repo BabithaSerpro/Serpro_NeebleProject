@@ -21,7 +21,6 @@ public class SuccessController implements Initializable {
 	@FXML
 	private Label pId;
 
-	AddPatientController pc = new AddPatientController();
       
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

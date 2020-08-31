@@ -9,11 +9,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.92" fx:controller="addTest.addTestController">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="addTest.addTestController">
    <children>
-      <Label layoutY="3.0" prefHeight="23.0" prefWidth="600.0" text="   PatientId :" />
-      <Separator layoutX="7.0" layoutY="27.0" prefHeight="11.0" prefWidth="587.0" />
+      <Separator layoutX="7.0" layoutY="37.0" prefHeight="11.0" prefWidth="587.0" />
       <ComboBox fx:id="testName" layoutX="22.0" layoutY="66.0" prefHeight="25.0" prefWidth="241.0" promptText="Select Test" />
       <Label layoutX="22.0" layoutY="42.0" prefHeight="17.0" prefWidth="74.0" text="Test Name" />
       <DatePicker fx:id="testDate" editable="false" layoutX="362.0" layoutY="66.0" />
@@ -24,7 +22,7 @@
       <TextArea fx:id="impression" layoutX="22.0" layoutY="402.0" prefHeight="51.0" prefWidth="532.0" />
       <TextArea fx:id="note" layoutX="22.0" layoutY="490.0" prefHeight="44.0" prefWidth="532.0" />
       <Button fx:id="cancelBtn" layoutX="233.0" layoutY="555.0" mnemonicParsing="false" text="Cancel" />
-      <Button fx:id="saveBtn" layoutX="301.0" layoutY="555.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Save Report" />
+      <Button fx:id="saveBtn" layoutX="301.0" layoutY="555.0" mnemonicParsing="false" onAction="#addTest" prefHeight="25.0" prefWidth="110.0" text="Save Report" />
       <Button fx:id="gnRepBtn" layoutX="433.0" layoutY="555.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Generate Report" />
       <Label layoutX="368.0" layoutY="42.0" prefHeight="17.0" prefWidth="87.0" text="Test Date" />
       <Label layoutX="22.0" layoutY="118.0" prefHeight="17.0" prefWidth="140.0" text="Referred By Dr." />
@@ -33,5 +31,12 @@
       <Label layoutX="22.0" layoutY="283.0" prefHeight="17.0" prefWidth="262.0" text="Test Description and Observations" />
       <Label layoutX="22.0" layoutY="378.0" prefHeight="17.0" prefWidth="228.0" text="Impressions" />
       <Label layoutX="22.0" layoutY="473.0" prefHeight="17.0" prefWidth="74.0" text="Note" />
+      <AnchorPane layoutX="18.0" layoutY="5.0" prefHeight="34.0" prefWidth="568.0">
+         <children>
+            <Label layoutX="14.0" layoutY="3.0" prefHeight="25.0" prefWidth="60.0" text="PatientId:" />
+            <Label fx:id="pId" layoutX="74.0" layoutY="5.0" prefHeight="25.0" prefWidth="150.0" />
+            <Label fx:id="nameL" layoutX="234.0" layoutY="5.0" prefHeight="25.0" prefWidth="330.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

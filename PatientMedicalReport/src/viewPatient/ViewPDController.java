@@ -76,6 +76,14 @@ public class ViewPDController implements Initializable {
 		con = DBConnectivity.getConnection();
 	}
 
+	public static Label getLblID() {
+		return lblID;
+	}
+
+	public static void setLblID(Label lblID) {
+		ViewPDController.lblID = lblID;
+	}
+
 	public static Label getLblPName() {
 		return lblPName;
 	}
@@ -83,6 +91,8 @@ public class ViewPDController implements Initializable {
 	public static void setLblPName(Label lblPName) {
 		ViewPDController.lblPName = lblPName;
 	}
+	
+	
 
 	public static void ViewDetails(int patientID) throws SQLException {
 		String SQL_view = "SELECT * FROM patient_masterdata WHERE patient_id='"+patientID+"'";
@@ -121,6 +131,7 @@ public class ViewPDController implements Initializable {
 			System.out.println("Cant load window");
 		}
 	}
+	
 	@FXML
 	public void editDetails() {
 		try {
