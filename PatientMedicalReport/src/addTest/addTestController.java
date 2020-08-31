@@ -1,5 +1,6 @@
 package addTest;
 
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +13,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import DBConnection.DBConnectivity;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -22,11 +35,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import viewPatient.ViewPDController;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.StageStyle;
 
 public class addTestController implements Initializable {
 	@FXML
@@ -75,10 +90,7 @@ public class addTestController implements Initializable {
 	private ResultSet rs;
 	private int flag;
 
-	/*
-	 * private String path = "C://Users//neebal//Desktop//PatientReports//2020// ";
-	 * private String DEST = path + nameL.getText() + ".pdf";
-	 */
+	private String path;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -134,38 +146,171 @@ public class addTestController implements Initializable {
 	public void addTest(ActionEvent event) throws Exception {
 
 		// insert new test
-		String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
-		String insert = "INSERT into patient_reportmasterdata (regNumber,ref_doctor,testName,testDate,reportDate,patientHistory,testDescription,impression,note,active,created_timestamp,modified_timestamp)"
-				+ " values(?,?,?,?,?,?,?,?,?,'Y','" + timeStamp + "','" + timeStamp + "')";
-		connection = DBConnectivity.getConnection();
-		try {
-			ps = connection.prepareStatement(insert);
+		if (validateFields() && validateDate()) {
+			generatePdfReport();
+			String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
+			String insert = "INSERT into patient_reportmasterdata (regNumber,ref_doctor,testName,testDate,reportDate,patientHistory,testDescription,impression,note,folderPath,active,created_timestamp,modified_timestamp)"
+					+ " values(?,?,?,?,?,?,?,?,?,'" + path + "','Y','" + timeStamp + "','" + timeStamp + "')";
+			connection = DBConnectivity.getConnection();
+			try {
+				ps = connection.prepareStatement(insert);
 
-			ps.setString(1, pId.getText());
-			ps.setString(2, refDoc.getText());
-			String value = testName.getValue();
-			ps.setString(3, value);
-			ps.setString(4, ((TextField) testDate.getEditor()).getText());
-			ps.setString(5, ((TextField) reportDate.getEditor()).getText());
-			ps.setString(6, phistory.getText());
-			ps.setString(7, tDesc.getText());
-			ps.setString(8, impression.getText());
-			ps.setString(9, note.getText());
+				ps.setString(1, pId.getText());
+				ps.setString(2, refDoc.getText());
+				String value = testName.getValue();
+				ps.setString(3, value);
+				ps.setString(4, ((TextField) testDate.getEditor()).getText());
+				ps.setString(5, ((TextField) reportDate.getEditor()).getText());
+				ps.setString(6, phistory.getText());
+				ps.setString(7, tDesc.getText());
+				ps.setString(8, impression.getText());
+				ps.setString(9, note.getText());
 
-			flag = ps.executeUpdate();
+				flag = ps.executeUpdate();
 
-			if (flag > 0) { // redirecting to dashboard
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Dr. Subodh App");
-				alert.setHeaderText(null);
-				alert.setContentText("Test Added Suucessfully");
-				alert.showAndWait();
-			} else {
-				System.out.println("Not Added");
+				if (flag > 0) { // redirecting to dashboard
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Dr. Subodh App");
+					alert.setHeaderText(null);
+					alert.setContentText("Test Added Suucessfully");
+					alert.showAndWait();
+					
+				} else {
+					System.out.println("Not Added");
+
+				}
+			} catch (SQLException e) { // catching exception if any backend error occurs
+				e.printStackTrace();
 			}
-		} catch (SQLException e) { // catching exception if any backend error occurs
-			e.printStackTrace();
 		}
+
+	}
+
+	private boolean validateFields() { // null validation of field
+		if (testName.getSelectionModel().isEmpty()) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Dr. Subodh App");
+			alert.setHeaderText(null);
+			alert.initStyle(StageStyle.TRANSPARENT);
+			alert.setContentText("Select Test from Dropdowm");
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
+			dialogPane.getStyleClass().add("myDialog");
+			alert.showAndWait();
+			return false;
+		} else if (((TextField) testDate.getEditor()).getText().isEmpty()) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Dr. Subodh App");
+			alert.setHeaderText(null);
+			alert.initStyle(StageStyle.TRANSPARENT);
+			alert.setContentText("Please Select Test Date");
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
+			dialogPane.getStyleClass().add("myDialog");
+			alert.showAndWait();
+			return false;
+		} else if (((TextField) reportDate.getEditor()).getText().isEmpty()) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Dr. Subodh App");
+			alert.setHeaderText(null);
+			alert.initStyle(StageStyle.TRANSPARENT);
+			alert.setContentText("Please Select Report Date");
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
+			dialogPane.getStyleClass().add("myDialog");
+			alert.showAndWait();
+			return false;
+
+		}
+		return true;
+
+	}
+
+	private boolean validateDate() { // Mobile No. Validation
+
+		if (reportDate.getValue().equals(testDate.getValue())) {
+			return true;
+		} else if (reportDate.getValue().isAfter(testDate.getValue())) {
+			return true;
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Dr. Subodh App");
+			alert.setHeaderText(null);
+			alert.initStyle(StageStyle.TRANSPARENT);
+			alert.setContentText("Report Date should be greater or equal to Test Date");
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
+			dialogPane.getStyleClass().add("myDialog");
+			alert.showAndWait();
+			return false;
+		}
+
+	}
+
+	private void generatePdfReport() throws Exception {
+
+		String value1 = nameL.getText();
+		String value2 = ViewPDController.getLblAge().getText();
+		String value3 = ViewPDController.getLblGender().getText();
+		String value4 = refDoc.getText();
+		String value5 = pId.getText();
+		String value6 = ((TextField) testDate.getEditor()).getText();
+		String value7 = ((TextField) reportDate.getEditor()).getText();
+		String value8 = phistory.getText();
+		String value9 = testName.getSelectionModel().getSelectedItem();
+		String value10 = tDesc.getText();
+		String value11 = impression.getText();
+		String value12 = note.getText();
+
+		Document document = new Document();
+		path = "E://Users//neebal//Desktop//PatientReports//2020//" + pId.getText() + ".pdf";
+		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
+		document.open();
+		Image image = Image.getInstance("bin/images/tempsnip.png");
+		image.setAlignment(Element.ALIGN_CENTER);
+		document.add(image);
+		Paragraph name = new Paragraph("Patient Name:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+		name.setAlignment(Element.ALIGN_CENTER);
+		name.add(value1);
+		document.add(name);
+		Paragraph age = new Paragraph("Age:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+		age.add(value2);
+		document.add(age);
+		Paragraph gender = new Paragraph("Gender:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+		gender.add(value3);
+		document.add(gender);
+		Paragraph refDoc = new Paragraph("Ref Doctor:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+		refDoc.add(value4);
+		document.add(refDoc);
+		Paragraph pId = new Paragraph("PatientId:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+		pId.add(value5);
+		document.add(pId);
+		Paragraph testDate = new Paragraph("Test Date:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+		testDate.add(value6);
+		document.add(testDate);
+		Paragraph repDate = new Paragraph("Report Date:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+		repDate.add(value7);
+		document.add(repDate);
+		Paragraph pHistory = new Paragraph("Patient History:",
+				FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+		pHistory.add(value8);
+		document.add(pHistory);
+		Paragraph testName = new Paragraph("Test Name:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+		testName.add(value9);
+		document.add(testName);
+		Paragraph testDesc = new Paragraph("Test Description:",
+				FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+		testDesc.add(value10);
+		document.add(testDesc);
+		Paragraph impression = new Paragraph("Impression:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+		impression.add(value11);
+		document.add(impression);
+		Paragraph note = new Paragraph("Note:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+		note.add(value12);
+		document.add(note);
+
+		document.close();
+		writer.close();
 
 	}
 

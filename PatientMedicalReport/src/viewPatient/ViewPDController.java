@@ -94,6 +94,22 @@ public class ViewPDController implements Initializable {
 	
 	
 
+	public static Label getLblGender() {
+		return lblGender;
+	}
+
+	public static void setLblGender(Label lblGender) {
+		ViewPDController.lblGender = lblGender;
+	}
+
+	public static Label getLblAge() {
+		return lblAge;
+	}
+
+	public static void setLblAge(Label lblAge) {
+		ViewPDController.lblAge = lblAge;
+	}
+
 	public static void ViewDetails(int patientID) throws SQLException {
 		String SQL_view = "SELECT * FROM patient_masterdata WHERE patient_id='"+patientID+"'";
 		try {
