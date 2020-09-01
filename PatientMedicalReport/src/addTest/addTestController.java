@@ -1,6 +1,7 @@
 package addTest;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,6 +27,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import DBConnection.DBConnectivity;
+import application.MainScreenController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,6 +43,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import viewPatient.ViewPDController;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.StageStyle;
 
 public class addTestController implements Initializable {
@@ -54,7 +57,7 @@ public class addTestController implements Initializable {
 	private DatePicker reportDate;
 
 	@FXML
-	private TextField phistory;
+	private TextArea phistory;
 
 	@FXML
 	private TextArea tDesc;
@@ -108,6 +111,15 @@ public class addTestController implements Initializable {
 			alert.showAndWait();
 			e.printStackTrace();
 		}
+
+		// disable editor
+		testDate.getEditor().setDisable(true);
+		testDate.setStyle("-fx-opacity: 1");
+		testDate.getEditor().setStyle("-fx-opacity: 1");
+
+		reportDate.getEditor().setDisable(true);
+		reportDate.setStyle("-fx-opacity: 1");
+		reportDate.getEditor().setStyle("-fx-opacity: 1");
 
 		testDate.setDayCellFactory(param -> new DateCell() {
 			@Override
@@ -174,7 +186,7 @@ public class addTestController implements Initializable {
 					alert.setHeaderText(null);
 					alert.setContentText("Test Added Suucessfully");
 					alert.showAndWait();
-					
+
 				} else {
 					System.out.println("Not Added");
 
@@ -263,7 +275,7 @@ public class addTestController implements Initializable {
 		String value12 = note.getText();
 
 		Document document = new Document();
-		path = "E://Users//neebal//Desktop//PatientReports//2020//" + pId.getText() + ".pdf";
+		path = "E://Users//neebal//Desktop//PatientReports//2020//" + pId.getText() + "_" + value1 + "_" + value9+ ".pdf";
 		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
 		document.open();
 		Image image = Image.getInstance("bin/images/tempsnip.png");
@@ -312,6 +324,27 @@ public class addTestController implements Initializable {
 		document.close();
 		writer.close();
 
+	}
+
+	public void cancelBtn(ActionEvent event) throws IOException {
+		AnchorPane pane = MainScreenController.getHomePage();
+		for (int i = 0; i < pane.getChildren().size(); i++) {
+			String paneID = pane.getChildren().get(i).getId();
+			switch (paneID) {
+			case "pane_Dashboard":
+				MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
+				break;
+			case "pane_viewDetails":
+				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+				break;
+			case "pane_newPatient":
+				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+				break;
+			case "pane_newTest":
+				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+				break;
+			}
+		}
 	}
 
 }

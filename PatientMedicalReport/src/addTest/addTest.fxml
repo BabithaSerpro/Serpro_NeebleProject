@@ -4,39 +4,49 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="addTest.addTestController">
+<AnchorPane prefHeight="546.0" prefWidth="800.0" style="-fx-background-color: white;" stylesheets="@../cssFiles/addTest.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="addTest.addTestController">
    <children>
-      <Separator layoutX="7.0" layoutY="37.0" prefHeight="11.0" prefWidth="587.0" />
-      <ComboBox fx:id="testName" layoutX="22.0" layoutY="66.0" prefHeight="25.0" prefWidth="241.0" promptText="Select Test" />
-      <Label layoutX="22.0" layoutY="42.0" prefHeight="17.0" prefWidth="74.0" text="Test Name" />
-      <DatePicker fx:id="testDate" editable="false" layoutX="362.0" layoutY="66.0" />
-      <TextField fx:id="refDoc" layoutX="22.0" layoutY="145.0" prefHeight="25.0" prefWidth="241.0" />
-      <DatePicker fx:id="reportDate" editable="false" layoutX="363.0" layoutY="145.0" prefHeight="25.0" prefWidth="174.0" />
-      <TextField fx:id="phistory" layoutX="22.0" layoutY="205.0" prefHeight="51.0" prefWidth="532.0" />
-      <TextArea fx:id="tDesc" layoutX="22.0" layoutY="300.0" prefHeight="60.0" prefWidth="532.0" />
-      <TextArea fx:id="impression" layoutX="22.0" layoutY="402.0" prefHeight="51.0" prefWidth="532.0" />
-      <TextArea fx:id="note" layoutX="22.0" layoutY="490.0" prefHeight="44.0" prefWidth="532.0" />
-      <Button fx:id="cancelBtn" layoutX="233.0" layoutY="555.0" mnemonicParsing="false" text="Cancel" />
-      <Button fx:id="saveBtn" layoutX="301.0" layoutY="555.0" mnemonicParsing="false" onAction="#addTest" prefHeight="25.0" prefWidth="110.0" text="Save Report" />
-      <Button fx:id="gnRepBtn" layoutX="433.0" layoutY="555.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Generate Report" />
-      <Label layoutX="368.0" layoutY="42.0" prefHeight="17.0" prefWidth="87.0" text="Test Date" />
-      <Label layoutX="22.0" layoutY="118.0" prefHeight="17.0" prefWidth="140.0" text="Referred By Dr." />
-      <Label layoutX="363.0" layoutY="118.0" prefHeight="17.0" prefWidth="110.0" text="Report Date" />
-      <Label layoutX="22.0" layoutY="188.0" prefHeight="17.0" prefWidth="191.0" text="Patient History (if any)" />
-      <Label layoutX="22.0" layoutY="283.0" prefHeight="17.0" prefWidth="262.0" text="Test Description and Observations" />
-      <Label layoutX="22.0" layoutY="378.0" prefHeight="17.0" prefWidth="228.0" text="Impressions" />
-      <Label layoutX="22.0" layoutY="473.0" prefHeight="17.0" prefWidth="74.0" text="Note" />
-      <AnchorPane layoutX="18.0" layoutY="5.0" prefHeight="34.0" prefWidth="568.0">
+      <ComboBox fx:id="testName" layoutX="22.0" layoutY="63.0" prefHeight="41.0" prefWidth="371.0" promptText="Select Test" style="-fx-background-color: white;" />
+      <Label layoutX="22.0" layoutY="38.0" prefHeight="25.0" prefWidth="150.0" text="Test Name" textFill="#a2a5a8" />
+      <DatePicker fx:id="testDate" layoutX="500.0" layoutY="61.0" prefHeight="41.0" prefWidth="278.0" promptText="Select Test Date" />
+      <TextField fx:id="refDoc" layoutX="22.0" layoutY="131.0" prefHeight="41.0" prefWidth="371.0" promptText="Enter Doctor Name" />
+      <DatePicker fx:id="reportDate" layoutX="500.0" layoutY="130.0" prefHeight="41.0" prefWidth="278.0" promptText="Select Report Date" />
+      <TextArea fx:id="tDesc" layoutX="22.0" layoutY="290.0" prefHeight="60.0" prefWidth="756.0" />
+      <TextArea fx:id="impression" layoutX="22.0" layoutY="378.0" prefHeight="51.0" prefWidth="756.0" />
+      <TextArea fx:id="note" layoutX="22.0" layoutY="452.0" prefHeight="34.0" prefWidth="756.0" />
+      <Button fx:id="cancelBtn" layoutX="380.0" layoutY="512.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="27.0" prefWidth="69.0" style="-fx-background-color: #2eacd5;" text="Cancel" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="saveBtn" layoutX="475.0" layoutY="512.0" mnemonicParsing="false" onAction="#addTest" prefHeight="27.0" prefWidth="126.0" style="-fx-background-color: #2eacd5;" text="Save Report" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Label layoutX="500.0" layoutY="37.0" prefHeight="17.0" prefWidth="87.0" text="Test Date" textFill="#a2a5a8" />
+      <Label layoutX="25.0" layoutY="107.0" prefHeight="17.0" prefWidth="140.0" text="Referred By Dr." textFill="#a2a5a8" />
+      <Label layoutX="504.0" layoutY="105.0" prefHeight="17.0" prefWidth="110.0" text="Report Date" textFill="#a2a5a8" />
+      <Label layoutX="26.0" layoutY="174.0" prefHeight="17.0" prefWidth="191.0" text="Patient History (if any)" textFill="#a2a5a8" />
+      <Label layoutX="24.0" layoutY="262.0" prefHeight="27.0" prefWidth="330.0" text="Test Description and Observations" textFill="#a2a5a8" />
+      <Label layoutX="26.0" layoutY="350.0" prefHeight="17.0" prefWidth="228.0" text="Impressions" textFill="#a2a5a8" />
+      <Label layoutX="28.0" layoutY="430.0" prefHeight="17.0" prefWidth="74.0" text="Note" textFill="#a2a5a8" />
+      <AnchorPane layoutX="5.0" layoutY="5.0" prefHeight="34.0" prefWidth="794.0" style="-fx-background-color: #2eacd5;">
          <children>
-            <Label layoutX="14.0" layoutY="3.0" prefHeight="25.0" prefWidth="60.0" text="PatientId:" />
-            <Label fx:id="pId" layoutX="74.0" layoutY="5.0" prefHeight="25.0" prefWidth="150.0" />
-            <Label fx:id="nameL" layoutX="234.0" layoutY="5.0" prefHeight="25.0" prefWidth="330.0" />
+            <Label layoutX="14.0" layoutY="3.0" prefHeight="27.0" prefWidth="99.0" text="PatientId:" textFill="WHITE" />
+            <Label fx:id="pId" layoutX="131.0" layoutY="5.0" prefHeight="25.0" prefWidth="191.0" textFill="WHITE" />
+            <Label fx:id="nameL" layoutX="337.0" layoutY="5.0" prefHeight="25.0" prefWidth="330.0" textFill="WHITE" />
+            <Button fx:id="btn_close" layoutX="770.0" layoutY="7.0" mnemonicParsing="false" onAction="#cancelBtn" />
          </children>
       </AnchorPane>
+      <Button layoutX="614.0" layoutY="511.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="159.0" style="-fx-background-color: #2eacd5;" text="Generate Report" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <TextArea fx:id="phistory" layoutX="23.0" layoutY="202.0" prefHeight="60.0" prefWidth="756.0" />
    </children>
 </AnchorPane>

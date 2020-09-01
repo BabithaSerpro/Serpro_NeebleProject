@@ -190,6 +190,7 @@ public class AddPatientController implements Initializable {
 			case "pane_newPatient":
 				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
 				break;
+			
 			}
 		}
 	}
