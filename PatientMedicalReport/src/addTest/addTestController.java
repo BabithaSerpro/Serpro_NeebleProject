@@ -14,10 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
@@ -31,7 +27,10 @@ import application.MainScreenController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -44,6 +43,7 @@ import javafx.scene.control.TextField;
 import viewPatient.ViewPDController;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class addTestController implements Initializable {
@@ -94,6 +94,16 @@ public class addTestController implements Initializable {
 	private int flag;
 
 	private String path;
+	
+	public static int pTId;
+
+	public static int getpTId() {
+		return pTId;
+	}
+
+	public void setpTId(int id) {
+		pTId = id;
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -165,7 +175,7 @@ public class addTestController implements Initializable {
 					+ " values(?,?,?,?,?,?,?,?,?,'" + path + "','Y','" + timeStamp + "','" + timeStamp + "')";
 			connection = DBConnectivity.getConnection();
 			try {
-				ps = connection.prepareStatement(insert);
+				ps = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 
 				ps.setString(1, pId.getText());
 				ps.setString(2, refDoc.getText());
@@ -179,14 +189,19 @@ public class addTestController implements Initializable {
 				ps.setString(9, note.getText());
 
 				flag = ps.executeUpdate();
+				rs = ps.getGeneratedKeys();
+
+				if (rs.next()) {
+					pTId = rs.getInt(1);
+					System.out.println("Generation of PID"+ pTId);
+				}
 
 				if (flag > 0) { // redirecting to dashboard
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Dr. Subodh App");
-					alert.setHeaderText(null);
-					alert.setContentText("Test Added Suucessfully");
-					alert.showAndWait();
-
+					Stage add = new Stage();
+					Parent root = FXMLLoader.load(getClass().getResource("/addTest/viewReport.fxml"));
+					Scene scene = new Scene(root);
+					add.setScene(scene);
+					add.show();
 				} else {
 					System.out.println("Not Added");
 
@@ -275,7 +290,8 @@ public class addTestController implements Initializable {
 		String value12 = note.getText();
 
 		Document document = new Document();
-		path = "E://Users//neebal//Desktop//PatientReports//2020//" + pId.getText() + "_" + value1 + "_" + value9+ ".pdf";
+		path = "E://Users//neebal//Desktop//PatientReports//2020//" + pId.getText() + "_" + value1 + "_" + value9
+				+ ".pdf";
 		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
 		document.open();
 		Image image = Image.getInstance("bin/images/tempsnip.png");
@@ -346,5 +362,7 @@ public class addTestController implements Initializable {
 			}
 		}
 	}
+
+	
 
 }

@@ -153,6 +153,7 @@ public class AddPatientController implements Initializable {
 
 					if (rs.next()) {
 						pId = rs.getInt(1);
+						
 					}
 					if (flag > 0) { // redirecting to dashboard
 

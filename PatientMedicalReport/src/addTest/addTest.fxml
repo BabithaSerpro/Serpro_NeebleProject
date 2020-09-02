@@ -19,11 +19,11 @@
       <TextArea fx:id="tDesc" layoutX="22.0" layoutY="290.0" prefHeight="60.0" prefWidth="756.0" />
       <TextArea fx:id="impression" layoutX="22.0" layoutY="378.0" prefHeight="51.0" prefWidth="756.0" />
       <TextArea fx:id="note" layoutX="22.0" layoutY="452.0" prefHeight="34.0" prefWidth="756.0" />
-      <Button fx:id="cancelBtn" layoutX="380.0" layoutY="512.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="27.0" prefWidth="69.0" style="-fx-background-color: #2eacd5;" text="Cancel" textFill="WHITE">
+      <Button fx:id="cancelBtn" layoutX="555.0" layoutY="512.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="27.0" prefWidth="69.0" style="-fx-background-color: #2eacd5;" text="Cancel" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button fx:id="saveBtn" layoutX="475.0" layoutY="512.0" mnemonicParsing="false" onAction="#addTest" prefHeight="27.0" prefWidth="126.0" style="-fx-background-color: #2eacd5;" text="Save Report" textFill="WHITE">
+      <Button fx:id="saveBtn" layoutX="652.0" layoutY="512.0" mnemonicParsing="false" onAction="#addTest" prefHeight="27.0" prefWidth="126.0" style="-fx-background-color: #2eacd5;" text="Save Report" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Button>
@@ -42,11 +42,6 @@
             <Button fx:id="btn_close" layoutX="770.0" layoutY="7.0" mnemonicParsing="false" onAction="#cancelBtn" />
          </children>
       </AnchorPane>
-      <Button layoutX="614.0" layoutY="511.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="159.0" style="-fx-background-color: #2eacd5;" text="Generate Report" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
       <TextArea fx:id="phistory" layoutX="23.0" layoutY="202.0" prefHeight="60.0" prefWidth="756.0" />
    </children>
 </AnchorPane>
