@@ -205,11 +205,10 @@ public class EditTestController {
     public void updateTest() {
 			String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
 			System.out.println(getTest_id());
-			String update = "UPDATE patient_reportmasterdata SET"
-							+ "regNumber=?,ref_doctor=?,testName=?,testDate=?,reportDate=?,"
-							+ "patientHistory=?,testDescription=?,impression=?,note=?,"
-							+ "active='Y', modified_timestamp='"+timeStamp +"' "
-							+ "WHERE id=?";
+			String update = "UPDATE patient_reportmasterdata SET regNumber=?,"
+					+ "ref_doctor=?,testName=?,testDate=?,reportDate=?,patientHistory=?,"
+					+ "testDescription=?,impression=?,note=?,active='Y',"
+					+ " modified_timestamp='"+ timeStamp +"' WHERE id=?";
 			con = DBConnectivity.getConnection();
 			try {
 				ps = con.prepareStatement(update);
@@ -217,8 +216,8 @@ public class EditTestController {
 				ps.setInt(1, pid);
 				ps.setString(2, refDoc.getText());
 				ps.setString(3, txtTestname.getText());
-				ps.setString(4, txtTestdate.getText());
-				ps.setString(5, txtReportdate.getText());
+				ps.setString(4, ((TextField) testDate.getEditor()).getText());
+				ps.setString(5, ((TextField) reportDate.getEditor()).getText());
 				ps.setString(6, phistory.getText());
 				ps.setString(7, tDesc.getText());
 				ps.setString(8, impression.getText());
