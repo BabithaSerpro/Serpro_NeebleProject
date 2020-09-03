@@ -176,7 +176,6 @@ public class addTestController implements Initializable {
 			connection = DBConnectivity.getConnection();
 			try {
 				ps = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
-
 				ps.setString(1, pId.getText());
 				ps.setString(2, refDoc.getText());
 				String value = testName.getValue();
@@ -190,10 +189,8 @@ public class addTestController implements Initializable {
 
 				flag = ps.executeUpdate();
 				rs = ps.getGeneratedKeys();
-
 				if (rs.next()) {
 					pTId = rs.getInt(1);
-					System.out.println("Generation of PID"+ pTId);
 				}
 
 				if (flag > 0) { // redirecting to dashboard
@@ -213,7 +210,7 @@ public class addTestController implements Initializable {
 
 	}
 
-	private boolean validateFields() { // null validation of field
+	public boolean validateFields() { // null validation of field
 		if (testName.getSelectionModel().isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
@@ -253,7 +250,7 @@ public class addTestController implements Initializable {
 
 	}
 
-	private boolean validateDate() { // Mobile No. Validation
+	public boolean validateDate() { // Mobile No. Validation
 
 		if (reportDate.getValue().equals(testDate.getValue())) {
 			return true;
@@ -271,7 +268,6 @@ public class addTestController implements Initializable {
 			alert.showAndWait();
 			return false;
 		}
-
 	}
 
 	private void generatePdfReport() throws Exception {
@@ -290,11 +286,10 @@ public class addTestController implements Initializable {
 		String value12 = note.getText();
 
 		Document document = new Document();
-		path = "E://Users//neebal//Desktop//PatientReports//2020//" + pId.getText() + "_" + value1 + "_" + value9
-				+ ".pdf";
+		path = "C:\\Users\\Personal\\Desktop\\PatientReports\\2020\\" + pId.getText() + "_" + value1 + "_" + value9+ ".pdf";
 		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
 		document.open();
-		Image image = Image.getInstance("bin/images/tempsnip.png");
+		Image image = Image.getInstance("bin/imgs/tempsnip.png");
 		image.setAlignment(Element.ALIGN_CENTER);
 		document.add(image);
 		Paragraph name = new Paragraph("Patient Name:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
@@ -356,13 +351,11 @@ public class addTestController implements Initializable {
 			case "pane_newPatient":
 				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
 				break;
-			case "pane_newTest":
+			case "pane_addTest":
 				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
 				break;
 			}
 		}
 	}
-
-	
 
 }

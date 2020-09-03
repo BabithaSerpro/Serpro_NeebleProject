@@ -63,12 +63,9 @@
          </font></Button>
       <TableView fx:id="tbl_testDetails" layoutX="20.0" layoutY="291.0" prefHeight="183.0" prefWidth="763.0">
         <columns>
-          <TableColumn prefWidth="288.0" text="Test Name" />
-          <TableColumn minWidth="0.0" prefWidth="127.0" text="Date" />
-            <TableColumn prefWidth="93.0" text="Status" />
-            <TableColumn text="View" />
-            <TableColumn prefWidth="68.0" text="Edit" />
-            <TableColumn prefWidth="148.0" text="Delete" />
+        	<TableColumn fx:id="clm_testName" prefWidth="288.0" text="Test Name" />
+          <TableColumn fx:id="clm_tDate" prefWidth="120.0" text="Date" />
+          <TableColumn fx:id="clm_status" prefWidth="93.0" text="Status" />
         </columns>
       </TableView>
       <AnchorPane prefHeight="40.0" prefWidth="800.0" style="-fx-background-color: #2eacd5;;">

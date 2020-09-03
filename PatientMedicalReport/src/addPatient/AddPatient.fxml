@@ -46,7 +46,7 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Button fx:id="cancelBtn" layoutX="499.0" layoutY="450.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="27.0" prefWidth="114.0" style="-fx-background-color: rgba(255,255,255,1);" text="Cancel" textFill="#018baf">
+      <Button fx:id="cancelBtn" layoutX="499.0" layoutY="450.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="27.0" prefWidth="114.0" style="-fx-background-color: rgba(46,172,210,1);" text="Cancel" textFill="#fefefd">
          <font>
             <Font size="18.0" />
          </font></Button>

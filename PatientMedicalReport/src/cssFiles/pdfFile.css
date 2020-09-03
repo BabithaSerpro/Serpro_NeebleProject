@@ -2,4 +2,7 @@
 
 
 
-
+.label{
+	-fx-font-family: "Roboto";
+	-fx-text-fill: white;
+}

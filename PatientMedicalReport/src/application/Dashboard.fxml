@@ -35,7 +35,7 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <TextField fx:id="txt_searchBox" layoutX="17.0" layoutY="20.0" prefHeight="45.0" prefWidth="581.0" promptText="Search here" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="20.0" />
+                  <TextField fx:id="txt_searchBox" layoutX="17.0" layoutY="20.0" prefHeight="45.0" prefWidth="581.0" promptText="Search Using Patient Name/Mobile number" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="20.0" />
                </children>
             </AnchorPane>
          </children>

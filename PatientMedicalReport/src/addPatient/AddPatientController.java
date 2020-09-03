@@ -13,7 +13,6 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import DBConnection.DBConnectivity;
-import application.DashboardController;
 import application.MainScreenController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -153,7 +152,6 @@ public class AddPatientController implements Initializable {
 
 					if (rs.next()) {
 						pId = rs.getInt(1);
-						
 					}
 					if (flag > 0) { // redirecting to dashboard
 

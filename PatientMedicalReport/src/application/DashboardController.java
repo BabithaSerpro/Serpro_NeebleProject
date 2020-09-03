@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import DBConnection.DBConnectivity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,8 +53,6 @@ public class DashboardController {
 	private static Connection con;
 	private static final int ROWS_PER_PAGE = 10;
 	private static ObservableList<PatientData> data = FXCollections.observableArrayList();
-	private static FilteredList<PatientData> flPatient;
-
 
 	@FXML
 	public void initialize() throws ClassNotFoundException, SQLException {
@@ -211,7 +208,7 @@ public class DashboardController {
 			}
 			
 			ViewPDController.ViewDetails(patientID);
-
+			ViewPDController.ViewTestDetails(patientID);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -36,18 +36,6 @@
     -fx-background-position: center center;
     -fx-background-color: #2eacd2;
 }
-#btn_close{
-	-fx-background-image: url("/imgs/cancel.png");
-    -fx-background-repeat: no-repeat;
-	-fx-background-position: center  ;
-	-fx-pref-width: 20.0px;
-	-fx-pref-height: 20.0px;
-	-fx-background-color: transparent;
-  	-fx-min-width: -fx-pref-width;
-    -fx-max-width: -fx-pref-width;
-    -fx-min-height: -fx-pref-height;
-    -fx-max-height: -fx-pref-height;
-}
 
 .combo-box .list-cell 
 {
@@ -60,7 +48,7 @@
 	-fx-border-radius:5.0px;
 }
 .combo-box  > .arrow-button {
-    -fx-background-image:url("/imgs/img.png");  /* Url of the icon */
+    /*-fx-background-image:url("/imgs/dropdown.png"); /* Url of the icon */
     -fx-background-size: 50.0% 50.0%; /* Can be `cover` or `100% 100%` ect. */
     -fx-background-repeat: no-repeat; /* Put the icon in the center */
     -fx-background-position: center center;
@@ -87,4 +75,3 @@
     -fx-min-height: -fx-pref-height;
     -fx-max-height: -fx-pref-height;
 }
-

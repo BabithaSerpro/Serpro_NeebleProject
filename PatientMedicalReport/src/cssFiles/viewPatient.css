@@ -83,12 +83,6 @@
     -fx-padding: 0.0em; /* 0 */  
 }
 
-.table-row-cell:selected {
-    -fx-background-color: lightgray;
-    -fx-background-insets: 0.0;
-    -fx-table-cell-border-color: lightgray;
-}
-
 .table-view > .virtual-flow > .scroll-bar:vertical,
 .table-view > .virtual-flow > .scroll-bar:vertical > .track,
 .table-view > .virtual-flow > .scroll-bar:vertical > .track-background
