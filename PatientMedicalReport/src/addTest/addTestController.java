@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
@@ -168,7 +171,7 @@ public class addTestController implements Initializable {
 	public void addTest(ActionEvent event) throws Exception {
 
 		// insert new test
-		if (validateFields() && validateDate()) {
+		if (validateFields() && validateDate() && validateDrName()) {
 			generatePdfReport();
 			String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
 			String insert = "INSERT into patient_reportmasterdata (regNumber,ref_doctor,testName,testDate,reportDate,patientHistory,testDescription,impression,note,folderPath,active,created_timestamp,modified_timestamp)"
@@ -269,6 +272,26 @@ public class addTestController implements Initializable {
 			return false;
 		}
 	}
+	
+	private boolean validateDrName() { // Name Validation
+
+		Pattern p = Pattern.compile("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$");
+		Matcher m = p.matcher(refDoc.getText());
+		if (m.find() && m.group().equals(refDoc.getText())) {
+			return true;
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Dr. Subodh App");
+			alert.setHeaderText(null);
+			alert.initStyle(StageStyle.TRANSPARENT);
+			alert.setContentText("Please Enter Valid Dr. Name");
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
+			dialogPane.getStyleClass().add("myDialog");
+			alert.showAndWait();
+			return false;
+		}
+	}
 
 	private void generatePdfReport() throws Exception {
 
@@ -286,7 +309,7 @@ public class addTestController implements Initializable {
 		String value12 = note.getText();
 
 		Document document = new Document();
-		path = "C:\\Users\\Personal\\Desktop\\PatientReports\\2020\\" + pId.getText() + "_" + value1 + "_" + value9+ ".pdf";
+		path = "E:\\Users\\neebal\\Desktop\\PatientReports\\2020\\" + pId.getText() + "_" + value1 + "_" + value9+ ".pdf";
 		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
 		document.open();
 		Image image = Image.getInstance("bin/imgs/tempsnip.png");

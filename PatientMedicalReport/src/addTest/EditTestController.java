@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.sun.glass.events.ViewEvent;
 
@@ -293,6 +295,26 @@ public class EditTestController {
 			alert.setHeaderText(null);
 			alert.initStyle(StageStyle.TRANSPARENT);
 			alert.setContentText("Report Date should be greater or equal to Test Date");
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
+			dialogPane.getStyleClass().add("myDialog");
+			alert.showAndWait();
+			return false;
+		}
+	}
+	
+	private boolean validateDrName() { // Name Validation
+
+		Pattern p = Pattern.compile("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$");
+		Matcher m = p.matcher(refDoc.getText());
+		if (m.find() && m.group().equals(refDoc.getText())) {
+			return true;
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Dr. Subodh App");
+			alert.setHeaderText(null);
+			alert.initStyle(StageStyle.TRANSPARENT);
+			alert.setContentText("Please Enter Valid Dr. Name");
 			DialogPane dialogPane = alert.getDialogPane();
 			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
 			dialogPane.getStyleClass().add("myDialog");
