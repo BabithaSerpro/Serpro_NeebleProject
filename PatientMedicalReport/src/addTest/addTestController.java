@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,7 @@ import DBConnection.DBConnectivity;
 import application.MainScreenController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -48,6 +50,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.StringConverter;
 
 public class addTestController implements Initializable {
 	@FXML
@@ -125,6 +128,52 @@ public class addTestController implements Initializable {
 			e.printStackTrace();
 		}
 
+		testDate.setConverter(new StringConverter<LocalDate>()
+		{
+		    private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+		    @Override
+		    public String toString(LocalDate localDate)
+		    {
+		        if(localDate==null)
+		            return "";
+		        return dateTimeFormatter.format(localDate);
+		    }
+
+		    @Override
+		    public LocalDate fromString(String dateString)
+		    {
+		        if(dateString==null || dateString.trim().isEmpty())
+		        {
+		            return null;
+		        }
+		        return LocalDate.parse(dateString,dateTimeFormatter);
+		    }
+		});
+		
+		reportDate.setConverter(new StringConverter<LocalDate>()
+		{
+		    private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+		    @Override
+		    public String toString(LocalDate localDate)
+		    {
+		        if(localDate==null)
+		            return "";
+		        return dateTimeFormatter.format(localDate);
+		    }
+
+		    @Override
+		    public LocalDate fromString(String dateString)
+		    {
+		        if(dateString==null || dateString.trim().isEmpty())
+		        {
+		            return null;
+		        }
+		        return LocalDate.parse(dateString,dateTimeFormatter);
+		    }
+		});
+		
 		// disable editor
 		testDate.getEditor().setDisable(true);
 		testDate.setStyle("-fx-opacity: 1");
@@ -172,7 +221,7 @@ public class addTestController implements Initializable {
 
 		// insert new test
 		if (validateFields() && validateDate() && validateDrName()) {
-			generatePdfReport();
+//			generatePdfReport();
 			String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
 			String insert = "INSERT into patient_reportmasterdata (regNumber,ref_doctor,testName,testDate,reportDate,patientHistory,testDescription,impression,note,folderPath,active,created_timestamp,modified_timestamp)"
 					+ " values(?,?,?,?,?,?,?,?,?,'" + path + "','Y','" + timeStamp + "','" + timeStamp + "')";
@@ -197,6 +246,29 @@ public class addTestController implements Initializable {
 				}
 
 				if (flag > 0) { // redirecting to dashboard
+					try {
+						int pid=Integer.parseInt(pId.getText());
+						ViewPDController.refreshTestDetails(pid);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					AnchorPane pane=MainScreenController.getHomePage();
+					for(int i=0;i<pane.getChildren().size();i++) {
+						String paneID=pane.getChildren().get(i).getId();
+						switch (paneID) {
+							case "pane_Dashboard":
+								MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+								break;
+							case "pane_viewDetails":
+								MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
+								break;
+							case "pane_addTest":
+								MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+								break;
+						}
+					}
+					
 					Stage add = new Stage();
 					Parent root = FXMLLoader.load(getClass().getResource("/addTest/viewReport.fxml"));
 					Scene scene = new Scene(root);
@@ -272,7 +344,7 @@ public class addTestController implements Initializable {
 			return false;
 		}
 	}
-	
+
 	private boolean validateDrName() { // Name Validation
 
 		Pattern p = Pattern.compile("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$");
@@ -292,71 +364,71 @@ public class addTestController implements Initializable {
 			return false;
 		}
 	}
-
+	
 	private void generatePdfReport() throws Exception {
 
-		String value1 = nameL.getText();
-		String value2 = ViewPDController.getLblAge().getText();
-		String value3 = ViewPDController.getLblGender().getText();
-		String value4 = refDoc.getText();
-		String value5 = pId.getText();
-		String value6 = ((TextField) testDate.getEditor()).getText();
-		String value7 = ((TextField) reportDate.getEditor()).getText();
-		String value8 = phistory.getText();
-		String value9 = testName.getSelectionModel().getSelectedItem();
-		String value10 = tDesc.getText();
-		String value11 = impression.getText();
-		String value12 = note.getText();
+//		String value1 = nameL.getText();
+//		String value2 = ViewPDController.getLblAge().getText();
+//		String value3 = ViewPDController.getLblGender().getText();
+//		String value4 = refDoc.getText();
+//		String value5 = pId.getText();
+//		String value6 = ((TextField) testDate.getEditor()).getText();
+//		String value7 = ((TextField) reportDate.getEditor()).getText();
+//		String value8 = phistory.getText();
+//		String value9 = testName.getSelectionModel().getSelectedItem();
+//		String value10 = tDesc.getText();
+//		String value11 = impression.getText();
+//		String value12 = note.getText();
 
-		Document document = new Document();
-		path = "E:\\Users\\neebal\\Desktop\\PatientReports\\2020\\" + pId.getText() + "_" + value1 + "_" + value9+ ".pdf";
-		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
-		document.open();
-		Image image = Image.getInstance("bin/imgs/tempsnip.png");
-		image.setAlignment(Element.ALIGN_CENTER);
-		document.add(image);
-		Paragraph name = new Paragraph("Patient Name:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-		name.setAlignment(Element.ALIGN_CENTER);
-		name.add(value1);
-		document.add(name);
-		Paragraph age = new Paragraph("Age:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-		age.add(value2);
-		document.add(age);
-		Paragraph gender = new Paragraph("Gender:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-		gender.add(value3);
-		document.add(gender);
-		Paragraph refDoc = new Paragraph("Ref Doctor:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-		refDoc.add(value4);
-		document.add(refDoc);
-		Paragraph pId = new Paragraph("PatientId:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-		pId.add(value5);
-		document.add(pId);
-		Paragraph testDate = new Paragraph("Test Date:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-		testDate.add(value6);
-		document.add(testDate);
-		Paragraph repDate = new Paragraph("Report Date:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-		repDate.add(value7);
-		document.add(repDate);
-		Paragraph pHistory = new Paragraph("Patient History:",
-				FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-		pHistory.add(value8);
-		document.add(pHistory);
-		Paragraph testName = new Paragraph("Test Name:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-		testName.add(value9);
-		document.add(testName);
-		Paragraph testDesc = new Paragraph("Test Description:",
-				FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-		testDesc.add(value10);
-		document.add(testDesc);
-		Paragraph impression = new Paragraph("Impression:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-		impression.add(value11);
-		document.add(impression);
-		Paragraph note = new Paragraph("Note:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-		note.add(value12);
-		document.add(note);
-
-		document.close();
-		writer.close();
+//		Document document = new Document();
+//		path = "C:\\Users\\Personal\\Desktop\\PatientReports\\2020\\" + pId.getText() + "_" + value1 + "_" + value9+ ".pdf";
+//		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
+//		document.open();
+//		Image image = Image.getInstance("bin/imgs/tempsnip.png");
+//		image.setAlignment(Element.ALIGN_CENTER);
+//		document.add(image);
+//		Paragraph name = new Paragraph("Patient Name:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+//		name.setAlignment(Element.ALIGN_CENTER);
+//		name.add(value1);
+//		document.add(name);
+//		Paragraph age = new Paragraph("Age:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+//		age.add(value2);
+//		document.add(age);
+//		Paragraph gender = new Paragraph("Gender:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+//		gender.add(value3);
+//		document.add(gender);
+//		Paragraph refDoc = new Paragraph("Ref Doctor:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+//		refDoc.add(value4);
+//		document.add(refDoc);
+//		Paragraph pId = new Paragraph("PatientId:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+//		pId.add(value5);
+//		document.add(pId);
+//		Paragraph testDate = new Paragraph("Test Date:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+//		testDate.add(value6);
+//		document.add(testDate);
+//		Paragraph repDate = new Paragraph("Report Date:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+//		repDate.add(value7);
+//		document.add(repDate);
+//		Paragraph pHistory = new Paragraph("Patient History:",
+//				FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+//		pHistory.add(value8);
+//		document.add(pHistory);
+//		Paragraph testName = new Paragraph("Test Name:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+//		testName.add(value9);
+//		document.add(testName);
+//		Paragraph testDesc = new Paragraph("Test Description:",
+//				FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+//		testDesc.add(value10);
+//		document.add(testDesc);
+//		Paragraph impression = new Paragraph("Impression:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+//		impression.add(value11);
+//		document.add(impression);
+//		Paragraph note = new Paragraph("Note:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
+//		note.add(value12);
+//		document.add(note);
+//
+//		document.close();
+//		writer.close();
 
 	}
 
@@ -366,10 +438,10 @@ public class addTestController implements Initializable {
 			String paneID = pane.getChildren().get(i).getId();
 			switch (paneID) {
 			case "pane_Dashboard":
-				MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
+				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
 				break;
 			case "pane_viewDetails":
-				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+				MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
 				break;
 			case "pane_newPatient":
 				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);

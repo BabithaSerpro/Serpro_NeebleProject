@@ -13,11 +13,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
@@ -158,7 +158,6 @@ public class ViewPDController {
 			TestData.addDeleteButton(pid,con);
 			tblTestTable.setItems(testData);
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Dr Subodh App");
 			alert.setHeaderText(null);
@@ -187,7 +186,6 @@ public class ViewPDController {
 			}
 			tblTestTable.setItems(testData);
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Dr Subodh App");
 			alert.setHeaderText(null);

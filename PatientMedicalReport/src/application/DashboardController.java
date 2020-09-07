@@ -32,8 +32,6 @@ public class DashboardController {
 	private TableView<PatientData> tbl_patientDetails;
 
 	@FXML
-	private TableColumn<PatientData, Integer> SNo;
-	@FXML
 	private TableColumn<PatientData, Integer> pID;
 	@FXML
 	private TableColumn<PatientData, String> pName;
@@ -58,7 +56,6 @@ public class DashboardController {
 	public void initialize() throws ClassNotFoundException, SQLException {
 		tblPatientTable = tbl_patientDetails;
 		assert tbl_patientDetails != null : "fx:id=\"tbl_patientDetails\" was not injected: check your FXML file 'Dashboard.fxml'.";
-		SNo.setCellValueFactory(new PropertyValueFactory<PatientData, Integer>("serialNum"));
 		pID.setCellValueFactory(new PropertyValueFactory<PatientData, Integer>("patientId"));
 		pName.setCellValueFactory(new PropertyValueFactory<PatientData, String>("patientName"));
 		pAge.setCellValueFactory(new PropertyValueFactory<PatientData, String>("age"));
@@ -107,7 +104,6 @@ public class DashboardController {
 			ResultSet rs = con.createStatement().executeQuery(SQL);
 			while (rs.next()) {
 				PatientData pd = new PatientData();
-				pd.serialNum.set(rs.getRow());
 				pd.patientId.set(rs.getInt("patient_id"));
 				pd.patientName.set(rs.getString("patient_name"));
 				pd.dob.set(rs.getString("dob"));

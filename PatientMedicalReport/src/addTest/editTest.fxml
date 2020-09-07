@@ -18,12 +18,12 @@
           <children>
 		      <Label layoutX="22.0" layoutY="13.0" prefHeight="25.0" prefWidth="150.0" text="Test Name" textFill="#a2a5a8" />
 		      <ComboBox fx:id="testName" layoutX="22.0" layoutY="40.0" prefHeight="41.0" prefWidth="371.0" promptText="Select Test" style="-fx-background-color: white;" />
-              <TextField fx:id="txt_testname" layoutX="22.0" layoutY="40.0" prefHeight="40.0" prefWidth="346.0" />
-		      <DatePicker fx:id="testDate" layoutX="500.0" layoutY="40.0" onAction="#getSelectedTestDate" prefHeight="41.0" prefWidth="278.0" promptText="Select Test Date" />
+              <TextField fx:id="txt_testname" editable="false" layoutX="22.0" layoutY="40.0" prefHeight="40.0" prefWidth="345.0" promptText="Select Test" />
+		     <DatePicker fx:id="testDate" layoutX="500.0" layoutY="40.0" onAction="#getSelectedTestDate" prefHeight="41.0" prefWidth="278.0" promptText="Select Test Date" />
+             <DatePicker fx:id="reportDate" layoutX="500.0" layoutY="109.0" onAction="#getSelectedReportDate" prefHeight="41.0" prefWidth="278.0" promptText="Select Report Date" />
+              <TextField fx:id="txt_testdate" editable="false" layoutX="501.0" layoutY="40.0" prefHeight="40.0" prefWidth="251.0" promptText="Select Test Date" />
 		      <TextField fx:id="refDoc" layoutX="22.0" layoutY="109.0" prefHeight="41.0" prefWidth="371.0" promptText="Enter Doctor Name" />
 		      <TextArea fx:id="phistory" layoutX="23.0" layoutY="182.0" prefHeight="60.0" prefWidth="756.0" />
-              <TextField fx:id="txt_testdate" layoutX="500.0" layoutY="40.0" prefHeight="40.0" prefWidth="251.0" promptText="Select Test Date" />
-		      <DatePicker fx:id="reportDate" layoutX="500.0" layoutY="109.0" onAction="#getSelectedReportDate" prefHeight="41.0" prefWidth="278.0" promptText="Select Report Date" />
 		      <TextField fx:id="txt_reportdate" editable="false" layoutX="501.0" layoutY="109.0" prefHeight="40.0" prefWidth="251.0" promptText="Select Report Date" />
 		      <TextArea fx:id="tDesc" layoutX="22.0" layoutY="270.0" prefHeight="146.0" prefWidth="756.0" />
 		      <TextArea fx:id="impression" layoutX="22.0" layoutY="445.0" prefHeight="51.0" prefWidth="756.0" />
@@ -45,6 +45,7 @@
 		      <Label layoutX="24.0" layoutY="242.0" prefHeight="27.0" prefWidth="330.0" text="Test Description and Observations" textFill="#a2a5a8" />
 		      <Label layoutX="26.0" layoutY="416.0" prefHeight="17.0" prefWidth="228.0" text="Impressions" textFill="#a2a5a8" />
 		      <Label layoutX="28.0" layoutY="498.0" prefHeight="17.0" prefWidth="74.0" text="Note" textFill="#a2a5a8" />
+                  
           </children>
           </AnchorPane>
         </content>

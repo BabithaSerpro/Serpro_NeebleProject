@@ -9,63 +9,63 @@
 
 <AnchorPane id="pane_viewDetails" fx:id="pane_viewDetails" prefHeight="546.0" prefWidth="800.0" style="-fx-background-color: #ffffff;" stylesheets="@../cssFiles/viewPatient.css" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewPatient.ViewPDController">
    <children>
-      <Label layoutX="39.0" layoutY="138.0" prefHeight="30.0" prefWidth="130.0" text="Patient Name" textFill="#a2a5a8" AnchorPane.leftAnchor="60.0">
+      <Label layoutX="60.0" layoutY="115.0" prefHeight="30.0" prefWidth="130.0" text="Patient Name" textFill="#a2a5a8" AnchorPane.leftAnchor="60.0">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="443.0" layoutY="201.0" text="Age" textFill="#a2a5a8" AnchorPane.leftAnchor="480.0">
+      <Label layoutX="480.0" layoutY="178.0" text="Age" textFill="#a2a5a8" AnchorPane.leftAnchor="480.0">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="42.0" layoutY="201.0" prefHeight="29.0" prefWidth="120.0" text="Date Of Birth" textFill="#a2a5a8" AnchorPane.leftAnchor="60.0">
+      <Label layoutX="60.0" layoutY="178.0" prefHeight="29.0" prefWidth="120.0" text="Date Of Birth" textFill="#a2a5a8" AnchorPane.leftAnchor="60.0">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="443.0" layoutY="138.0" prefHeight="27.0" prefWidth="61.0" text="Email" textFill="#a2a5a8" AnchorPane.leftAnchor="480.0">
+      <Label layoutX="480.0" layoutY="115.0" prefHeight="27.0" prefWidth="61.0" text="Email" textFill="#a2a5a8" AnchorPane.leftAnchor="480.0">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="443.0" layoutY="73.0" prefHeight="27.0" prefWidth="71.0" text="Gender" textFill="#a2a5a8" AnchorPane.leftAnchor="480.0">
+      <Label layoutX="480.0" layoutY="50.0" prefHeight="27.0" prefWidth="71.0" text="Gender" textFill="#a2a5a8" AnchorPane.leftAnchor="480.0">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="39.0" layoutY="73.0" text="Mobile Number" textFill="#a2a5a8" AnchorPane.leftAnchor="60.0">
+      <Label layoutX="60.0" layoutY="50.0" text="Mobile Number" textFill="#a2a5a8" AnchorPane.leftAnchor="60.0">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label fx:id="lbl_mobileNumber" layoutX="72.0" layoutY="104.0" prefHeight="25.0" prefWidth="144.0" textFill="#2eacd5" AnchorPane.leftAnchor="86.0">
+      <Label fx:id="lbl_mobileNumber" layoutX="86.0" layoutY="81.0" prefHeight="25.0" prefWidth="144.0" textFill="#2eacd5" AnchorPane.leftAnchor="86.0">
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Label fx:id="lbl_age" layoutX="466.0" layoutY="236.0" prefHeight="25.0" prefWidth="188.0" textFill="#2eacd5" AnchorPane.leftAnchor="510.0">
+      <Label fx:id="lbl_age" layoutX="510.0" layoutY="213.0" prefHeight="25.0" prefWidth="188.0" textFill="#2eacd5" AnchorPane.leftAnchor="510.0">
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Label fx:id="lbl_email" layoutX="454.0" layoutY="174.0" prefHeight="25.0" prefWidth="207.0" textFill="#2eacd5" AnchorPane.leftAnchor="510.0">
+      <Label fx:id="lbl_email" layoutX="510.0" layoutY="151.0" prefHeight="25.0" prefWidth="207.0" textFill="#2eacd5" AnchorPane.leftAnchor="510.0">
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Label fx:id="lbl_gender" layoutX="464.0" layoutY="104.0" prefHeight="25.0" prefWidth="163.0" textFill="#2eacd5" AnchorPane.leftAnchor="510.0">
+      <Label fx:id="lbl_gender" layoutX="510.0" layoutY="81.0" prefHeight="25.0" prefWidth="163.0" textFill="#2eacd5" AnchorPane.leftAnchor="510.0">
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Label fx:id="lbl_dob" layoutX="66.0" layoutY="236.0" prefHeight="25.0" prefWidth="242.0" textFill="#2eacd5" AnchorPane.leftAnchor="86.0">
+      <Label fx:id="lbl_dob" layoutX="86.0" layoutY="213.0" prefHeight="25.0" prefWidth="242.0" textFill="#2eacd5" AnchorPane.leftAnchor="86.0">
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Label fx:id="lbl_patientName" layoutX="73.0" layoutY="174.0" prefHeight="25.0" prefWidth="207.0" textFill="#2eacd5" AnchorPane.leftAnchor="86.0">
+      <Label fx:id="lbl_patientName" layoutX="86.0" layoutY="151.0" prefHeight="25.0" prefWidth="207.0" textFill="#2eacd5" AnchorPane.leftAnchor="86.0">
          <font>
             <Font size="16.0" />
          </font></Label>
-      <Button fx:id="btn_addTest" layoutX="683.0" layoutY="487.0" mnemonicParsing="false" onAction="#addTest" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #2eacd5;;" text="Add Test" textFill="#f8f8f8">
+      <Button fx:id="btn_addTest" layoutX="682.0" layoutY="494.0" mnemonicParsing="false" onAction="#addTest" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #2eacd5;;" text="Add Test" textFill="#f8f8f8">
          <font>
             <Font size="18.0" />
          </font></Button>
-      <TableView fx:id="tbl_testDetails" layoutX="20.0" layoutY="291.0" prefHeight="183.0" prefWidth="763.0">
+      <TableView fx:id="tbl_testDetails" layoutX="20.0" layoutY="249.0" prefHeight="237.0" prefWidth="763.0">
         <columns>
-        	<TableColumn fx:id="clm_testName" prefWidth="288.0" text="Test Name" />
-          <TableColumn fx:id="clm_tDate" prefWidth="120.0" text="Date" />
-          <TableColumn fx:id="clm_status" prefWidth="93.0" text="Status" />
+        	<TableColumn fx:id="clm_testName" prefWidth="364.0" text="Test Name" />
+          <TableColumn fx:id="clm_tDate" prefWidth="97.0" text="Date" />
+          <TableColumn fx:id="clm_status" prefWidth="95.0" text="Status" />
         </columns>
       </TableView>
       <AnchorPane prefHeight="40.0" prefWidth="800.0" style="-fx-background-color: #2eacd5;;">
