@@ -140,7 +140,7 @@ public class ViewPDController {
 
 	public static void ViewTestDetails(int pid) throws SQLException {
 		testData.clear();
-		String SQL_view = "SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "'";
+		String SQL_view = "SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' and active='Y'";
 		try {
 			ResultSet rs = con.createStatement().executeQuery(SQL_view);
 			while (rs.next()) {

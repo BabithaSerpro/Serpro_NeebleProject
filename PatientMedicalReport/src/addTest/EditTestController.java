@@ -39,143 +39,137 @@ import viewPatient.ViewPDController;
 public class EditTestController {
 
 	@FXML
-    private AnchorPane pane_editTest;
+	private AnchorPane pane_editTest;
 
-    @FXML
-    private ComboBox<String> testName;
-    
-    @FXML
-    private TextField txt_testname;
-    
-    @FXML
-    private DatePicker testDate;
+	@FXML
+	private ComboBox<String> testName;
 
-    @FXML
-    private TextField txt_testdate;
-    
-    @FXML
-    private TextField refDoc;
+	@FXML
+	private TextField txt_testname;
 
-    @FXML
-    private DatePicker reportDate;
+	@FXML
+	private DatePicker testDate;
 
-    @FXML
-    private TextField txt_reportdate;
-    
-    @FXML
-    private TextArea phistory;
+	@FXML
+	private TextField txt_testdate;
 
-    @FXML
-    private TextArea tDesc;
+	@FXML
+	private TextField refDoc;
 
-    @FXML
-    private TextArea impression;
+	@FXML
+	private DatePicker reportDate;
 
-    @FXML
-    private TextArea note;
+	@FXML
+	private TextField txt_reportdate;
 
-    @FXML
-    private Button cancelBtn;
+	@FXML
+	private TextArea phistory;
 
-    @FXML
-    private Button btn_update;
+	@FXML
+	private TextArea tDesc;
 
-    @FXML
-    private Label pId;
+	@FXML
+	private TextArea impression;
 
-    @FXML
-    private Label lblName;
+	@FXML
+	private TextArea note;
 
-    private static Connection con;
-    private PreparedStatement ps;
-    private int flag;
-    private static ComboBox<String> test_Name;
-    private static DatePicker test_date,report_date;
-    private static TextField ref_doc,txtTestdate,txtReportdate,txtTestname; 
-    private static TextArea p_history,test_desc,p_impression,p_note;
-    private static Button btnupdate;
-    private static Label lbl_id,lbl_name;
-    
-    public static int test_id;
-    public int getTest_id() {
+	@FXML
+	private Button cancelBtn;
+
+	@FXML
+	private Button btn_update;
+
+	@FXML
+	private Label pId;
+
+	@FXML
+	private Label lblName;
+
+	private static Connection con;
+	private PreparedStatement ps;
+	private int flag;
+	private static ComboBox<String> test_Name;
+	private static DatePicker test_date, report_date;
+	private static TextField ref_doc, txtTestdate, txtReportdate, txtTestname;
+	private static TextArea p_history, test_desc, p_impression, p_note;
+	private static Button btnupdate;
+	private static Label lbl_id, lbl_name;
+
+	public static int test_id;
+
+	public int getTest_id() {
 		return test_id;
 	}
 
 	public static void setTest_id(int tID) {
 		test_id = tID;
 	}
-	
+
 	public static String currentDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-	boolean testdateSelected=false;
+	boolean testdateSelected = false;
+
 	@FXML
 	public void initialize() throws ClassNotFoundException, SQLException {
-    	test_Name=testName;
-    	txtReportdate=txt_reportdate;
-    	txtTestname=txt_testname;
-    	txtTestdate=txt_testdate;
-    	btnupdate=btn_update;
-    	ref_doc=refDoc;
-    	p_history=phistory;
-    	test_desc=tDesc;
-    	p_impression=impression;
-    	p_note=note;
-    	lbl_id=pId;
-    	lbl_name=lblName;
+		test_Name = testName;
+		txtReportdate = txt_reportdate;
+		txtTestname = txt_testname;
+		txtTestdate = txt_testdate;
+		btnupdate = btn_update;
+		ref_doc = refDoc;
+		p_history = phistory;
+		test_desc = tDesc;
+		p_impression = impression;
+		p_note = note;
+		lbl_id = pId;
+		lbl_name = lblName;
 		con = DBConnectivity.getConnection();
-		
+
 		pId.setText(ViewPDController.getLblID().getText());
 		lblName.setText(ViewPDController.getLblPName().getText());
-		
+
 		testName.valueProperty().addListener((o, ov, nv) -> {
 			txt_testname.setText(testName.getSelectionModel().getSelectedItem().toString());
-        });
-		
-		testDate.setConverter(new StringConverter<LocalDate>()
-		{
-		    private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-		    @Override
-		    public String toString(LocalDate localDate)
-		    {
-		        if(localDate==null)
-		            return "";
-		        return dateTimeFormatter.format(localDate);
-		    }
-
-		    @Override
-		    public LocalDate fromString(String dateString)
-		    {
-		        if(dateString==null || dateString.trim().isEmpty())
-		        {
-		            return null;
-		        }
-		        return LocalDate.parse(dateString,dateTimeFormatter);
-		    }
 		});
-		
-		reportDate.setConverter(new StringConverter<LocalDate>()
-		{
-		    private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-		    @Override
-		    public String toString(LocalDate localDate)
-		    {
-		        if(localDate==null)
-		            return "";
-		        return dateTimeFormatter.format(localDate);
-		    }
+		testDate.setConverter(new StringConverter<LocalDate>() {
+			private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-		    @Override
-		    public LocalDate fromString(String dateString)
-		    {
-		        if(dateString==null || dateString.trim().isEmpty())
-		        {
-		            return null;
-		        }
-		        return LocalDate.parse(dateString,dateTimeFormatter);
-		    }
+			@Override
+			public String toString(LocalDate localDate) {
+				if (localDate == null)
+					return "";
+				return dateTimeFormatter.format(localDate);
+			}
+
+			@Override
+			public LocalDate fromString(String dateString) {
+				if (dateString == null || dateString.trim().isEmpty()) {
+					return null;
+				}
+				return LocalDate.parse(dateString, dateTimeFormatter);
+			}
 		});
-		
+
+		reportDate.setConverter(new StringConverter<LocalDate>() {
+			private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+			@Override
+			public String toString(LocalDate localDate) {
+				if (localDate == null)
+					return "";
+				return dateTimeFormatter.format(localDate);
+			}
+
+			@Override
+			public LocalDate fromString(String dateString) {
+				if (dateString == null || dateString.trim().isEmpty()) {
+					return null;
+				}
+				return LocalDate.parse(dateString, dateTimeFormatter);
+			}
+		});
+
 		// disable editor
 		testDate.getEditor().setDisable(true);
 		testDate.setStyle("-fx-opacity: 1");
@@ -200,7 +194,7 @@ public class EditTestController {
 				setDisable(empty || date.compareTo(LocalDate.now()) > 0);
 			}
 		});
-		
+
 		try {
 			testName.setItems(FXCollections.observableArrayList(dropDownValue()));
 		} catch (Exception e) {
@@ -212,18 +206,19 @@ public class EditTestController {
 			e.printStackTrace();
 		}
 	}
-    
-    @FXML
-    void getSelectedTestDate(ActionEvent event) {
-    	testdateSelected=true;
-    	txt_testdate.setText(((TextField) testDate.getEditor()).getText()); 
-    }
 
-    @FXML
-    void getSelectedReportDate(ActionEvent event) {
-    	txt_reportdate.setText(((TextField) reportDate.getEditor()).getText()); 
-    }
-    public List<String> dropDownValue() throws Exception {
+	@FXML
+	void getSelectedTestDate(ActionEvent event) {
+		testdateSelected = true;
+		txt_testdate.setText(((TextField) testDate.getEditor()).getText());
+	}
+
+	@FXML
+	void getSelectedReportDate(ActionEvent event) {
+		txt_reportdate.setText(((TextField) reportDate.getEditor()).getText());
+	}
+
+	public List<String> dropDownValue() throws Exception {
 		List<String> options = new ArrayList<String>();
 
 		ps = con.prepareStatement("SELECT testname FROM testdetails");
@@ -237,11 +232,12 @@ public class EditTestController {
 		return options;
 
 	}
-    public static void editTestDetails(int tID) throws SQLException {
+
+	public static void editTestDetails(int tID) throws SQLException {
 		String SQL_view = "SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'";
 		setTest_id(tID);
 		try {
-			
+
 			ResultSet rs = con.createStatement().executeQuery(SQL_view);
 			while (rs.next()) {
 				txtTestname.setText(rs.getString("testName"));
@@ -253,47 +249,41 @@ public class EditTestController {
 				p_impression.setText(rs.getString("impression"));
 				p_note.setText(rs.getString("note"));
 			}
-			
+
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
 
-	public void cancelBtn(ActionEvent event) throws IOException {
-		AnchorPane pane = MainScreenController.getHomePage();
-		for (int i = 0; i < pane.getChildren().size(); i++) {
-			String paneID = pane.getChildren().get(i).getId();
-			switch (paneID) {
-			case "pane_Dashboard":
-				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-				break;
-			case "pane_viewDetails":
-				MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
-				break;
-			case "pane_newPatient":
-				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-				break;
-			case "pane_editTest":
-				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-				break;
-			}
-		}
-	}
-    
-    public void updateTest() throws NumberFormatException, ParseException {
-    	if (validateFields() && validateDate() && validateDrName()) {
-    		String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
-    		
+	/*
+	 * public void cancelBtn(ActionEvent event) throws IOException { AnchorPane pane
+	 * = MainScreenController.getHomePage(); for (int i = 0; i <
+	 * pane.getChildren().size(); i++) { String paneID =
+	 * pane.getChildren().get(i).getId(); switch (paneID) { case "pane_Dashboard":
+	 * MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+	 * break; case "pane_viewDetails":
+	 * MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
+	 * break; case "pane_newPatient":
+	 * MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+	 * break; case "pane_editTest":
+	 * MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+	 * break; } } }
+	 */
+
+	public void updateTest() throws NumberFormatException, ParseException {
+		if (validateFields() && validateDate() && validateDrName()) {
+			String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
+
 			String update = "UPDATE patient_reportmasterdata SET regNumber=?,"
 					+ "ref_doctor=?,testName=?,testDate=?,reportDate=?,patientHistory=?,"
-					+ "testDescription=?,impression=?,note=?,active='Y',"
-					+ " modified_timestamp='"+ timeStamp +"' WHERE id=?";
-			
+					+ "testDescription=?,impression=?,note=?,active='Y'," + " modified_timestamp='" + timeStamp
+					+ "' WHERE id=?";
+
 			con = DBConnectivity.getConnection();
 			try {
 				ps = con.prepareStatement(update);
-				int pid=Integer.parseInt(pId.getText());
+				int pid = Integer.parseInt(pId.getText());
 				ps.setInt(1, pid);
 				ps.setString(2, refDoc.getText());
 				ps.setString(3, txtTestname.getText());
@@ -321,19 +311,19 @@ public class EditTestController {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							AnchorPane pane=MainScreenController.getHomePage();
-							for(int i=0;i<pane.getChildren().size();i++) {
-								String paneID=pane.getChildren().get(i).getId();
+							AnchorPane pane = MainScreenController.getHomePage();
+							for (int i = 0; i < pane.getChildren().size(); i++) {
+								String paneID = pane.getChildren().get(i).getId();
 								switch (paneID) {
-									case "pane_Dashboard":
-										MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-										break;
-									case "pane_viewDetails":
-										MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
-										break;
-									case "pane_editTest":
-										MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-										break;
+								case "pane_Dashboard":
+									MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+									break;
+								case "pane_viewDetails":
+									MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
+									break;
+								case "pane_editTest":
+									MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+									break;
 								}
 							}
 						}
@@ -344,10 +334,10 @@ public class EditTestController {
 			} catch (SQLException e) { // catching exception if any backend error occurs
 				e.printStackTrace();
 			}
-    	}
-    }
-    
-    public boolean validateFields() { // null validation of field
+		}
+	}
+
+	public boolean validateFields() { // null validation of field
 		if (txtTestname.getText().isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
@@ -388,14 +378,14 @@ public class EditTestController {
 	}
 
 	public boolean validateDate() throws ParseException { // Mobile No. Validation
-		
-		String tdateValue=txt_testdate.getText();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate tdate = LocalDate.parse(tdateValue, format); 
-		String rdateValue=txt_reportdate.getText();
-        LocalDate rdate = LocalDate.parse(rdateValue, format); 
-       
-        if (rdate.equals(tdate)) {
+
+		String tdateValue = txt_testdate.getText();
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate tdate = LocalDate.parse(tdateValue, format);
+		String rdateValue = txt_reportdate.getText();
+		LocalDate rdate = LocalDate.parse(rdateValue, format);
+
+		if (rdate.equals(tdate)) {
 			return true;
 		} else if (rdate.isAfter(tdate)) {
 			return true;
@@ -412,8 +402,8 @@ public class EditTestController {
 			return false;
 		}
 	}
-    
-    private boolean validateDrName() { // Name Validation
+
+	private boolean validateDrName() { // Name Validation
 
 		Pattern p = Pattern.compile("^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$");
 		Matcher m = p.matcher(refDoc.getText());
@@ -433,5 +423,46 @@ public class EditTestController {
 		}
 	}
 
+	public void cancelBtn(ActionEvent event) throws IOException {
+		// checking if any data present
+		if (txtTestname.getText() != null || txtTestdate.getText()!= null || txtReportdate.getText()!= null 
+				||phistory.getText() != null
+				|| tDesc.getText() != null || impression.getText() != null ||note.getText() != null){
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			alert.setTitle("Dr Subodh App");
+			alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+			alert.getDialogPane().setHeaderText("Are you Sure You want to Cancel!! Details not saved!!");
+			alert.showAndWait().ifPresent(bt -> {
+				if (bt == ButtonType.YES) {
+					close();
+				} else if (bt == ButtonType.NO) {
+					event.consume();
+				}
+			});
+		} else {
+			close();
+		}
+	}
 
+	public static void close() {
+	AnchorPane pane = MainScreenController.getHomePage();
+	for (int i = 0; i < pane.getChildren().size(); i++) {
+		String paneID = pane.getChildren().get(i).getId();
+		switch (paneID) {
+		case "pane_Dashboard":
+			MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+			break;
+		case "pane_viewDetails":
+			MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
+			break;
+		case "pane_newPatient":
+			MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+			break;
+		case "pane_editTest":
+			MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+			break;
+		}
+	}
+
+}
 }
