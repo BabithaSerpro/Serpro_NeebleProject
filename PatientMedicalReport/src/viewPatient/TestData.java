@@ -180,7 +180,7 @@ public class TestData {
                     	btn.setOnAction((ActionEvent event) -> {
                         	TestData data = getTableView().getItems().get(getIndex());
                         	
-                        	String SQL_delete = "DELETE FROM patient_reportmasterdata WHERE id='" + data.gettId() + "'";
+                        	String SQL_delete = "update patient_reportmasterdata set active ='N' WHERE id='" + data.gettId() + "'";
                         	try {
 								con.createStatement().executeUpdate(SQL_delete);
 								ViewPDController.refreshTestDetails(pid);

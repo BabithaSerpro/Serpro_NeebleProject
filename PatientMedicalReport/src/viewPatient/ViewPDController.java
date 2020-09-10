@@ -1,6 +1,4 @@
 package viewPatient;
-
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -173,7 +171,7 @@ public class ViewPDController {
 
 	public static void refreshTestDetails(int pid) throws SQLException {
 		testData.clear();
-		String SQL_view = "SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "'";
+		String SQL_view = "SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' and active='Y'";
 		try {
 			ResultSet rs = con.createStatement().executeQuery(SQL_view);
 			while (rs.next()) {
