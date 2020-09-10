@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="pane_viewDetails" fx:id="pane_viewDetails" prefHeight="546.0" prefWidth="800.0" style="-fx-background-color: #ffffff;" stylesheets="@../cssFiles/viewPatient.css" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewPatient.ViewPDController">
+<AnchorPane id="pane_viewDetails" fx:id="pane_viewDetails" prefHeight="546.0" prefWidth="800.0" style="-fx-background-color: #ffffff;" stylesheets="@../cssFiles/viewPatient.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewPatient.ViewPDController">
    <children>
       <Label layoutX="60.0" layoutY="115.0" prefHeight="30.0" prefWidth="130.0" text="Patient Name" textFill="#a2a5a8" AnchorPane.leftAnchor="60.0">
          <font>

@@ -1,5 +1,6 @@
 package viewPatient;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +10,11 @@ import application.DashboardController;
 import application.MainScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -20,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class ViewPDController {
 	@FXML
@@ -155,7 +159,7 @@ public class ViewPDController {
 			}
 			TestData.addViewButton(pid);
 			TestData.addEditButton(pid);
-			TestData.addDeleteButton(pid,con);
+			TestData.addDeleteButton(pid, con);
 			tblTestTable.setItems(testData);
 		} catch (SQLException e1) {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -166,7 +170,7 @@ public class ViewPDController {
 			e1.printStackTrace();
 		}
 	}
-	
+
 	public static void refreshTestDetails(int pid) throws SQLException {
 		testData.clear();
 		String SQL_view = "SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "'";
@@ -196,7 +200,7 @@ public class ViewPDController {
 	}
 
 	@FXML
-	public void addTest() {
+	public void addTest(ActionEvent event) {
 		try {
 			AnchorPane pane = MainScreenController.getHomePage();
 			for (int i = 0; i < pane.getChildren().size(); i++) {
@@ -221,16 +225,17 @@ public class ViewPDController {
 	}
 
 	@FXML
-	public void editDetails() {
-		try {
-
-		} catch (Exception e) {
-
-		}
+	public void editDetails(ActionEvent event) throws Exception {
+		btn_edit.getScene().getWindow();
+		Stage add = new Stage();
+		Parent root = FXMLLoader.load(getClass().getResource("/addPatient/editPatient.fxml"));
+		Scene scene = new Scene(root);
+		add.setScene(scene);
+		add.show();
 	}
 
 	@FXML
-	public void closeTab() {
+	public void closeTab(ActionEvent event) {
 		try {
 			AnchorPane pane = MainScreenController.getHomePage();
 			for (int i = 0; i < pane.getChildren().size(); i++) {
