@@ -33,6 +33,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.stage.StageStyle;
+import screens.HomePageController;
 
 public class viewReportController {
 
@@ -159,6 +160,7 @@ public class viewReportController {
 	@FXML
     void downloadReport(ActionEvent event) {
 		try {
+			
 			btn_download.setVisible(false);
 	    	btn_print.setVisible(false);
 			double pixelScale=2.0;
@@ -237,7 +239,8 @@ public class viewReportController {
 	}
 	
 	@FXML
-    void printReport(ActionEvent event) {
+    void printReport(ActionEvent event) throws Exception {
+
 		Printer printer = Printer.getDefaultPrinter();
 		printer.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.HARDWARE_MINIMUM);
 	    PageLayout pageLayout=printer.getDefaultPageLayout();

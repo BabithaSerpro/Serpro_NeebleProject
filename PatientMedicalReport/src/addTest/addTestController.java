@@ -49,6 +49,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
+import screens.HomePageController;
 
 public class addTestController implements Initializable {
 	@FXML
@@ -273,12 +274,16 @@ public class addTestController implements Initializable {
 				if (flag > 0) { // redirecting to dashboard
 					try {
 						int pid = Integer.parseInt(pId.getText());
-						ViewPDController.refreshTestDetails(pid);
+						ViewPDController.refreshTestDetails(pid);					
+						HomePageController.refreshtotalTestCount();
+						HomePageController.refreshtotalTestCompleted();
+						HomePageController.refreshtotalTestPending();
+						
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					AnchorPane pane = MainScreenController.getHomePage();
+					AnchorPane pane = MainScreenController.getHomePage();					
 					for (int i = 0; i < pane.getChildren().size(); i++) {
 						String paneID = pane.getChildren().get(i).getId();
 						switch (paneID) {
@@ -295,6 +300,9 @@ public class addTestController implements Initializable {
 					}
 
 					reportScreen = new Stage();
+					HomePageController.refreshtotalTestCount();
+					HomePageController.refreshtotalTestCompleted();
+					HomePageController.refreshtotalTestPending();
 					Parent root = FXMLLoader.load(getClass().getResource("/addTest/viewReport.fxml"));
 					Scene scene = new Scene(root);
 					reportScreen.setScene(scene);

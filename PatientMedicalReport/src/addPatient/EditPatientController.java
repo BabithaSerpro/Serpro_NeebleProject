@@ -98,6 +98,18 @@ public class EditPatientController implements Initializable {
 	private static RadioButton p_male,p_female,p_others;
 	private static DatePicker p_dob;
 	private int flag;
+	private static int pid;
+	
+	
+
+	public static int getPid() {
+		return pid;
+	}
+
+	public static void setPid(int pid) {
+		EditPatientController.pid = pid;
+	}
+	
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -216,6 +228,7 @@ public class EditPatientController implements Initializable {
 			}
 		}
 	}
+	
 	public void updatePatient() throws Exception {
 		if (validateFields() && validateMobileNo() && validateName() && validateEmail()) {
 			String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
@@ -233,7 +246,7 @@ public class EditPatientController implements Initializable {
 				ps.setString(4, email.getText());
 				ps.setString(5, ((TextField) dob.getEditor()).getText());
 				ps.setString(6, ageLabel.getText());
-				int pid = Integer.parseInt(pId.getText());
+				pid = Integer.parseInt(pId.getText());
 				ps.setInt(7, pid);
 
 				flag = ps.executeUpdate();

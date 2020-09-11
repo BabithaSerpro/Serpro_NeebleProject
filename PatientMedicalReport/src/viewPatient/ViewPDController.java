@@ -134,6 +134,27 @@ public class ViewPDController {
 			e1.printStackTrace();
 		}
 	}
+	
+	public static void refreshViewDetails(int patientID) throws SQLException {
+		String SQL_view = "SELECT * FROM patient_masterdata WHERE patient_id='" + patientID + "'";
+		try {
+			ResultSet rs = con.createStatement().executeQuery(SQL_view);
+			lblID.setText(String.valueOf(patientID));
+
+			while (rs.next()) {
+				lblPName_top.setText(rs.getString("patient_name"));
+				lblPName.setText(rs.getString("patient_name"));
+				lblGender.setText(rs.getString("gender"));
+				lblmobileNumber.setText(rs.getString("mobileNumber"));
+				lblEmail.setText(rs.getString("emailId"));
+				lblDoB.setText(rs.getString("dob"));
+				lblAge.setText(rs.getString("age"));
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 
 	public static void ViewTestDetails(int pid) throws SQLException {
 		testData.clear();
