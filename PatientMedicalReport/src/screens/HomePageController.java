@@ -4,7 +4,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
@@ -42,17 +41,13 @@ public class HomePageController implements Initializable {
 			totalTestPending();
 			totalTestCompleted();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
-
+	
 	public void wishes() {
 		Calendar cal = Calendar.getInstance();
-
 		int timeOfDay = cal.get(Calendar.HOUR_OF_DAY);
-
 		if (timeOfDay >= 0 && timeOfDay < 12) {
 			txt_Wshes.setText("Good Morning!");
 		} else if (timeOfDay >= 12 && timeOfDay < 16) {
@@ -63,7 +58,6 @@ public class HomePageController implements Initializable {
 			txt_Wshes.setText("Good Night!");
 		}
 	}
-
 	public void totalTestCount() throws Exception {
 
 		String totalCount = "select COUNT(*) AS totalTest from patient_reportmasterdata";

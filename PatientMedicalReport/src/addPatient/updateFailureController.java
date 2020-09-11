@@ -21,7 +21,7 @@ public class updateFailureController implements Initializable {
 
 	@FXML
 	void okBtn(ActionEvent event) {
-
+		EditPatientController.getPaneEditPatient().getChildren().remove(ok.getParent().getParent());
 	}
 
 }

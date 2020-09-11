@@ -1,5 +1,6 @@
 package addPatient;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ import java.util.regex.Pattern;
 
 import DBConnection.DBConnectivity;
 import application.MainScreenController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -91,10 +93,24 @@ public class EditPatientController implements Initializable {
 
 	private PreparedStatement ps;
 
+	private static AnchorPane paneEditPatient;
+	private static TextField mblNo,fName,p_email,p_age;
+	private static RadioButton p_male,p_female,p_others;
+	private static DatePicker p_dob;
 	private int flag;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		paneEditPatient=pane_editPatient;
+		mblNo=mobNo;
+		fName=fullName;
+		p_email=email;
+		p_age=ageLabel;
+		p_male=male;
+		p_female=female;
+		p_others=others;
+		p_dob=dob;
+		
 		pId.setText(ViewPDController.getLblID().getText());
 		pname.setText(ViewPDController.getLblPName().getText());
 
@@ -165,6 +181,41 @@ public class EditPatientController implements Initializable {
 		}
 	}
 
+	public void cancelBtn(ActionEvent event) throws IOException {
+		//checking if any data present
+		if(mblNo.getText()!=null || fName.getText()!=null || p_email.getText()!=null || p_dob.getEditor().getText()!=null || p_age.getText()!=null) {
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			alert.setTitle("Dr Subodh App");
+			alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+			alert.getDialogPane().setHeaderText("Are you Sure!! Details not saved!!");
+			alert.showAndWait().ifPresent(bt -> {
+				if (bt == ButtonType.YES) {
+					close();
+				}else if(bt == ButtonType.NO) {
+					event.consume();
+				}
+			});
+		}else {
+			close();
+		}
+	}
+	public static void close() {
+		AnchorPane pane = MainScreenController.getHomePage();
+		for (int i = 0; i < pane.getChildren().size(); i++) {
+			String paneID = pane.getChildren().get(i).getId();
+			switch (paneID) {
+			case "pane_Dashboard":
+				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+				break;
+			case "pane_viewDetails":
+				MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
+				break;
+			case "pane_editPatient":
+				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+				break;
+			}
+		}
+	}
 	public void updatePatient() throws Exception {
 		if (validateFields() && validateMobileNo() && validateName() && validateEmail()) {
 			String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
@@ -189,18 +240,12 @@ public class EditPatientController implements Initializable {
 
 				if (flag > 0) { // redirecting to dashboard
 					Parent root = FXMLLoader.load(getClass().getResource("/addPatient/successupdate.fxml"));
-					Stage primaryStage = new Stage();
-					Scene scene = new Scene(root,400,400);
-					primaryStage.setScene(scene);
-					primaryStage.show();
-					
+					paneEditPatient.getChildren().add(root);
+					clearFields();
 				} else {
 					Parent root = FXMLLoader.load(getClass().getResource("/addPatient/unsuccessUpdate.fxml"));
-					Stage primaryStage = new Stage();
-					Scene scene = new Scene(root,400,400);
-					primaryStage.setScene(scene);
-					primaryStage.show();
-					
+					paneEditPatient.getChildren().add(root);
+					clearFields();
 				}
 			} catch (SQLException e) { // catching exception if any backend error occurs
 				Parent root = FXMLLoader.load(getClass().getResource("/addPatient/failure.fxml"));
@@ -317,6 +362,18 @@ public class EditPatientController implements Initializable {
 		}
 	}
 
+	public static void clearFields() { // clearing fileds
+		mblNo.clear();
+		fName.clear();
+		p_email.clear();
+		p_dob.getEditor().setText("");
+		p_male.setSelected(false);
+		p_female.setSelected(false);
+		p_others.setSelected(false);
+		p_age.clear();
+
+	}
+	
 	private boolean validateEmail() { // Email Validation
 		if (!(email.getText().isEmpty())) {
 			Pattern p = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+");
@@ -338,6 +395,9 @@ public class EditPatientController implements Initializable {
 
 		}
 		return true;
+	}
+	public static AnchorPane getPaneEditPatient() {
+		return paneEditPatient;
 	}
 
 }

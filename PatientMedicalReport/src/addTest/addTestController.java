@@ -1,6 +1,5 @@
 package addTest;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -18,19 +17,12 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.jfoenix.controls.JFXButton;
 
 import DBConnection.DBConnectivity;
 import application.MainScreenController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,21 +30,33 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import viewPatient.ViewPDController;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
 
 public class addTestController implements Initializable {
+	@FXML
+    private AnchorPane pane_addTest;
+	
+	@FXML
+    private AnchorPane sc_pane;
+	
 	@FXML
 	private DatePicker testDate;
 
@@ -84,6 +88,9 @@ public class addTestController implements Initializable {
 	private Button gnRepBtn;
 
 	@FXML
+    private AnchorPane pane_note;
+	
+	@FXML
 	private ComboBox<String> testName;
 
 	@FXML
@@ -92,15 +99,32 @@ public class addTestController implements Initializable {
 	@FXML
 	private Label nameL;
 
+	@FXML
+	private JFXButton btn_reportTable;
+
 	private Connection connection;
 
 	private PreparedStatement ps;
 
 	private ResultSet rs;
 	private int flag;
-
 	private String path;
-	
+	public static Stage reportScreen;
+	public static AnchorPane scPane,paneAddTest;
+	private static ComboBox<String> test_Name;
+    private static DatePicker test_date,report_date;
+    private static TextField ref_doc,txtTestdate,txtReportdate,txtTestname; 
+    private static TextArea p_history,test_desc,p_impression,p_note;
+	public static JFXButton btnReport;
+
+	public static Stage getReportScreen() {
+		return reportScreen;
+	}
+
+	public static void setReportScreen(Stage reportScreen) {
+		addTestController.reportScreen = reportScreen;
+	}
+
 	public static int pTId;
 
 	public static int getpTId() {
@@ -113,7 +137,17 @@ public class addTestController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		paneAddTest=pane_addTest;
+		scPane=sc_pane;
+		btnReport=btn_reportTable;
+		test_Name=testName;
+		test_date=testDate;
+		report_date=reportDate;
+    	ref_doc=refDoc;
+    	p_history=phistory;
+    	test_desc=tDesc;
+    	p_impression=impression;
+    	p_note=note;
 		pId.setText(ViewPDController.getLblID().getText());
 		nameL.setText(ViewPDController.getLblPName().getText());
 
@@ -128,52 +162,44 @@ public class addTestController implements Initializable {
 			e.printStackTrace();
 		}
 
-		testDate.setConverter(new StringConverter<LocalDate>()
-		{
-		    private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		testDate.setConverter(new StringConverter<LocalDate>() {
+			private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-		    @Override
-		    public String toString(LocalDate localDate)
-		    {
-		        if(localDate==null)
-		            return "";
-		        return dateTimeFormatter.format(localDate);
-		    }
+			@Override
+			public String toString(LocalDate localDate) {
+				if (localDate == null)
+					return "";
+				return dateTimeFormatter.format(localDate);
+			}
 
-		    @Override
-		    public LocalDate fromString(String dateString)
-		    {
-		        if(dateString==null || dateString.trim().isEmpty())
-		        {
-		            return null;
-		        }
-		        return LocalDate.parse(dateString,dateTimeFormatter);
-		    }
+			@Override
+			public LocalDate fromString(String dateString) {
+				if (dateString == null || dateString.trim().isEmpty()) {
+					return null;
+				}
+				return LocalDate.parse(dateString, dateTimeFormatter);
+			}
 		});
-		
-		reportDate.setConverter(new StringConverter<LocalDate>()
-		{
-		    private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-		    @Override
-		    public String toString(LocalDate localDate)
-		    {
-		        if(localDate==null)
-		            return "";
-		        return dateTimeFormatter.format(localDate);
-		    }
+		reportDate.setConverter(new StringConverter<LocalDate>() {
+			private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-		    @Override
-		    public LocalDate fromString(String dateString)
-		    {
-		        if(dateString==null || dateString.trim().isEmpty())
-		        {
-		            return null;
-		        }
-		        return LocalDate.parse(dateString,dateTimeFormatter);
-		    }
+			@Override
+			public String toString(LocalDate localDate) {
+				if (localDate == null)
+					return "";
+				return dateTimeFormatter.format(localDate);
+			}
+
+			@Override
+			public LocalDate fromString(String dateString) {
+				if (dateString == null || dateString.trim().isEmpty()) {
+					return null;
+				}
+				return LocalDate.parse(dateString, dateTimeFormatter);
+			}
 		});
-		
+
 		// disable editor
 		testDate.getEditor().setDisable(true);
 		testDate.setStyle("-fx-opacity: 1");
@@ -221,10 +247,9 @@ public class addTestController implements Initializable {
 
 		// insert new test
 		if (validateFields() && validateDate() && validateDrName()) {
-//			generatePdfReport();
 			String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
-			String insert = "INSERT into patient_reportmasterdata (regNumber,ref_doctor,testName,testDate,reportDate,patientHistory,testDescription,impression,note,folderPath,active,created_timestamp,modified_timestamp)"
-					+ " values(?,?,?,?,?,?,?,?,?,'" + path + "','Y','" + timeStamp + "','" + timeStamp + "')";
+			String insert = "INSERT into patient_reportmasterdata (regNumber,ref_doctor,testName,testDate,reportDate,patientHistory,testDescription,impression,note,active,created_timestamp,modified_timestamp)"
+					+ " values(?,?,?,?,?,?,?,?,?,'Y','" + timeStamp + "','" + timeStamp + "')";
 			connection = DBConnectivity.getConnection();
 			try {
 				ps = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
@@ -247,42 +272,42 @@ public class addTestController implements Initializable {
 
 				if (flag > 0) { // redirecting to dashboard
 					try {
-						int pid=Integer.parseInt(pId.getText());
+						int pid = Integer.parseInt(pId.getText());
 						ViewPDController.refreshTestDetails(pid);
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					AnchorPane pane=MainScreenController.getHomePage();
-					for(int i=0;i<pane.getChildren().size();i++) {
-						String paneID=pane.getChildren().get(i).getId();
+					AnchorPane pane = MainScreenController.getHomePage();
+					for (int i = 0; i < pane.getChildren().size(); i++) {
+						String paneID = pane.getChildren().get(i).getId();
 						switch (paneID) {
-							case "pane_Dashboard":
-								MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-								break;
-							case "pane_viewDetails":
-								MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
-								break;
-							case "pane_addTest":
-								MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-								break;
+						case "pane_Dashboard":
+							MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+							break;
+						case "pane_viewDetails":
+							MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
+							break;
+						case "pane_addTest":
+							MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+							break;
 						}
 					}
-					
-					Stage add = new Stage();
+
+					reportScreen = new Stage();
 					Parent root = FXMLLoader.load(getClass().getResource("/addTest/viewReport.fxml"));
 					Scene scene = new Scene(root);
-					add.setScene(scene);
-					add.show();
+					reportScreen.setScene(scene);
+					reportScreen.setTitle("Patient Report");
+					reportScreen.show();
+					setReportScreen(reportScreen);
 				} else {
 					System.out.println("Not Added");
-
 				}
 			} catch (SQLException e) { // catching exception if any backend error occurs
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	public boolean validateFields() { // null validation of field
@@ -364,75 +389,29 @@ public class addTestController implements Initializable {
 			return false;
 		}
 	}
-	
-	private void generatePdfReport() throws Exception {
-
-//		String value1 = nameL.getText();
-//		String value2 = ViewPDController.getLblAge().getText();
-//		String value3 = ViewPDController.getLblGender().getText();
-//		String value4 = refDoc.getText();
-//		String value5 = pId.getText();
-//		String value6 = ((TextField) testDate.getEditor()).getText();
-//		String value7 = ((TextField) reportDate.getEditor()).getText();
-//		String value8 = phistory.getText();
-//		String value9 = testName.getSelectionModel().getSelectedItem();
-//		String value10 = tDesc.getText();
-//		String value11 = impression.getText();
-//		String value12 = note.getText();
-
-//		Document document = new Document();
-//		path = "C:\\Users\\Personal\\Desktop\\PatientReports\\2020\\" + pId.getText() + "_" + value1 + "_" + value9+ ".pdf";
-//		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
-//		document.open();
-//		Image image = Image.getInstance("bin/imgs/tempsnip.png");
-//		image.setAlignment(Element.ALIGN_CENTER);
-//		document.add(image);
-//		Paragraph name = new Paragraph("Patient Name:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-//		name.setAlignment(Element.ALIGN_CENTER);
-//		name.add(value1);
-//		document.add(name);
-//		Paragraph age = new Paragraph("Age:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-//		age.add(value2);
-//		document.add(age);
-//		Paragraph gender = new Paragraph("Gender:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-//		gender.add(value3);
-//		document.add(gender);
-//		Paragraph refDoc = new Paragraph("Ref Doctor:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-//		refDoc.add(value4);
-//		document.add(refDoc);
-//		Paragraph pId = new Paragraph("PatientId:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-//		pId.add(value5);
-//		document.add(pId);
-//		Paragraph testDate = new Paragraph("Test Date:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-//		testDate.add(value6);
-//		document.add(testDate);
-//		Paragraph repDate = new Paragraph("Report Date:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-//		repDate.add(value7);
-//		document.add(repDate);
-//		Paragraph pHistory = new Paragraph("Patient History:",
-//				FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-//		pHistory.add(value8);
-//		document.add(pHistory);
-//		Paragraph testName = new Paragraph("Test Name:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-//		testName.add(value9);
-//		document.add(testName);
-//		Paragraph testDesc = new Paragraph("Test Description:",
-//				FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-//		testDesc.add(value10);
-//		document.add(testDesc);
-//		Paragraph impression = new Paragraph("Impression:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-//		impression.add(value11);
-//		document.add(impression);
-//		Paragraph note = new Paragraph("Note:", FontFactory.getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD));
-//		note.add(value12);
-//		document.add(note);
-//
-//		document.close();
-//		writer.close();
-
-	}
 
 	public void cancelBtn(ActionEvent event) throws IOException {
+		// checking if any data present
+		if (test_Name.getSelectionModel().getSelectedItem() != null || ((TextField) testDate.getEditor()).getText() != null || ((TextField) reportDate.getEditor()).getText() != null
+				|| ref_doc.getText() != null || p_history.getText() != null || test_desc.getText() != null || 
+				p_impression.getText() != null || p_note.getText() != null ) {
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			alert.setTitle("Dr Subodh App");
+			alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+			alert.getDialogPane().setHeaderText("Are you Sure!! You want to Close this Page!!");
+			alert.showAndWait().ifPresent(bt -> {
+				if (bt == ButtonType.YES) {
+					close();
+				} else if (bt == ButtonType.NO) {
+					event.consume();
+				}
+			});
+		} else {
+			close();
+		}
+	}
+
+	public static void close() {
 		AnchorPane pane = MainScreenController.getHomePage();
 		for (int i = 0; i < pane.getChildren().size(); i++) {
 			String paneID = pane.getChildren().get(i).getId();
@@ -452,5 +431,4 @@ public class addTestController implements Initializable {
 			}
 		}
 	}
-
 }

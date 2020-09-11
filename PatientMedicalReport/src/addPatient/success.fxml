@@ -32,7 +32,7 @@
                   <Font size="18.0" />
                </font>
             </TextField>
-            <RadioButton fx:id="male" layoutX="460.0" layoutY="123.0" mnemonicParsing="false" selected="true" text="Male " textFill="#a2a5a8">
+            <RadioButton fx:id="male" layoutX="460.0" layoutY="123.0" mnemonicParsing="false" text="Male " textFill="#a2a5a8">
                <toggleGroup>
                   <ToggleGroup fx:id="genderR" />
                </toggleGroup>
@@ -50,7 +50,7 @@
                   <Font size="18.0" />
                </font>
             </RadioButton>
-            <DatePicker fx:id="dob" layoutX="37.0" layoutY="321.0" prefHeight="41.0" prefWidth="163.0" promptText="Select DOB" styleClass="arrow-button"/>
+            <DatePicker fx:id="dob" layoutX="37.0" layoutY="321.0" prefHeight="41.0" prefWidth="163.0" promptText="Select DOB" styleClass="arrow-button" />
             <Button fx:id="addBtn" layoutX="632.0" layoutY="450.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="140.0" style="-fx-background-color: rgba(46,172,210,1);" text="Save" textFill="#fefefd">
                <font>
                   <Font size="18.0" />

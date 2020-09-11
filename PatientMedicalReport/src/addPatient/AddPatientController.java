@@ -24,6 +24,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.StageStyle;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.RadioButton;
@@ -72,6 +73,9 @@ public class AddPatientController implements Initializable {
 	private TextField ageLabel;
 
 	private static AnchorPane paneNewPatient;
+	private static TextField mblNo, fName, p_email, p_age;
+	private static RadioButton p_male, p_female, p_others;
+	private static DatePicker p_dob;
 
 	private Connection connection;
 
@@ -94,6 +98,14 @@ public class AddPatientController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		paneNewPatient = pane_newPatient;
+		mblNo = mobNo;
+		fName = fullName;
+		p_email = email;
+		p_age = ageLabel;
+		p_male = male;
+		p_female = female;
+		p_others = others;
+		p_dob = dob;
 		// disable editor
 		dob.getEditor().setDisable(true);
 		dob.setStyle("-fx-opacity: 1");
@@ -176,6 +188,26 @@ public class AddPatientController implements Initializable {
 	}
 
 	public void cancelBtn(ActionEvent event) throws IOException {
+		// checking if any data present
+		if (mblNo.getText() != null || fName.getText() != null || p_email.getText() != null
+				|| p_dob.getEditor().getText() != null || p_age.getText() != null) {
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			alert.setTitle("Dr Subodh App");
+			alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+			alert.getDialogPane().setHeaderText("Are you Sure!! You want to Close this Page!!");
+			alert.showAndWait().ifPresent(bt -> {
+				if (bt == ButtonType.YES) {
+					close();
+				} else if (bt == ButtonType.NO) {
+					event.consume();
+				}
+			});
+		} else {
+			close();
+		}
+	}
+
+	public static void close() {
 		AnchorPane pane = MainScreenController.getHomePage();
 		for (int i = 0; i < pane.getChildren().size(); i++) {
 			String paneID = pane.getChildren().get(i).getId();
@@ -189,7 +221,6 @@ public class AddPatientController implements Initializable {
 			case "pane_newPatient":
 				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
 				break;
-			
 			}
 		}
 	}
@@ -320,15 +351,15 @@ public class AddPatientController implements Initializable {
 		return true;
 	}
 
-	public void clearFields() { // clearing fileds
-		mobNo.clear();
-		fullName.clear();
-		email.clear();
-		dob.getEditor().setText("");
-		male.setSelected(false);
-		female.setSelected(false);
-		others.setSelected(false);
-		ageLabel.clear();
+	public static void clearFields() { // clearing fileds
+		mblNo.clear();
+		fName.clear();
+		p_email.clear();
+		p_dob.getEditor().setText("");
+		p_male.setSelected(false);
+		p_female.setSelected(false);
+		p_others.setSelected(false);
+		p_age.clear();
 
 	}
 

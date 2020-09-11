@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import com.jfoenix.controls.JFXButton;
 
 import addTest.EditTestController;
+import addTest.addTestController;
 import addTest.viewReportController;
 import application.DashboardController;
 import application.MainScreenController;
@@ -47,6 +48,15 @@ public class TestData {
 		return status.get();
 	}
 	
+	public static Stage reportScreen;
+	public static Stage getReportScreen() {
+		return reportScreen;
+	}
+
+	public static void setReportScreen(Stage reportScreen) {
+		addTestController.reportScreen = reportScreen;
+	}
+	
 	public static void addViewButton(int pid) {
         TableColumn<TestData, Void> colBtn = new TableColumn("View");
 
@@ -65,11 +75,13 @@ public class TestData {
                     	btn.setOnAction((ActionEvent event) -> {
                         	TestData data = getTableView().getItems().get(getIndex());
                         	try {
-                        		Stage add = new Stage();
+                        		reportScreen = new Stage();
             					Parent root = FXMLLoader.load(getClass().getResource("/addTest/viewReport.fxml"));
             					Scene scene = new Scene(root);
-            					add.setScene(scene);
-            					add.show();
+            					reportScreen.setTitle("Patient Report");
+            					reportScreen.setScene(scene);
+            					reportScreen.show();
+            					setReportScreen(reportScreen);
 								viewReportController.viewReport(data.gettId());
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
@@ -158,10 +170,9 @@ public class TestData {
         };
 
         colBtn.setCellFactory(cellFactory);
-
         ViewPDController.getTblTestTable().getColumns().add(colBtn);
-
     }
+
 	public static void addDeleteButton(int pid, Connection con) {
         TableColumn<TestData, Void> colBtn = new TableColumn("Delete");
 
@@ -180,7 +191,7 @@ public class TestData {
                     	btn.setOnAction((ActionEvent event) -> {
                         	TestData data = getTableView().getItems().get(getIndex());
                         	
-                        	String SQL_delete = "update patient_reportmasterdata set active ='N' WHERE id='" + data.gettId() + "'";
+                        	String SQL_delete = "UPDATE patient_reportmasterdata SET active ='N' WHERE id='" + data.gettId() + "'";
                         	try {
 								con.createStatement().executeUpdate(SQL_delete);
 								ViewPDController.refreshTestDetails(pid);

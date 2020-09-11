@@ -94,7 +94,7 @@ public class DashboardController {
         sortedData.comparatorProperty().bind(tblPatientTable.comparatorProperty());
 
         tblPatientTable.setItems(sortedData);
- 
+
     }
 	
 	public static void refreshTable() {

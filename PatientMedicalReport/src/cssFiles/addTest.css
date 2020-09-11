@@ -25,6 +25,11 @@
 	-fx-border-radius:5.0px;
 }
 
+.report_grid {
+    -fx-background-color: white ;
+    -fx-padding: 10 ;
+}
+
 .date-picker:editable > .arrow-button > * {
     -fx-opacity: 0.0; /* Set the node in the button to be visible */
 }

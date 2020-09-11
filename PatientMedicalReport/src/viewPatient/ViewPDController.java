@@ -1,18 +1,16 @@
 package viewPatient;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import DBConnection.DBConnectivity;
 import application.DashboardController;
 import application.MainScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -21,7 +19,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 public class ViewPDController {
 	@FXML
@@ -69,7 +66,7 @@ public class ViewPDController {
 	@FXML
 	private Button btn_addTest;
 	private static TableView<TestData> tblTestTable;
-	private static ObservableList<TestData> testData = FXCollections.observableArrayList();;
+	private static ObservableList<TestData> testData = FXCollections.observableArrayList();
 
 	private static Label lblID, lblPName_top, lblPName, lblGender, lblmobileNumber, lblEmail, lblDoB, lblAge;
 
@@ -140,7 +137,7 @@ public class ViewPDController {
 
 	public static void ViewTestDetails(int pid) throws SQLException {
 		testData.clear();
-		String SQL_view = "SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' and active='Y'";
+		String SQL_view = "SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "'";
 		try {
 			ResultSet rs = con.createStatement().executeQuery(SQL_view);
 			while (rs.next()) {
@@ -198,7 +195,7 @@ public class ViewPDController {
 	}
 
 	@FXML
-	public void addTest(ActionEvent event) {
+	public void addTest() {
 		try {
 			AnchorPane pane = MainScreenController.getHomePage();
 			for (int i = 0; i < pane.getChildren().size(); i++) {
@@ -223,17 +220,33 @@ public class ViewPDController {
 	}
 
 	@FXML
-	public void editDetails(ActionEvent event) throws Exception {
-		btn_edit.getScene().getWindow();
-		Stage add = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("/addPatient/editPatient.fxml"));
-		Scene scene = new Scene(root);
-		add.setScene(scene);
-		add.show();
+	public void editDetails() {
+		try {
+			AnchorPane pane = MainScreenController.getHomePage();
+			for (int i = 0; i < pane.getChildren().size(); i++) {
+				String paneID = pane.getChildren().get(i).getId();
+				switch (paneID) {
+				case "pane_Dashboard":
+					MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+					break;
+				case "pane_viewDetails":
+					MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+					break;
+				}
+			}
+			Parent root = FXMLLoader.load(DashboardController.class.getResource("/addPatient/editPatient.fxml"));
+			MainScreenController.getHomePage().getChildren().add(root);
+			root.setTranslateX(370);
+			root.setTranslateY(30);
+		}catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Cant load window");
+		}
+		
 	}
 
 	@FXML
-	public void closeTab(ActionEvent event) {
+	public void closeTab() {
 		try {
 			AnchorPane pane = MainScreenController.getHomePage();
 			for (int i = 0; i < pane.getChildren().size(); i++) {
