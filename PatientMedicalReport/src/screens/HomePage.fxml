@@ -48,17 +48,17 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fx:id="txt_totalTest" fill="#2dacd3" layoutX="122.0" layoutY="78.3671875" strokeType="OUTSIDE" strokeWidth="0.0" text="000" AnchorPane.topAnchor="43.8359375">
+            <Text fx:id="txt_totalTest" fill="#2dacd3" layoutX="122.0" layoutY="78.3671875" strokeType="OUTSIDE" strokeWidth="0.0" AnchorPane.topAnchor="43.8359375">
                <font>
                   <Font size="32.0" />
                </font>
             </Text>
-            <Text fx:id="txt_completedTest" fill="#2dacd3" layoutX="122.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="000">
+            <Text fx:id="txt_completedTest" fill="#2dacd3" layoutX="122.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font size="32.0" />
                </font>
             </Text>
-            <Text fx:id="txt_pendingTest" fill="#2dacd3" layoutX="122.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="000">
+            <Text fx:id="txt_pendingTest" fill="#2dacd3" layoutX="122.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font size="32.0" />
                </font>

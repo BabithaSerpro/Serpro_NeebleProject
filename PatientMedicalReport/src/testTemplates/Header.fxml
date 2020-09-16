@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="pane_header" prefHeight="242.0" prefWidth="798.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testTemplates.HeaderController">
+   <children>
+      <AnchorPane prefHeight="144.0" prefWidth="798.0" style="-fx-background-color: #2eacd2;">
+         <children>
+            <Label layoutX="13.0" layoutY="4.0" prefHeight="20.0" prefWidth="186.0" text="Dr. Subodh C. Khare" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="28.0" prefHeight="25.0" prefWidth="197.0" text="Surgeon Commander (Retd) I.N" textFill="WHITE" />
+            <Label layoutX="15.0" layoutY="50.0" prefHeight="25.0" prefWidth="197.0" text="M.D. (Radio Diagnosis)" textFill="WHITE" />
+            <Label layoutX="15.0" layoutY="71.0" prefHeight="25.0" prefWidth="197.0" text="Clinic: 21634691" textFill="WHITE" />
+            <Label layoutX="15.0" layoutY="94.0" prefHeight="25.0" prefWidth="197.0" text="Mobile:9326408735" textFill="WHITE" />
+            <Label layoutX="15.0" layoutY="116.0" prefHeight="25.0" prefWidth="197.0" text="Email: drsubodhkhare@yahoo.co.uk" textFill="WHITE" />
+            <Label layoutX="604.0" layoutY="4.0" prefHeight="20.0" prefWidth="186.0" text="Subodh Diagonstics" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="604.0" layoutY="28.0" prefHeight="25.0" prefWidth="186.0" text="Commercial Block no 11" textFill="WHITE" />
+            <Label layoutX="604.0" layoutY="50.0" prefHeight="25.0" prefWidth="186.0" text="Chintamani Society" textFill="WHITE" />
+            <Label layoutX="604.0" layoutY="71.0" prefHeight="25.0" prefWidth="186.0" text="Babanrao Kulkarni Marg" textFill="WHITE" />
+            <Label layoutX="604.0" layoutY="94.0" prefHeight="25.0" prefWidth="186.0" text="Mulund (East) Mumbai 400 081" textFill="WHITE" />
+            <ImageView fitHeight="120.0" fitWidth="175.0" layoutX="351.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imgs/logo.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <Label layoutX="30.0" layoutY="151.0" prefHeight="32.0" prefWidth="94.0" text="Patient Name:">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="pname" layoutX="123.0" layoutY="151.0" prefHeight="27.0" prefWidth="302.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="529.0" layoutY="151.0" prefHeight="32.0" prefWidth="44.0" text="Age:">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="529.0" layoutY="181.0" prefHeight="32.0" prefWidth="63.0" text="Gender:">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="pGender" layoutX="596.0" layoutY="181.0" prefHeight="27.0" prefWidth="145.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="30.0" layoutY="181.0" prefHeight="32.0" prefWidth="80.0" text="Ref Doctor:">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="30.0" layoutY="211.0" prefHeight="32.0" prefWidth="73.0" text="Reg. No">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="pId" layoutX="91.0" layoutY="216.0" prefHeight="27.0" prefWidth="166.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="529.0" layoutY="211.0" prefHeight="32.0" prefWidth="73.0" text="Visit Date:">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="pAge" layoutX="577.0" layoutY="151.0" prefHeight="27.0" prefWidth="133.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="refDoc" layoutX="113.0" layoutY="185.0" prefHeight="27.0" prefWidth="249.0" style="-fx-border-color: white;" />
+      <TextField fx:id="testDate" layoutX="598.0" layoutY="215.0" prefHeight="27.0" prefWidth="176.0" style="-fx-border-color: white;" />
+   </children>
+</AnchorPane>

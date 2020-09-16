@@ -57,7 +57,6 @@ public class viewTestController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		int testId = addTestController.getpTId();
-		System.out.println("---------->" + testId);
 		try {
 			con = DBConnectivity.getConnection();
 			ps = con.prepareStatement(

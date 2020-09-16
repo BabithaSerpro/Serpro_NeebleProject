@@ -17,6 +17,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -25,6 +27,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import screens.HomePageController;
 
 public class TestData {
 	public final SimpleIntegerProperty tId = new SimpleIntegerProperty();
@@ -189,16 +192,29 @@ public class TestData {
                     	btn.setGraphic(view);
                         
                     	btn.setOnAction((ActionEvent event) -> {
-                        	TestData data = getTableView().getItems().get(getIndex());
+                    		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                			alert.setTitle("Dr Subodh App");
+                			alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+                			alert.getDialogPane().setHeaderText("Are you Sure!! You want to Delete!");
+                			alert.showAndWait().ifPresent(bt -> {
+                				if (bt == ButtonType.YES) {
+                					TestData data = getTableView().getItems().get(getIndex());
+                                	String SQL_delete = "UPDATE patient_reportmasterdata SET active ='N' WHERE id='" + data.gettId() + "'";
+                                	try {
+        								con.createStatement().executeUpdate(SQL_delete);
+        								ViewPDController.refreshTestDetails(pid);
+        								HomePageController.totalTestCount();
+        								HomePageController.totalTestCompleted();
+        								HomePageController.totalTestCount();
+        							} catch (Exception e) {
+        								// TODO Auto-generated catch block
+        								e.printStackTrace();
+        							}
+                				} else if (bt == ButtonType.NO) {
+                					event.consume();
+                				}
+                			});
                         	
-                        	String SQL_delete = "UPDATE patient_reportmasterdata SET active ='N' WHERE id='" + data.gettId() + "'";
-                        	try {
-								con.createStatement().executeUpdate(SQL_delete);
-								ViewPDController.refreshTestDetails(pid);
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
                         	
                         });
                     }

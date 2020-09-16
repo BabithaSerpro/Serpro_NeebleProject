@@ -55,15 +55,15 @@ public class MainScreenController implements Initializable{
 			e.printStackTrace();
 		}
 		
-		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/screens/HomePage.fxml"));
-			root.setTranslateY(30);
-			root.setTranslateX(30);
-			HelpPage.getChildren().add(root);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			Parent root = FXMLLoader.load(getClass().getResource("/screens/HomePage.fxml"));
+//			root.setTranslateY(30);
+//			root.setTranslateX(30);
+//			HelpPage.getChildren().add(root);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	private void loadTitleBar() {

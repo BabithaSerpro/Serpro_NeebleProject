@@ -46,6 +46,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
@@ -274,16 +275,12 @@ public class addTestController implements Initializable {
 				if (flag > 0) { // redirecting to dashboard
 					try {
 						int pid = Integer.parseInt(pId.getText());
-						ViewPDController.refreshTestDetails(pid);					
-						HomePageController.refreshtotalTestCount();
-						HomePageController.refreshtotalTestCompleted();
-						HomePageController.refreshtotalTestPending();
-						
+						ViewPDController.refreshTestDetails(pid);
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					AnchorPane pane = MainScreenController.getHomePage();					
+					AnchorPane pane = MainScreenController.getHomePage();
 					for (int i = 0; i < pane.getChildren().size(); i++) {
 						String paneID = pane.getChildren().get(i).getId();
 						switch (paneID) {
@@ -300,17 +297,23 @@ public class addTestController implements Initializable {
 					}
 
 					reportScreen = new Stage();
-					HomePageController.refreshtotalTestCount();
-					HomePageController.refreshtotalTestCompleted();
-					HomePageController.refreshtotalTestPending();
 					Parent root = FXMLLoader.load(getClass().getResource("/addTest/viewReport.fxml"));
 					Scene scene = new Scene(root);
 					reportScreen.setScene(scene);
 					reportScreen.setTitle("Patient Report");
 					reportScreen.show();
 					setReportScreen(reportScreen);
+					
+					HomePageController.totalTestCount();
+					HomePageController.totalTestCompleted();
+					HomePageController.totalTestCount();
 				} else {
-					System.out.println("Not Added");
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setTitle("Dr. Subodh App");
+					alert.setHeaderText(null);
+					alert.initStyle(StageStyle.TRANSPARENT);
+					alert.setContentText("Error while Inserting Data!! Please Try Again!");
+					alert.showAndWait();
 				}
 			} catch (SQLException e) { // catching exception if any backend error occurs
 				e.printStackTrace();

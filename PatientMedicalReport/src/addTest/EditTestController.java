@@ -40,6 +40,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
+import screens.HomePageController;
 import viewPatient.ViewPDController;
 
 public class EditTestController {
@@ -308,7 +309,7 @@ public class EditTestController {
 		}
 	}
     
-    public void updateTest() throws NumberFormatException, ParseException {
+    public void updateTest() throws Exception {
     	if (validateFields() && validateDate() && validateDrName()) {
     		String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
     		
@@ -366,7 +367,12 @@ public class EditTestController {
 						}
 					});
 				} else {
-					System.out.println("Not Added");
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setTitle("Dr. Subodh App");
+					alert.setHeaderText(null);
+					alert.initStyle(StageStyle.TRANSPARENT);
+					alert.setContentText("Error while Updating Data!! Please Try Again!");
+					alert.showAndWait();
 				}
 			} catch (SQLException e) { // catching exception if any backend error occurs
 				e.printStackTrace();

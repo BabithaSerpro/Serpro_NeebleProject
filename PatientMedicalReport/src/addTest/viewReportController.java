@@ -33,7 +33,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.stage.StageStyle;
-import screens.HomePageController;
 
 public class viewReportController {
 
@@ -160,7 +159,6 @@ public class viewReportController {
 	@FXML
     void downloadReport(ActionEvent event) {
 		try {
-			
 			btn_download.setVisible(false);
 	    	btn_print.setVisible(false);
 			double pixelScale=2.0;
@@ -184,7 +182,8 @@ public class viewReportController {
             PDRectangle box = page.getMediaBox();
             double factor = Math.min(box.getWidth() / snapshot.getWidth(), box.getHeight() / snapshot.getHeight());
             float height = (float) (snapshot.getHeight() * factor);
-            content.drawImage(pdimage, 0, box.getHeight() - height, (float) (snapshot.getWidth() * factor), height);
+            
+            content.drawImage(pdimage, 10, box.getHeight() - height-10, (float) (snapshot.getWidth() * factor), height-4);
             content.close();
             doc.addPage(page);
            
@@ -239,8 +238,7 @@ public class viewReportController {
 	}
 	
 	@FXML
-    void printReport(ActionEvent event) throws Exception {
-
+    void printReport(ActionEvent event) {
 		Printer printer = Printer.getDefaultPrinter();
 		printer.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.HARDWARE_MINIMUM);
 	    PageLayout pageLayout=printer.getDefaultPageLayout();

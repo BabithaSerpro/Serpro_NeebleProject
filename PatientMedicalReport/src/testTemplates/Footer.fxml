@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="pane_footer" prefHeight="100.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testTemplates.FooterController">
+   <children>
+      <Label layoutX="9.0" layoutY="57.0" prefHeight="32.0" prefWidth="153.0" text="DR SUBODH C KHARE" textFill="#2eacd2">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="10.0" layoutY="90.0" text="CONSULTANT RADIOLOGIST" textFill="#2eacd2" />
+      <Button fx:id="btn_print" layoutX="680.0" layoutY="69.0" mnemonicParsing="false" onAction="#printReport" prefHeight="30.0" prefWidth="101.0" style="-fx-background-color: #2eacd2;" text="Print Report" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

@@ -1,8 +1,12 @@
 package viewPatient;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import DBConnection.DBConnectivity;
 import application.DashboardController;
 import application.MainScreenController;
@@ -14,11 +18,13 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import testTemplates.Test_Screens;
 
 public class ViewPDController {
 	@FXML
@@ -52,6 +58,9 @@ public class ViewPDController {
 	private Button btn_Close;
 
 	@FXML
+	private ComboBox<String> testName;
+	
+	@FXML
 	private TableColumn<TestData, String> clm_tDate;
 
 	@FXML
@@ -69,9 +78,19 @@ public class ViewPDController {
 	private static ObservableList<TestData> testData = FXCollections.observableArrayList();
 
 	private static Label lblID, lblPName_top, lblPName, lblGender, lblmobileNumber, lblEmail, lblDoB, lblAge;
-
+	private static ComboBox<String> test_Name;
 	private static Connection con;
-
+	private PreparedStatement ps;
+	
+	public static int PID;
+	
+	public static int getPID() {
+		return PID;
+	}
+	public static void setPID(int pID) {
+		PID = pID;
+	}
+	
 	@FXML
 	public void initialize() throws ClassNotFoundException, SQLException {
 		tblTestTable = tbl_testDetails;
@@ -83,7 +102,27 @@ public class ViewPDController {
 		lblEmail = lbl_email;
 		lblDoB = lbl_dob;
 		lblAge = lbl_age;
-
+		test_Name=testName;
+		
+		try {
+			test_Name.setItems(FXCollections.observableArrayList(dropDownValue()));
+			test_Name.setOnAction(e->{
+				try {
+					Test_Screens.screenContent(test_Name.getSelectionModel().getSelectedItem());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			});
+		} catch (Exception e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Dr Subodh App");
+			alert.setHeaderText(null);
+			alert.setContentText("Cannot Load Screen");
+			alert.showAndWait();
+			e.printStackTrace();
+		}
+		
 		clm_testName.setCellValueFactory(new PropertyValueFactory<TestData, String>("testName"));
 		clm_tDate.setCellValueFactory(new PropertyValueFactory<TestData, String>("reportDate"));
 		clm_status.setCellValueFactory(new PropertyValueFactory<TestData, String>("status"));
@@ -114,33 +153,12 @@ public class ViewPDController {
 		ViewPDController.lblAge = lblAge;
 	}
 
-	public static void ViewDetails(int patientID) throws SQLException {
-		String SQL_view = "SELECT * FROM patient_masterdata WHERE patient_id='" + patientID + "'";
-		try {
-			ResultSet rs = con.createStatement().executeQuery(SQL_view);
-			lblID.setText(String.valueOf(patientID));
-
-			while (rs.next()) {
-				lblPName_top.setText(rs.getString("patient_name"));
-				lblPName.setText(rs.getString("patient_name"));
-				lblGender.setText(rs.getString("gender"));
-				lblmobileNumber.setText(rs.getString("mobileNumber"));
-				lblEmail.setText(rs.getString("emailId"));
-				lblDoB.setText(rs.getString("dob"));
-				lblAge.setText(rs.getString("age"));
-			}
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
-	
 	public static void refreshViewDetails(int patientID) throws SQLException {
 		String SQL_view = "SELECT * FROM patient_masterdata WHERE patient_id='" + patientID + "'";
 		try {
 			ResultSet rs = con.createStatement().executeQuery(SQL_view);
 			lblID.setText(String.valueOf(patientID));
-
+			setPID(patientID);
 			while (rs.next()) {
 				lblPName_top.setText(rs.getString("patient_name"));
 				lblPName.setText(rs.getString("patient_name"));
@@ -158,7 +176,7 @@ public class ViewPDController {
 
 	public static void ViewTestDetails(int pid) throws SQLException {
 		testData.clear();
-		String SQL_view = "SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "'";
+		String SQL_view = "SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "'and active='Y'";
 		try {
 			ResultSet rs = con.createStatement().executeQuery(SQL_view);
 			while (rs.next()) {
@@ -215,6 +233,21 @@ public class ViewPDController {
 		}
 	}
 
+	public List<String> dropDownValue() throws Exception {
+		List<String> options = new ArrayList<String>();
+
+		con = DBConnectivity.getConnection();
+		ps = con.prepareStatement("SELECT TEST_NAME FROM patient_report");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			options.add(rs.getString("TEST_NAME"));
+		}
+		ps.close();
+		rs.close();
+		return options;
+
+	}
+	
 	@FXML
 	public void addTest() {
 		try {

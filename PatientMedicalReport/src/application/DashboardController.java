@@ -189,9 +189,6 @@ public class DashboardController {
 						case "pane_Dashboard":
 							MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
 							break;
-//						case "pane_viewDetails":
-//							MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-//							break;
 					}
 				}
 				Parent root = FXMLLoader.load(DashboardController.class.getResource("/viewPatient/ViewPatientDetails.fxml"));
@@ -203,7 +200,7 @@ public class DashboardController {
 				e.printStackTrace();
 			}
 			
-			ViewPDController.ViewDetails(patientID);
+			ViewPDController.refreshViewDetails(patientID);
 			ViewPDController.ViewTestDetails(patientID);
 		} catch (Exception e) {
 			e.printStackTrace();
