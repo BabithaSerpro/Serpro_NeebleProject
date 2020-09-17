@@ -64,7 +64,7 @@ public class PrintableData {
 					lblPasthistory.setLayoutX(x);
 					lblPasthistory.setLayoutY(y);
 					((HTMLEditor) vbox.getChildren().get(i)).setVisible(false);
-					vbox.getChildren().add(lblPasthistory);
+					contentPane.getChildren().add(lblPasthistory);
 					break;
 				case "heFetalParameter":
 					htmlEditor = ((HTMLEditor) vbox.getChildren().get(i)).getHtmlText();

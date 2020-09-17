@@ -4,10 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.regex.Pattern;
 
 import DBConnection.DBConnectivity;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -36,6 +45,23 @@ public class TestContent {
 		
 		vbox.getChildren().addAll(lblphistory,hE_pHistory);
 	}
+	
+	public static void create_clinicalImp(int tID) throws SQLException {
+		Label lblclinicalImp=new Label("CLINICAL IMPRESSION");
+		HTMLEditor hE_clinicalImp = new HTMLEditor();
+		hE_clinicalImp.setPrefHeight(370);
+		hE_clinicalImp.setPrefWidth(700);
+		hE_clinicalImp.setId("hePastHistory");
+		hE_clinicalImp.setStyle("-fx-border-color:white;");
+		
+		ps = con.prepareStatement("SELECT CLINICAL_IMPRESSION FROM patient_report_testdetails WHERE tId='"+tID+"'");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			hE_clinicalImp.setHtmlText(rs.getString("CLINICAL_IMPRESSION"));
+		}
+		vbox.getChildren().addAll(lblclinicalImp,hE_clinicalImp);
+	}
+	
 	public static void create_fetalParameter(int tID) {
 		try {
 			Label lblfp=new Label("FETAL PARAMETERS: ");
@@ -55,10 +81,8 @@ public class TestContent {
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
-		
 	}
 	public static void create_fetaldopStudies(int tID) throws SQLException {
-		Label lblfds=new Label("FETAL DOPPLER STUDIES: ");
 		HTMLEditor hE_fds = new HTMLEditor();
 		hE_fds.setPrefHeight(200);
 		hE_fds.setPrefWidth(700);
@@ -70,8 +94,51 @@ public class TestContent {
 		while (rs.next()) {
 			hE_fds.setHtmlText(rs.getString("FETAL DOPPLER STUDIES"));
 		}
-		vbox.getChildren().addAll(lblfds,hE_fds);
+		vbox.getChildren().addAll(hE_fds);
 	}
+	
+	public static void create_table1(int tID) throws SQLException {
+		HTMLEditor hE_table1= new HTMLEditor();
+		hE_table1.setPrefHeight(700);
+		hE_table1.setPrefWidth(700);
+		hE_table1.setId("hE_tbl1");
+		
+		// hide controls we don't need.
+		Node t_node = hE_table1.lookup(".top-toolbar");
+		Node b_node = hE_table1.lookup(".bottom-toolbar");		
+		t_node.setVisible(false);
+		b_node.setVisible(false);
+		hE_table1.setStyle("-fx-border-color:white;");
+
+		ps = con.prepareStatement("SELECT * FROM patient_report_tabledetails WHERE testId='"+tID+"'");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			hE_table1.setHtmlText(rs.getString("table"));
+		}
+		vbox.getChildren().addAll(hE_table1);
+	}
+	
+	public static void create_table2(int tID) throws SQLException {
+		HTMLEditor hE_table2= new HTMLEditor();
+		hE_table2.setPrefHeight(700);
+		hE_table2.setPrefWidth(700);
+		hE_table2.setId("hE_tbl2");
+		
+		// hide controls we don't need.
+		Node t_node = hE_table2.lookup(".top-toolbar");
+		Node b_node = hE_table2.lookup(".bottom-toolbar");		
+		t_node.setVisible(false);
+		b_node.setVisible(false);
+		hE_table2.setStyle("-fx-border-color:white;");
+
+		ps = con.prepareStatement("SELECT * FROM patient_report_tabledetails WHERE testId='"+tID+"'");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			hE_table2.setHtmlText(rs.getString("table"));
+		}
+		vbox.getChildren().addAll(hE_table2);
+	}
+	
 	public static void create_impression(int tID) throws SQLException {
 		Label lblimp=new Label("Impression: ");
 		HTMLEditor hE_imp = new HTMLEditor();
@@ -95,10 +162,10 @@ public class TestContent {
 		hE_note.setId("heNote");
 		hE_note.setStyle("-fx-border-color:white;");
 		
-		ps = con.prepareStatement("SELECT IMPRESSION FROM patient_report_testdetails WHERE tId='"+tID+"'");
+		ps = con.prepareStatement("SELECT PLEASE_NOTE FROM patient_report_testdetails WHERE tId='"+tID+"'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			hE_note.setHtmlText(rs.getString("IMPRESSION"));
+			hE_note.setHtmlText(rs.getString("PLEASE_NOTE"));
 		}
 		vbox.getChildren().addAll(lblnote,hE_note);
 	}

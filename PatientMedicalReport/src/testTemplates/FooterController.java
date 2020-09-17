@@ -38,6 +38,7 @@ public class FooterController {
 
 	@FXML
 	void printReport(ActionEvent event) {
+		saveData();
 		Printer printer = Printer.getDefaultPrinter();
 		printer.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.HARDWARE_MINIMUM);
 		PageLayout pageLayout = printer.getDefaultPageLayout();
@@ -65,5 +66,9 @@ public class FooterController {
 		label.textProperty().bind(job.jobStatusProperty().asString());
 		alert.setHeaderText(label.getText());
 		alert.showAndWait();
+	}
+	
+	public static void saveData() {
+		
 	}
 }

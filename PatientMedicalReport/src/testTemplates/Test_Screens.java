@@ -109,8 +109,7 @@ public class Test_Screens {
 		ps = con.prepareStatement("SELECT * FROM patient_report WHERE TEST_NAME='"+testname+"'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			System.out.println(rs.getInt("ID"));
-			tID=rs.getInt(rs.getInt("ID"));
+			tID=rs.getInt("ID");
 			past_history=rs.getString("PAST HISTORY");
 			menstural_data=rs.getString("MENSTURAL_DATA");
 			clinical_impression=rs.getString("CLINICAL_IMPRESSION");
@@ -142,7 +141,10 @@ public class Test_Screens {
 			TestContent.create_fetaldopStudies(tID);
 		}
 		if(table1.equals("TRUE")) {
-			System.out.println(table1);
+			TestContent.create_table1(tID);
+		}
+		if(table1.equals("TRUE")) {
+			TestContent.create_table2(tID);
 		}
 		if(table2.equals("TRUE")) {
 			System.out.println(table2);
