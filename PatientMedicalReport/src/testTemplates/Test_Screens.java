@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import DBConnection.DBConnectivity;
 import application.DashboardController;
@@ -111,7 +110,6 @@ public class Test_Screens {
 		while (rs.next()) {
 			tID=rs.getInt("ID");
 			past_history=rs.getString("PAST HISTORY");
-			menstural_data=rs.getString("MENSTURAL_DATA");
 			clinical_impression=rs.getString("CLINICAL_IMPRESSION");
 			fetal_parameter=rs.getString("FETAL PARAMETER");
 			fetal_dop_studies=rs.getString("FETAL DOPPLER STUDIES");
@@ -126,33 +124,35 @@ public class Test_Screens {
 		}
 		
 		if(past_history.equals("TRUE")) {
+			System.out.println("past_history");
 			TestContent.create_pastHistory(tID);
 		}
-		if(menstural_data.equals("TRUE")) {
-			System.out.println(menstural_data);
-		}
 		if(clinical_impression.equals("TRUE")) {
-			System.out.println(clinical_impression);
+			TestContent.create_clinicalImp(tID);
+			System.out.println("clinical_impression");
 		}
 		if(fetal_parameter.equals("TRUE")) {
+			System.out.println("fetal_parameter");
 			TestContent.create_fetalParameter(tID);
 		}
 		if(fetal_dop_studies.equals("TRUE")) {
+			System.out.println("fetal_dop_studies");
 			TestContent.create_fetaldopStudies(tID);
 		}
 		if(table1.equals("TRUE")) {
+			System.out.println("table1");
 			TestContent.create_table1(tID);
 		}
-		if(table1.equals("TRUE")) {
+		if(table2.equals("TRUE")) {
+			System.out.println("table2");
 			TestContent.create_table2(tID);
 		}
-		if(table2.equals("TRUE")) {
-			System.out.println(table2);
-		}
 		if(impression.equals("TRUE")) {
+			System.out.println("impression");
 			TestContent.create_impression(tID);
 		}
 		if(note.equals("TRUE")) {
+			System.out.println("note");
 			TestContent.create_note(tID);
 		}
 		ps.close();

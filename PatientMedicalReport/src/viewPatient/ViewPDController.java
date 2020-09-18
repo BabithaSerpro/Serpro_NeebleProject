@@ -24,6 +24,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import testTemplates.EditTDController;
 import testTemplates.Test_Screens;
 
 public class ViewPDController {
@@ -108,7 +109,29 @@ public class ViewPDController {
 			test_Name.setItems(FXCollections.observableArrayList(dropDownValue()));
 			test_Name.setOnAction(e->{
 				try {
-					Test_Screens.screenContent(test_Name.getSelectionModel().getSelectedItem());
+					try {
+						AnchorPane pane = MainScreenController.getHomePage();
+						for (int i = 0; i < pane.getChildren().size(); i++) {
+							String paneID = pane.getChildren().get(i).getId();
+							switch (paneID) {
+							case "pane_Dashboard":
+								MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+								break;
+							case "pane_viewDetails":
+								MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+								break;
+							}
+						}
+						Parent root = FXMLLoader.load(DashboardController.class.getResource("/testTemplates/editTestData.fxml"));
+						MainScreenController.getHomePage().getChildren().add(root);
+						root.setTranslateX(370);
+						root.setTranslateY(30);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+						System.out.println("Cant load window");
+					}
+					EditTDController.screenContent(test_Name.getSelectionModel().getSelectedItem());
+//					Test_Screens.screenContent(test_Name.getSelectionModel().getSelectedItem());
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

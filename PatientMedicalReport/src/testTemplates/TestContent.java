@@ -4,21 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.regex.Pattern;
 
 import DBConnection.DBConnectivity;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToolBar;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
 
@@ -26,8 +16,8 @@ public class TestContent {
 	private static Connection con = DBConnectivity.getConnection();;
 	private static PreparedStatement ps;
 	private ResultSet rs;
-	public static AnchorPane contentPane=Test_Screens.getContentPane();
-	public static VBox vbox=Test_Screens.getVbox();
+	public static AnchorPane contentPane=EditTDController.getTestContentPane();
+	public static VBox vbox=EditTDController.getVbox();
 	
 	public static void create_pastHistory(int tID) throws SQLException {
 		Label lblphistory=new Label("Relevant past history");
@@ -99,7 +89,7 @@ public class TestContent {
 	
 	public static void create_table1(int tID) throws SQLException {
 		HTMLEditor hE_table1= new HTMLEditor();
-		hE_table1.setPrefHeight(700);
+		hE_table1.setPrefHeight(450);
 		hE_table1.setPrefWidth(700);
 		hE_table1.setId("hE_tbl1");
 		
@@ -120,7 +110,7 @@ public class TestContent {
 	
 	public static void create_table2(int tID) throws SQLException {
 		HTMLEditor hE_table2= new HTMLEditor();
-		hE_table2.setPrefHeight(700);
+		hE_table2.setPrefHeight(400);
 		hE_table2.setPrefWidth(700);
 		hE_table2.setId("hE_tbl2");
 		
