@@ -5,14 +5,13 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="pane_EditTD" prefHeight="546.0" prefWidth="800.0" stylesheets="@../cssFiles/addTest.css" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testTemplates.EditTDController">
    <children>
       <ScrollPane fx:id="sEditPane" layoutY="40.0" prefHeight="506.0" prefWidth="800.0">
         <content>
-          <AnchorPane fx:id="pane_EditTDContent" minHeight="0.0" minWidth="0.0" prefHeight="644.0" prefWidth="800.0" style="-fx-background-color: #ffffff;">
+          <AnchorPane fx:id="pane_EditTDContent" minHeight="0.0" minWidth="0.0" prefWidth="800.0" style="-fx-background-color: #ffffff;">
                <children>
                   <Label layoutX="453.0" layoutY="15.0" prefHeight="32.0" prefWidth="44.0" text="Age:">
                      <font>
@@ -46,7 +45,6 @@
                   </Label>
                   <TextField fx:id="refDoc" layoutX="116.0" layoutY="13.0" prefHeight="25.0" prefWidth="249.0" style="-fx-border-color: white;" />
                   <TextField fx:id="testDate" layoutX="116.0" layoutY="51.0" prefHeight="39.0" prefWidth="220.0" style="-fx-border-color: white;" />
-                  <VBox fx:id="test_vbox" layoutX="26.0" layoutY="122.0" prefHeight="432.0" prefWidth="753.0" />
                </children>
           </AnchorPane>
         </content>

@@ -123,7 +123,7 @@ public class PrintableData {
 		}
 	}
 
-	private static String stripHTMLTags(String htmlText) {
+	public static String stripHTMLTags(String htmlText) {
 		Pattern pattern = Pattern.compile("<[^>]*>");
 		Matcher matcher = pattern.matcher(htmlText);
 		final StringBuffer sb = new StringBuffer(htmlText.length());

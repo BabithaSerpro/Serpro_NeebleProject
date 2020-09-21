@@ -19,10 +19,29 @@ public class TestContent {
 	public static AnchorPane contentPane=EditTDController.getTestContentPane();
 	public static VBox vbox=EditTDController.getVbox();
 	
+	public static void create_testDetails(int tID) throws SQLException {
+		HTMLEditor he_Testdetails = new HTMLEditor();
+		he_Testdetails.setPrefHeight(370);
+		he_Testdetails.setPrefWidth(700);
+		he_Testdetails.setId("heTestdetails");
+		he_Testdetails.setStyle("-fx-border-color:white;");
+		
+		ps = con.prepareStatement("SELECT * FROM patient_report_testdetails WHERE tId='"+tID+"'");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			he_Testdetails.setHtmlText(rs.getString("testDetails"));
+		}
+		String text=PrintableData.stripHTMLTags(he_Testdetails.getHtmlText());
+		
+		if(!(text.equals(""))) {
+			vbox.getChildren().addAll(he_Testdetails);
+		}
+	}
+	
 	public static void create_pastHistory(int tID) throws SQLException {
 		Label lblphistory=new Label("Relevant past history");
 		HTMLEditor hE_pHistory = new HTMLEditor();
-		hE_pHistory.setPrefHeight(370);
+		hE_pHistory.setPrefHeight(200);
 		hE_pHistory.setPrefWidth(700);
 		hE_pHistory.setId("hePastHistory");
 		hE_pHistory.setStyle("-fx-border-color:white;");
@@ -44,7 +63,7 @@ public class TestContent {
 		hE_clinicalImp.setId("hePastHistory");
 		hE_clinicalImp.setStyle("-fx-border-color:white;");
 		
-		ps = con.prepareStatement("SELECT CLINICAL_IMPRESSION FROM patient_report_testdetails WHERE tId='"+tID+"'");
+		ps = con.prepareStatement("SELECT * FROM patient_report_testdetails WHERE tId='"+tID+"'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_clinicalImp.setHtmlText(rs.getString("CLINICAL_IMPRESSION"));
@@ -98,6 +117,20 @@ public class TestContent {
 		Node b_node = hE_table1.lookup(".bottom-toolbar");		
 		t_node.setVisible(false);
 		b_node.setVisible(false);
+		t_node.setStyle("-fx-max-width: 0px;\r\n" + 
+				"	-fx-min-width: 0px;\r\n" + 
+				"	-fx-pref-width: 0px;\r\n" + 
+				"	-fx-max-height: 0px;\r\n" + 
+				"	-fx-min-height: 0px;\r\n" + 
+				"	-fx-pref-height: 0px;\r\n" + 
+				"        -fx-opacity: 0;");
+		b_node.setStyle("-fx-max-width: 0px;\r\n" + 
+				"	-fx-min-width: 0px;\r\n" + 
+				"	-fx-pref-width: 0px;\r\n" + 
+				"	-fx-max-height: 0px;\r\n" + 
+				"	-fx-min-height: 0px;\r\n" + 
+				"	-fx-pref-height: 0px;\r\n" + 
+				"        -fx-opacity: 0;");
 		hE_table1.setStyle("-fx-border-color:white;");
 
 		ps = con.prepareStatement("SELECT * FROM patient_report_tabledetails WHERE testId='"+tID+"'");
@@ -116,9 +149,23 @@ public class TestContent {
 		
 		// hide controls we don't need.
 		Node t_node = hE_table2.lookup(".top-toolbar");
-		Node b_node = hE_table2.lookup(".bottom-toolbar");		
+		Node b_node = hE_table2.lookup(".bottom-toolbar");	
 		t_node.setVisible(false);
 		b_node.setVisible(false);
+		t_node.setStyle("-fx-max-width: 0px;\r\n" + 
+				"	-fx-min-width: 0px;\r\n" + 
+				"	-fx-pref-width: 0px;\r\n" + 
+				"	-fx-max-height: 0px;\r\n" + 
+				"	-fx-min-height: 0px;\r\n" + 
+				"	-fx-pref-height: 0px;\r\n" + 
+				"        -fx-opacity: 0;");
+		b_node.setStyle("-fx-max-width: 0px;\r\n" + 
+				"	-fx-min-width: 0px;\r\n" + 
+				"	-fx-pref-width: 0px;\r\n" + 
+				"	-fx-max-height: 0px;\r\n" + 
+				"	-fx-min-height: 0px;\r\n" + 
+				"	-fx-pref-height: 0px;\r\n" + 
+				"        -fx-opacity: 0;");
 		hE_table2.setStyle("-fx-border-color:white;");
 
 		ps = con.prepareStatement("SELECT * FROM patient_report_tabledetails WHERE testId='"+tID+"'");

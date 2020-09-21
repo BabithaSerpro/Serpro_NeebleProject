@@ -128,7 +128,6 @@ public class ViewPDController {
 						root.setTranslateY(30);
 					} catch (Exception e1) {
 						e1.printStackTrace();
-						System.out.println("Cant load window");
 					}
 					EditTDController.screenContent(test_Name.getSelectionModel().getSelectedItem());
 //					Test_Screens.screenContent(test_Name.getSelectionModel().getSelectedItem());

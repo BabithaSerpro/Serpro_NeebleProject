@@ -48,8 +48,8 @@ public class EditTDController {
     @FXML
     private Label lblName;
     
-    @FXML
-    private VBox test_vbox;
+//    @FXML
+//    private VBox test_vbox;
 
     @FXML
     private Button btn_close;
@@ -58,13 +58,13 @@ public class EditTDController {
 	public static AnchorPane paneEdit, testContentPane;
 	private static Label p_name,p_age,p_gender,p_id,test_name;
 	private static TextField ref_doctor,test_date;
-	public static VBox tvbox;
 	public static String tName;
 	private static Connection con;
 	private static PreparedStatement ps;
 	public static String past_history,menstural_data,clinical_impression,fetal_parameter,fetal_dop_studies,table1,table2,impression,note;
 	public static int tID, table1_col,table1_row,table2_col,table2_row;
-    
+	public static VBox tvbox=new VBox(10);
+	public static Button btnSave=new Button("Save");
 	public static String gettName() {
 		return tName;
 	}
@@ -100,10 +100,9 @@ public class EditTDController {
 		p_id=pId;
 		p_name=lblName;
 		test_date=testDate;
-		tvbox=test_vbox;
+		
 		String timeStamp = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 		test_date.setText(timeStamp);
-		
 		patientData();
     }
     public static void patientData() {
@@ -126,15 +125,25 @@ public class EditTDController {
     
     public static void screenContent(String testName) throws Exception {
 		Label lblTestname=new Label(testName);
-		lblTestname.setTranslateX(230);
-		lblTestname.setTranslateY(75);
+		lblTestname.setLayoutX(210);
+		lblTestname.setLayoutY(75);
 		lblTestname.setPrefWidth(741);
 		lblTestname.setPrefHeight(32);
 		lblTestname.setTextAlignment(TextAlignment.CENTER);
 		
 		settName(testName);
+		tvbox.getChildren().clear();
 		testDetails();
-		testContentPane.getChildren().addAll(lblTestname);
+		
+		tvbox.setLayoutX(35);
+		tvbox.setLayoutY(110);
+		tvbox.setId("test_vbox");
+		tvbox.getChildren().add(btnSave);
+		btnSave.setPrefWidth(110);
+		btnSave.setPrefHeight(30);
+		btnSave.setStyle("-fx-font-size: 15; -fx-text-fill: white; -fx-background-color:  #2eacd2; -fx-padding: 2 2 2 2;");
+		System.out.println(getVbox());
+		testContentPane.getChildren().addAll(lblTestname,tvbox);
     }
     
     public static void testDetails() throws Exception {
@@ -157,7 +166,7 @@ public class EditTDController {
 			impression=rs.getString("IMPRESSION");
 			note=rs.getString("PLEASE_NOTE");
 		}
-		
+		TestContent.create_testDetails(tID);
 		if(past_history.equals("TRUE")) {
 			System.out.println("past_history");
 			TestContent.create_pastHistory(tID);
@@ -193,7 +202,7 @@ public class EditTDController {
 		ps.close();
 		rs.close();
 	}
-    
+
 	@FXML
     void cancelBtn(ActionEvent event) {
 		AnchorPane pane = MainScreenController.getHomePage();
