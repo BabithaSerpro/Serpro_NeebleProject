@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,12 +11,7 @@ import DBConnection.DBConnectivity;
 import addTest.addTestController;
 import application.MainScreenController;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -29,7 +23,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import screens.HomePageController;
 import viewPatient.ViewPDController;
 
 public class EditTDController {
@@ -168,9 +161,7 @@ public class EditTDController {
 		tvbox.getChildren().add(btnSave);
 		btnSave.setPrefWidth(110);
 		btnSave.setPrefHeight(30);
-		btnSave.setStyle(
-				"-fx-font-size: 15; -fx-text-fill: white; -fx-background-color:  #2eacd2; -fx-padding: 2 2 2 2;");
-		System.out.println(getVbox());
+		btnSave.setStyle("-fx-font-size: 15; -fx-text-fill: white; -fx-background-color:  #2eacd2; -fx-padding: 2 2 2 2;");
 		testContentPane.getChildren().addAll(lblTestname, tvbox);
 	}
 
@@ -196,40 +187,33 @@ public class EditTDController {
 		}
 		TestContent.create_testDetails(tID);
 		if (past_history.equals("TRUE")) {
-			System.out.println("past_history");
 			TestContent.create_pastHistory(tID);
 		}
 		if (clinical_impression.equals("TRUE")) {
 			TestContent.create_clinicalImp(tID);
-			System.out.println("clinical_impression");
 		}
 		if (fetal_parameter.equals("TRUE")) {
-			System.out.println("fetal_parameter");
 			TestContent.create_fetalParameter(tID);
 		}
 		if (fetal_dop_studies.equals("TRUE")) {
-			System.out.println("fetal_dop_studies");
 			TestContent.create_fetaldopStudies(tID);
 		}
 		if (table1.equals("TRUE")) {
-			System.out.println("table1");
 			TestContent.create_table1(tID);
 		}
 		if (table2.equals("TRUE")) {
-			System.out.println("table2");
 			TestContent.create_table2(tID);
 		}
 		if (impression.equals("TRUE")) {
-			System.out.println("impression");
 			TestContent.create_impression(tID);
 		}
 		if (note.equals("TRUE")) {
-			System.out.println("note");
 			TestContent.create_note(tID);
 		}
 		btnSave.setOnAction(e -> {
 			try {
 				addTest();
+				CreateTestTemplate.screenContent(testname,p_id.getText());
 			} catch (Exception e1) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Dr. Subodh App");
@@ -247,9 +231,9 @@ public class EditTDController {
 	public static void addTest() throws Exception {
 
 		String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
-		String insert = "INSERT into patient_reportmasterdata (regNumber,ref_doctor,testName,testDate,patientHistory,testDescription,clinicalImpression"
+		String insert = "INSERT into patient_reportmasterdata (regNumber,ref_doctor,testName,testDate,reportDate,patientHistory,testDescription,clinicalImpression"
 				+ ",fetalParameter,fetalDoplerStudies,table1,table2,impression,note,active,created_timestamp,modified_timestamp)"
-				+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,'Y','" + timeStamp + "','" + timeStamp + "')";
+				+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,'Y','" + timeStamp + "','" + timeStamp + "')";
 		con = DBConnectivity.getConnection();
 		try {
 			ps = con.prepareStatement(insert);
@@ -257,46 +241,48 @@ public class EditTDController {
 			ps.setString(2, ref_doctor.getText());
 			ps.setString(3, gettName());
 			ps.setString(4, (test_date.getText()));
+			String reportDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+			ps.setString(5, reportDate);
 			if (past_history.equals("TRUE")) {
-				ps.setString(5, TestContent.history.getHtmlText());
+				ps.setString(6, TestContent.history.getHtmlText());
 			}else {
-				ps.setString(5, "");
+				ps.setString(6, "");
 			}
-			ps.setString(6, TestContent.testDetstails.getHtmlText());
+			ps.setString(7, TestContent.testDetstails.getHtmlText());
 			if (clinical_impression.equals("TRUE")) {
-				ps.setString(7, TestContent.clinicalImp.getHtmlText());
-			}else {
-				ps.setString(7, "");
-			}
-			if (fetal_parameter.equals("TRUE")) {
-				ps.setString(8, TestContent.fetalParameter.getHtmlText());
+				ps.setString(8, TestContent.clinicalImp.getHtmlText());
 			}else {
 				ps.setString(8, "");
 			}
-			if (fetal_dop_studies.equals("TRUE")) {
-				ps.setString(9, TestContent.fetaldopStudies.getHtmlText());
+			if (fetal_parameter.equals("TRUE")) {
+				ps.setString(9, TestContent.fetalParameter.getHtmlText());
 			}else {
 				ps.setString(9, "");
 			}
-			if (table1.equals("TRUE")) {
-				ps.setString(10, TestContent.table1.getHtmlText());
+			if (fetal_dop_studies.equals("TRUE")) {
+				ps.setString(10, TestContent.fetaldopStudies.getHtmlText());
 			}else {
 				ps.setString(10, "");
 			}
-			if (table2.equals("TRUE")) {
-				ps.setString(11, TestContent.table2.getHtmlText());
+			if (table1.equals("TRUE")) {
+				ps.setString(11, TestContent.table1.getHtmlText());
 			}else {
 				ps.setString(11, "");
 			}
-			if (impression.equals("TRUE")) {
-				ps.setString(12, TestContent.impression.getHtmlText());
+			if (table2.equals("TRUE")) {
+				ps.setString(12, TestContent.table2.getHtmlText());
 			}else {
 				ps.setString(12, "");
 			}
-			if (note.equals("TRUE")) {
-				ps.setString(13, TestContent.note.getHtmlText());
+			if (impression.equals("TRUE")) {
+				ps.setString(13, TestContent.impression.getHtmlText());
 			}else {
 				ps.setString(13, "");
+			}
+			if (note.equals("TRUE")) {
+				ps.setString(14, TestContent.note.getHtmlText());
+			}else {
+				ps.setString(14, "");
 			}
 			flag = ps.executeUpdate();
 

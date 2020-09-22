@@ -34,14 +34,8 @@ public class TestContent {
 		}
 		String text = PrintableData.stripHTMLTags(he_Testdetails.getHtmlText());
 
-		
-		if (!he_Testdetails.equals(null)) {
-			testDetstails = he_Testdetails;
-
-		} else {
-			testDetstails.setHtmlText("");		
-		}
 		if (!(text.equals(""))) {
+			testDetstails = he_Testdetails;
 			vbox.getChildren().addAll(he_Testdetails);
 		}
 	}
@@ -61,12 +55,7 @@ public class TestContent {
 		}
 		if (!hE_pHistory.equals(null)) {
 			history = hE_pHistory;
-
-		} else {
-
-			history.setHtmlText("");
-
-		}
+		} 
 		vbox.getChildren().addAll(lblphistory, hE_pHistory);
 	}
 
@@ -85,8 +74,6 @@ public class TestContent {
 		}
 		if (!hE_clinicalImp.equals(null)) {
 			clinicalImp = hE_clinicalImp;
-		} else {
-			clinicalImp.setHtmlText("");
 		}
 		vbox.getChildren().addAll(lblclinicalImp, hE_clinicalImp);
 	}
@@ -108,9 +95,7 @@ public class TestContent {
 			}
 			if (!hE_fp.equals(null)) {
 				fetalParameter = hE_fp;
-			} else {
-				fetalParameter.setHtmlText("");
-			}
+			} 
 			vbox.getChildren().addAll(lblfp, hE_fp);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -131,9 +116,7 @@ public class TestContent {
 		}
 		if (!hE_fds.equals(null)) {
 			fetaldopStudies = hE_fds;
-		} else {
-			fetaldopStudies.setHtmlText("");
-		}
+		} 
 		vbox.getChildren().addAll(hE_fds);
 	}
 
@@ -163,9 +146,7 @@ public class TestContent {
 		}
 		if (!hE_table1.equals(null)) {
 			table1 = hE_table1;
-		} else {
-			table1.setHtmlText("");
-		}
+		} 
 		vbox.getChildren().addAll(hE_table1);
 	}
 
@@ -195,9 +176,7 @@ public class TestContent {
 		}
 		if (!hE_table2.equals(null)) {
 			table2 = hE_table2;
-		} else {
-			table2.setHtmlText("");
-		}
+		} 
 		vbox.getChildren().addAll(hE_table2);
 	}
 
@@ -216,9 +195,7 @@ public class TestContent {
 		}
 		if (!hE_imp.equals(null)) {
 			impression = hE_imp;
-		} else {
-			impression.setHtmlText("");
-		}
+		} 
 		vbox.getChildren().addAll(lblimp, hE_imp);
 	}
 
@@ -237,8 +214,6 @@ public class TestContent {
 		}
 		if (!hE_note.equals(null)) {
 			note = hE_note;
-		} else {
-			note.setHtmlText("");
 		}
 		vbox.getChildren().addAll(lblnote, hE_note);
 	}

@@ -43,8 +43,8 @@
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="refDoc" layoutX="116.0" layoutY="13.0" prefHeight="25.0" prefWidth="249.0" style="-fx-border-color: white;" />
-                  <TextField fx:id="testDate" layoutX="116.0" layoutY="51.0" prefHeight="39.0" prefWidth="220.0" style="-fx-border-color: white;" />
+                  <TextField fx:id="refDoc" layoutX="116.0" layoutY="13.0" prefHeight="25.0" prefWidth="249.0" promptText="Enter Doctor Name" style="-fx-border-color: white;" />
+                  <TextField fx:id="testDate" layoutX="116.0" layoutY="51.0" prefHeight="39.0" prefWidth="220.0" promptText="Enter Visit Date" style="-fx-border-color: white;" />
                </children>
           </AnchorPane>
         </content>

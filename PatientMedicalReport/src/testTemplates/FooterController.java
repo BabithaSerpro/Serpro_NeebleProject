@@ -21,7 +21,7 @@ public class FooterController {
 	private Button btn_print;
 
 	public static int testID;
-	public static AnchorPane contentPane = Test_Screens.getContentPane();
+	public static AnchorPane contentPane = HeaderController.getPaneTemplate();
 
 	public static int getTestID() {
 		return testID;
@@ -44,7 +44,6 @@ public class FooterController {
 		PageLayout pageLayout = printer.getDefaultPageLayout();
 		PrinterJob job = PrinterJob.createPrinterJob(printer);
 
-		PrintableData.printData();
 		if (job != null) {
 			btn_print.setVisible(false);
 

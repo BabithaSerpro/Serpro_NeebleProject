@@ -17,7 +17,10 @@ import viewPatient.ViewPDController;
 public class HeaderController {
 
 	@FXML
-    private AnchorPane pane_header;
+	private AnchorPane pane_header;
+
+	@FXML
+	private AnchorPane pane_template;
 
 	@FXML
 	private Label pname;
@@ -29,22 +32,29 @@ public class HeaderController {
 	private Label pGender;
 
 	@FXML
-	private TextField refDoc;
-
-	@FXML
 	private Label pId;
-
-	@FXML
-	private TextField testDate;
 
 	@FXML
 	private Label testName;
 	
-	private static AnchorPane paneHeader;
-	private static Label p_name,p_age,p_gender,p_id,test_name;
-	private static TextField ref_doctor,test_date;
+	@FXML
+    private Label refDoc;
+
+    @FXML
+    private Label testDate;
+
+	private static AnchorPane paneHeader, paneTemplate;
+	private static Label p_name, p_age, p_gender, p_id, test_name,ref_doctor, test_date;
 	private static Connection con;
 	private static PreparedStatement ps;
+
+	public static AnchorPane getPaneTemplate() {
+		return paneTemplate;
+	}
+
+	public static void setPaneTemplate(AnchorPane paneTemplate) {
+		HeaderController.paneTemplate = paneTemplate;
+	}
 
 	public static AnchorPane getPaneHeader() {
 		return paneHeader;
@@ -54,29 +64,46 @@ public class HeaderController {
 		HeaderController.paneHeader = paneHeader;
 	}
 	
+	public static Label getRef_doctor() {
+		return ref_doctor;
+	}
+
+	public static Label getTest_date() {
+		return test_date;
+	}
+
+	public static void setRef_doctor(Label ref_doctor) {
+		HeaderController.ref_doctor = ref_doctor;
+	}
+
+	public static void setTest_date(Label test_date) {
+		HeaderController.test_date = test_date;
+	}
+
 	@FXML
 	public void initialize() throws ClassNotFoundException, SQLException {
-		paneHeader=pane_header;
-		p_name=pname;
-		p_age=pAge;
-		p_gender=pGender;
-		ref_doctor=refDoc;
-		p_id=pId;
-		test_date=testDate;
-		test_name=testName;
+		paneHeader = pane_header;
+		paneTemplate=pane_template;
+		p_name = pname;
+		p_age = pAge;
+		p_gender = pGender;
+		ref_doctor = refDoc;
+		p_id = pId;
+		test_date = testDate;
+		test_name = testName;
 
 		String timeStamp = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 		test_date.setText(timeStamp);
-		
+
 		patientData();
 	}
-	
+
 	public static void patientData() {
 		try {
 			con = DBConnectivity.getConnection();
-			int patientID=ViewPDController.getPID();
+			int patientID = ViewPDController.getPID();
 			ps = con.prepareStatement("SELECT * FROM patient_masterdata WHERE patient_id='" + patientID + "'");
-			
+
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				p_name.setText(rs.getString("patient_name"));
