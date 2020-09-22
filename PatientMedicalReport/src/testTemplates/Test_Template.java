@@ -22,7 +22,7 @@ public class Test_Template {
 
 	public static void COLOUR_DOPPLER_OBSTRETIC(int pID, String testname) throws SQLException {
 		HTMLEditor he_Testdetails = new HTMLEditor();
-		he_Testdetails.setPrefHeight(370);
+		he_Testdetails.setPrefHeight(700);
 		he_Testdetails.setPrefWidth(700);
 		he_Testdetails.setId("heTestdetails");
 		he_Testdetails.setStyle("-fx-border-color:white;");

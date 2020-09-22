@@ -136,8 +136,8 @@ public class CreateTestTemplate {
 //		rs.close();
 		
 		vbox.setId("template_vbox");
-		vbox.setTranslateX(40);
-		vbox.setTranslateY(120);
+		vbox.setLayoutX(40);
+		vbox.setLayoutY(120);
 		btnPrint.setPrefWidth(110);
 		btnPrint.setPrefHeight(30);
 		btnPrint.setStyle("-fx-font-size: 15; -fx-text-fill: white; -fx-background-color:  #2eacd2; -fx-padding: 2 2 2 2;");
