@@ -80,6 +80,7 @@ public class CreateTestTemplate {
 		lblTestname.setPrefHeight(32);
 		lblTestname.setTextAlignment(TextAlignment.CENTER);
 
+		
 		con = DBConnectivity.getConnection();
 		ps = con.prepareStatement("SELECT * FROM patient_report WHERE TEST_NAME='"+testname+"'");
 		ResultSet rs = ps.executeQuery();
