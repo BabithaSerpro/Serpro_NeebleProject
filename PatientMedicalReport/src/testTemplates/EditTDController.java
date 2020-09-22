@@ -235,7 +235,7 @@ public class EditTDController {
 				alert.setTitle("Dr. Subodh App");
 				alert.setHeaderText(null);
 				alert.initStyle(StageStyle.TRANSPARENT);
-				alert.setContentText("Error1");
+				alert.setContentText("Error while Inserting Data!! Please Try Again!");
 				alert.showAndWait();
 				e1.printStackTrace();
 			}
@@ -312,7 +312,7 @@ public class EditTDController {
 				alert.setTitle("Dr. Subodh App");
 				alert.setHeaderText(null);
 				alert.initStyle(StageStyle.TRANSPARENT);
-				alert.setContentText("Error2");
+				alert.setContentText("Error while Inserting Data!! Please Try Again!");
 				alert.showAndWait();
 			}
 
