@@ -22,17 +22,10 @@ public class Test_Template {
 
 	public static void COLOUR_DOPPLER_OBSTRETIC(int pID, String testname) throws SQLException {
 		HTMLEditor he_Testdetails = new HTMLEditor();
-		he_Testdetails.setPrefHeight(700);
+		he_Testdetails.setPrefHeight(500);
 		he_Testdetails.setPrefWidth(700);
 		he_Testdetails.setId("heTestdetails");
 		he_Testdetails.setStyle("-fx-border-color:white;");
-		ps = con.prepareStatement(
-				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			he_Testdetails.setHtmlText(rs.getString("testDescription"));
-		}
-
 		// hide controls we don't need.
 		Node t_TDnode = he_Testdetails.lookup(".top-toolbar");
 		Node b_TDnode = he_Testdetails.lookup(".bottom-toolbar");
@@ -65,10 +58,6 @@ public class Test_Template {
 				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
 				+ "        -fx-opacity: 0;");
 
-		while (rs.next()) {
-			hE_imp.setHtmlText(rs.getString("impression"));
-		}
-
 		Label lblnote = new Label("Please Note: ");
 		HTMLEditor hE_note = new HTMLEditor();
 		hE_note.setPrefHeight(150);
@@ -86,12 +75,20 @@ public class Test_Template {
 		b_Nnode.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
 				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
 				+ "        -fx-opacity: 0;");
+		
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
+			he_Testdetails.setHtmlText(rs.getString("testDescription"));
+			hE_imp.setHtmlText(rs.getString("impression"));
 			hE_note.setHtmlText(rs.getString("note"));
 		}
-
+		
 		vbox.getChildren().addAll(he_Testdetails, lblimp, hE_imp, lblnote, hE_note);
 
+	}
+	public static void FOLLICULAR_STUDY(int pID, String testname) {
+		
 	}
 //	FOLLICULAR STUDY
 //	USG OF PELVIS (VERY EARLY STAGE PREGNANCY)
