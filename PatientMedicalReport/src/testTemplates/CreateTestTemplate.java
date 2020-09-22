@@ -80,60 +80,51 @@ public class CreateTestTemplate {
 		lblTestname.setPrefHeight(32);
 		lblTestname.setTextAlignment(TextAlignment.CENTER);
 
-		switch (testname) {
-		case "COLOUR DOPPLER OBSTRETIC":
-			Test_Template.COLOUR_DOPPLER_OBSTRETIC(pID,testname);
-			break;
-
-		default:
-			break;
+		con = DBConnectivity.getConnection();
+		ps = con.prepareStatement("SELECT * FROM patient_report WHERE TEST_NAME='"+testname+"'");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			tID=rs.getInt("ID");
+			past_history=rs.getString("PAST HISTORY");
+			clinical_impression=rs.getString("CLINICAL_IMPRESSION");
+			fetal_parameter=rs.getString("FETAL PARAMETER");
+			fetal_dop_studies=rs.getString("FETAL DOPPLER STUDIES");
+			table1=rs.getString("TABLE1");
+			table1_col=rs.getInt("TABLE1_NO_OF_COLUMNS");
+			table1_row=rs.getInt("TABLE1_NO_OF_ROWS");
+			table2=rs.getString("TABLE2");
+			table2_col=rs.getInt("TABLE2_NO_OF_COLUMNS");
+			table2_row=rs.getInt("TABLE2_NO_OF_ROWS");  
+			impression=rs.getString("IMPRESSION");
+			note=rs.getString("PLEASE_NOTE");
 		}
-		
-//		con = DBConnectivity.getConnection();
-//		ps = con.prepareStatement("SELECT * FROM patient_report WHERE TEST_NAME='"+testname+"'");
-//		ResultSet rs = ps.executeQuery();
-//		while (rs.next()) {
-//			tID=rs.getInt("ID");
-//			past_history=rs.getString("PAST HISTORY");
-//			clinical_impression=rs.getString("CLINICAL_IMPRESSION");
-//			fetal_parameter=rs.getString("FETAL PARAMETER");
-//			fetal_dop_studies=rs.getString("FETAL DOPPLER STUDIES");
-//			table1=rs.getString("TABLE1");
-//			table1_col=rs.getInt("TABLE1_NO_OF_COLUMNS");
-//			table1_row=rs.getInt("TABLE1_NO_OF_ROWS");
-//			table2=rs.getString("TABLE2");
-//			table2_col=rs.getInt("TABLE2_NO_OF_COLUMNS");
-//			table2_row=rs.getInt("TABLE2_NO_OF_ROWS");  
-//			impression=rs.getString("IMPRESSION");
-//			note=rs.getString("PLEASE_NOTE");
-//		}
-//		Test_Template.create_testDetails(pID,testname);
-//		if(past_history.equals("TRUE")) {
-//			Test_Template.create_pastHistory(pID);
-//		}
-//		if(clinical_impression.equals("TRUE")) {
-//			Test_Template.create_clinicalImp(pID);
-//		}
-//		if(fetal_parameter.equals("TRUE")) {
-//			Test_Template.create_fetalParameter(pID);
-//		}
-//		if(fetal_dop_studies.equals("TRUE")) {
-//			Test_Template.create_fetaldopStudies(pID);
-//		}
-//		if(table1.equals("TRUE")) {
-//			Test_Template.create_table1(pID);
-//		}
-//		if(table2.equals("TRUE")) {
-//			Test_Template.create_table2(pID);
-//		}
-//		if(impression.equals("TRUE")) {
-//			Test_Template.create_impression(pID);
-//		}
-//		if(note.equals("TRUE")) {
-//			Test_Template.create_note(pID);
-//		}
-//		ps.close();
-//		rs.close();
+		Test_Template.create_testDetails(pID,testname);
+		if(past_history.equals("TRUE")) {
+			Test_Template.create_pastHistory(pID);
+		}
+		if(clinical_impression.equals("TRUE")) {
+			Test_Template.create_clinicalImp(pID);
+		}
+		if(fetal_parameter.equals("TRUE")) {
+			Test_Template.create_fetalParameter(pID);
+		}
+		if(fetal_dop_studies.equals("TRUE")) {
+			Test_Template.create_fetaldopStudies(pID);
+		}
+		if(table1.equals("TRUE")) {
+			Test_Template.create_table1(pID);
+		}
+		if(table2.equals("TRUE")) {
+			Test_Template.create_table2(pID);
+		}
+		if(impression.equals("TRUE")) {
+			Test_Template.create_impression(pID);
+		}
+		if(note.equals("TRUE")) {
+			Test_Template.create_note(pID);
+		}
+		ps.close();
+		rs.close();
 		
 		vbox.setId("template_vbox");
 		vbox.setLayoutX(40);
