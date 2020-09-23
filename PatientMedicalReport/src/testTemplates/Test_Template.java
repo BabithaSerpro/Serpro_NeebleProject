@@ -41,8 +41,6 @@ public class Test_Template {
 	public static void create_testDetails(int pID, String testname) throws SQLException {
 		HTMLEditor he_Testdetails = new HTMLEditor();
 		he_Testdetails.setPrefWidth(700);
-		htmlEditorHeight(he_Testdetails);
-		
 		he_Testdetails.setId("heTestdetails");
 		he_Testdetails.setStyle("-fx-border-color:white;");
 		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
@@ -58,8 +56,7 @@ public class Test_Template {
 		he_Testdetails=htmlEditorStyle(he_Testdetails);
 
 		String text = stripHTMLTags(he_Testdetails.getHtmlText());
-		
-		System.out.println(text.length());
+		htmlEditorHeight(he_Testdetails);
 		if (!(text.equals(""))) {
 			vbox.getChildren().add(he_Testdetails);
 		}
@@ -258,7 +255,9 @@ public class Test_Template {
 	public static HTMLEditor htmlEditorHeight(HTMLEditor htmleditor) {
 		String text = stripHTMLTags(htmleditor.getHtmlText());
 		int lngth=text.length();
+		
 		System.out.println("text "+lngth);
+		System.out.println("htmltext "+htmleditor.getHtmlText().length());
 		if(lngth>10 && lngth<=50) {
 			htmleditor.setPrefHeight(10);
 		}else if(lngth>50 && lngth<=100){
