@@ -68,7 +68,7 @@ public class EditTDController {
 	public static String tName;
 	private static Connection con;
 	private static PreparedStatement ps;
-	public static String past_history, menstural_data, clinical_impression, fetal_parameter, fetal_dop_studies, table1,
+	public static String test_details, past_history, menstural_data, clinical_impression, fetal_parameter, fetal_dop_studies, table1,
 			table2, impression, note;
 	public static int tID, table1_col, table1_row, table2_col, table2_row;
 	public static VBox tvbox = new VBox(10);
@@ -172,6 +172,7 @@ public class EditTDController {
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			tID = rs.getInt("ID");
+			test_details=rs.getString("TEST_DETAILS");
 			past_history = rs.getString("PAST HISTORY");
 			clinical_impression = rs.getString("CLINICAL_IMPRESSION");
 			fetal_parameter = rs.getString("FETAL PARAMETER");
@@ -185,7 +186,10 @@ public class EditTDController {
 			impression = rs.getString("IMPRESSION");
 			note = rs.getString("PLEASE_NOTE");
 		}
-		TestContent.create_testDetails(tID);
+		
+		if (test_details.equals("TRUE")) {
+			TestContent.create_testDetails(tID);
+		}
 		if (past_history.equals("TRUE")) {
 			TestContent.create_pastHistory(tID);
 		}
@@ -249,6 +253,7 @@ public class EditTDController {
 			}else {
 				ps.setString(6, "");
 			}
+			
 			ps.setString(7, TestContent.testDetstails.getHtmlText());
 			if (clinical_impression.equals("TRUE")) {
 				ps.setString(8, TestContent.clinicalImp.getHtmlText());

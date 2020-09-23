@@ -32,7 +32,7 @@ public class TestContent {
 		while (rs.next()) {
 			he_Testdetails.setHtmlText(rs.getString("testDetails"));
 		}
-		String text = PrintableData.stripHTMLTags(he_Testdetails.getHtmlText());
+		String text = Test_Template.stripHTMLTags(he_Testdetails.getHtmlText());
 
 		if (!(text.equals(""))) {
 			testDetstails = he_Testdetails;

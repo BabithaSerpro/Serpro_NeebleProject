@@ -27,7 +27,7 @@ public class CreateTestTemplate {
 	public static String tName;
 	private static Connection con;
 	private static PreparedStatement ps;
-	public static String past_history, menstural_data, clinical_impression, fetal_parameter, fetal_dop_studies, table1,
+	public static String test_details,past_history, menstural_data, clinical_impression, fetal_parameter, fetal_dop_studies, table1,
 			table2, impression, note;
 	public static int tID, table1_col, table1_row, table2_col, table2_row;
 	public static Button btnPrint = new Button("Print");
@@ -64,7 +64,24 @@ public class CreateTestTemplate {
 			reportScreen.setScene(scene);
 			reportScreen.show();
 			
+			vbox.getChildren().clear();
+			Label lblTestname = new Label(testname);
+			lblTestname.setLayoutX(220);
+			lblTestname.setLayoutY(90);
+			lblTestname.setPrefWidth(741);
+			lblTestname.setPrefHeight(32);
+			lblTestname.setTextAlignment(TextAlignment.CENTER);
+			
 			createTemplate(testname,pid);
+			
+			vbox.setId("template_vbox");
+			vbox.setLayoutX(40);
+			vbox.setLayoutY(120);
+			btnPrint.setPrefWidth(110);
+			btnPrint.setPrefHeight(30);
+			btnPrint.setStyle("-fx-font-size: 15; -fx-text-fill: white; -fx-background-color:  #2eacd2; -fx-padding: 2 2 2 2;");
+			vbox.getChildren().add(btnPrint);
+			HeaderController.getPaneTemplate().getChildren().addAll(lblTestname,vbox);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -72,19 +89,12 @@ public class CreateTestTemplate {
 	}
 
 	public static void createTemplate(String testname, int pID) throws SQLException {
-		Label lblTestname = new Label(testname);
-		lblTestname.setLayoutX(220);
-		lblTestname.setLayoutY(90);
-		lblTestname.setPrefWidth(741);
-		lblTestname.setPrefHeight(32);
-		lblTestname.setTextAlignment(TextAlignment.CENTER);
-
-		
 		con = DBConnectivity.getConnection();
 		ps = con.prepareStatement("SELECT * FROM patient_report WHERE TEST_NAME='"+testname+"'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			tID=rs.getInt("ID");
+			test_details=rs.getString("TEST_DETAILS");
 			past_history=rs.getString("PAST HISTORY");
 			clinical_impression=rs.getString("CLINICAL_IMPRESSION");
 			fetal_parameter=rs.getString("FETAL PARAMETER");
@@ -98,7 +108,11 @@ public class CreateTestTemplate {
 			impression=rs.getString("IMPRESSION");
 			note=rs.getString("PLEASE_NOTE");
 		}
-		Test_Template.create_testDetails(pID,testname);
+		Test_Template.patientreportData(pID, testname);
+		
+		if(test_details.equals("TRUE")) {
+			Test_Template.create_testDetails(pID,testname);
+		}
 		if(past_history.equals("TRUE")) {
 			Test_Template.create_pastHistory(pID,testname);
 		}
@@ -125,14 +139,5 @@ public class CreateTestTemplate {
 		}
 		ps.close();
 		rs.close();
-		
-		vbox.setId("template_vbox");
-		vbox.setLayoutX(40);
-		vbox.setLayoutY(120);
-		btnPrint.setPrefWidth(110);
-		btnPrint.setPrefHeight(30);
-		btnPrint.setStyle("-fx-font-size: 15; -fx-text-fill: white; -fx-background-color:  #2eacd2; -fx-padding: 2 2 2 2;");
-		vbox.getChildren().add(btnPrint);
-		HeaderController.getPaneTemplate().getChildren().addAll(lblTestname,vbox);
 	}
 }
