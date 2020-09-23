@@ -9,12 +9,14 @@ import java.sql.SQLException;
 import DBConnection.DBConnectivity;
 import application.MainScreenController;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -52,6 +54,13 @@ public class CreateTestTemplate {
 	public static Stage getReportScreen() {
 		return reportScreen;
 	}
+	public static Button getBtnPrint() {
+		return btnPrint;
+	}
+
+	public static void setBtnPrint(Button btnPrint) {
+		CreateTestTemplate.btnPrint = btnPrint;
+	}
 
 	public static void screenContent(String testname, int pid) throws Exception {
 		try {
@@ -77,11 +86,20 @@ public class CreateTestTemplate {
 			vbox.setId("template_vbox");
 			vbox.setLayoutX(40);
 			vbox.setLayoutY(120);
+			
+			Label lblsign = new Label("DR SUBODH C KHARE");
+			Label lbldesignatn = new Label("CONSULTANT RADIOLOGIST");
+			lblsign.setStyle("-fx-font-size: 15; -fx-text-fill: #2eacd2; -fx-font-weight: bold; -fx-padding: 80 100 2 2;");
+			lbldesignatn.setStyle("-fx-font-size: 15; -fx-text-fill: #2eacd2; -fx-padding: 2 100 2 2;");
 			btnPrint.setPrefWidth(110);
 			btnPrint.setPrefHeight(30);
 			btnPrint.setStyle("-fx-font-size: 15; -fx-text-fill: white; -fx-background-color:  #2eacd2; -fx-padding: 2 2 2 2;");
-			vbox.getChildren().add(btnPrint);
+//			btnPrint.setPadding(new Insets(500, 500, 500, 500));
+			vbox.getChildren().addAll(lblsign,lbldesignatn,btnPrint);
 			HeaderController.getPaneTemplate().getChildren().addAll(lblTestname,vbox);
+			btnPrint.setOnAction(e->{
+				PrintableData.printReport(e);
+			});
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
