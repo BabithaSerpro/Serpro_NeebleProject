@@ -75,6 +75,7 @@ public class CreateTestTemplate {
 			
 			vbox.getChildren().clear();
 			Label lblTestname = new Label(testname);
+			lblTestname.setId("testname");
 			lblTestname.setLayoutX(220);
 			lblTestname.setLayoutY(90);
 			lblTestname.setPrefWidth(741);
@@ -99,6 +100,7 @@ public class CreateTestTemplate {
 			HeaderController.getPaneTemplate().getChildren().addAll(lblTestname,vbox);
 			btnPrint.setOnAction(e->{
 				PrintableData.printReport(e);
+				PrintableData.downloadReport(e,testname);
 			});
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

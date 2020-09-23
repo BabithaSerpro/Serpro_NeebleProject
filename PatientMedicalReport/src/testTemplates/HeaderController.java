@@ -45,6 +45,30 @@ public class HeaderController {
 
 	private static AnchorPane paneHeader, paneTemplate;
 	private static Label p_name, p_age, p_gender, p_id, test_name,ref_doctor, test_date;
+	public static Label getP_name() {
+		return p_name;
+	}
+
+	public static Label getP_id() {
+		return p_id;
+	}
+
+	public static Label getTest_name() {
+		return test_name;
+	}
+
+	public static void setP_name(Label p_name) {
+		HeaderController.p_name = p_name;
+	}
+
+	public static void setP_id(Label p_id) {
+		HeaderController.p_id = p_id;
+	}
+
+	public static void setTest_name(Label test_name) {
+		HeaderController.test_name = test_name;
+	}
+
 	private static Connection con;
 	private static PreparedStatement ps;
 
