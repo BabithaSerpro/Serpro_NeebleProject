@@ -7,95 +7,95 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane_header" prefHeight="546.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testTemplates.HeaderController">
+<AnchorPane fx:id="pane_header" prefHeight="546.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testTemplates.HeaderController">
    <children>
-      <ScrollPane layoutX="-1.0" layoutY="144.0" prefHeight="506.0" prefWidth="800.0" style="-fx-background-color: white;">
+      <ScrollPane prefHeight="546.0" prefWidth="800.0" style="-fx-background-color: white;">
         <content>
-          <AnchorPane fx:id="pane_template" prefWidth="800.0" style="-fx-background-color: white;">
+          <AnchorPane fx:id="pane_template" layoutY="144.0" prefWidth="800.0" style="-fx-background-color: white;">
                <children>
-                  <Label layoutX="11.0" layoutY="5.0" prefHeight="32.0" prefWidth="94.0" text="Patient Name:">
+                  <AnchorPane fx:id="topPane" prefHeight="144.0" prefWidth="800.0" style="-fx-background-color: #2eacd2;">
+                     <children>
+                        <Label layoutX="13.0" layoutY="4.0" prefHeight="20.0" prefWidth="186.0" text="Dr. Subodh C. Khare" textFill="WHITE">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="15.0" layoutY="28.0" prefHeight="25.0" prefWidth="197.0" text="Surgeon Commander (Retd) I.N" textFill="WHITE" />
+                        <Label layoutX="15.0" layoutY="50.0" prefHeight="25.0" prefWidth="197.0" text="M.D. (Radio Diagnosis)" textFill="WHITE" />
+                        <Label layoutX="15.0" layoutY="71.0" prefHeight="25.0" prefWidth="197.0" text="Clinic: 21634691" textFill="WHITE" />
+                        <Label layoutX="15.0" layoutY="94.0" prefHeight="25.0" prefWidth="197.0" text="Mobile:9326408735" textFill="WHITE" />
+                        <Label layoutX="15.0" layoutY="116.0" prefHeight="25.0" prefWidth="197.0" text="Email: drsubodhkhare@yahoo.co.uk" textFill="WHITE" />
+                        <Label layoutX="604.0" layoutY="4.0" prefHeight="20.0" prefWidth="186.0" text="Subodh Diagonstics" textFill="WHITE">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="604.0" layoutY="28.0" prefHeight="25.0" prefWidth="186.0" text="Commercial Block no 11" textFill="WHITE" />
+                        <Label layoutX="604.0" layoutY="50.0" prefHeight="25.0" prefWidth="186.0" text="Chintamani Society" textFill="WHITE" />
+                        <Label layoutX="604.0" layoutY="71.0" prefHeight="25.0" prefWidth="186.0" text="Babanrao Kulkarni Marg" textFill="WHITE" />
+                        <Label layoutX="604.0" layoutY="94.0" prefHeight="25.0" prefWidth="186.0" text="Mulund (East) Mumbai 400 081" textFill="WHITE" />
+                        <ImageView fitHeight="120.0" fitWidth="175.0" layoutX="351.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imgs/logo.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <Label layoutX="11.0" layoutY="142.0" prefHeight="32.0" prefWidth="94.0" text="Patient Name:">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label fx:id="pname" layoutX="109.0" layoutY="5.0" prefHeight="27.0" prefWidth="302.0">
+                  <Label fx:id="pname" layoutX="109.0" layoutY="142.0" prefHeight="27.0" prefWidth="302.0">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="491.0" layoutY="5.0" prefHeight="32.0" prefWidth="44.0" text="Age:">
+                  <Label layoutX="491.0" layoutY="142.0" prefHeight="32.0" prefWidth="44.0" text="Age:">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="491.0" layoutY="35.0" prefHeight="32.0" prefWidth="63.0" text="Gender:">
+                  <Label layoutX="491.0" layoutY="172.0" prefHeight="32.0" prefWidth="63.0" text="Gender:">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label fx:id="pGender" layoutX="552.0" layoutY="35.0" prefHeight="27.0" prefWidth="145.0">
+                  <Label fx:id="pGender" layoutX="552.0" layoutY="172.0" prefHeight="27.0" prefWidth="145.0">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="11.0" layoutY="35.0" prefHeight="32.0" prefWidth="80.0" text="Ref Doctor:">
+                  <Label layoutX="11.0" layoutY="172.0" prefHeight="32.0" prefWidth="80.0" text="Ref Doctor:">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="11.0" layoutY="65.0" prefHeight="32.0" prefWidth="73.0" text="Reg. No">
+                  <Label layoutX="11.0" layoutY="202.0" prefHeight="32.0" prefWidth="73.0" text="Reg. No">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label fx:id="pId" layoutX="80.0" layoutY="65.0" prefHeight="27.0" prefWidth="166.0">
+                  <Label fx:id="pId" layoutX="80.0" layoutY="202.0" prefHeight="27.0" prefWidth="166.0">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="491.0" layoutY="65.0" prefHeight="32.0" prefWidth="73.0" text="Visit Date:">
+                  <Label layoutX="491.0" layoutY="202.0" prefHeight="32.0" prefWidth="73.0" text="Visit Date:">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label fx:id="pAge" layoutX="551.0" layoutY="5.0" prefHeight="27.0" prefWidth="145.0">
+                  <Label fx:id="pAge" layoutX="551.0" layoutY="142.0" prefHeight="27.0" prefWidth="145.0">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Label>
-                  <Label fx:id="refDoc" layoutX="94.0" layoutY="35.0" prefHeight="27.0" prefWidth="249.0" />
-                  <Label fx:id="testDate" layoutX="563.0" layoutY="65.0" prefHeight="27.0" prefWidth="176.0" />
+                  <Label fx:id="refDoc" layoutX="94.0" layoutY="172.0" prefHeight="27.0" prefWidth="249.0" />
+                  <Label fx:id="testDate" layoutX="563.0" layoutY="202.0" prefHeight="27.0" prefWidth="176.0" />
                </children>
             </AnchorPane>
         </content>
       </ScrollPane>
-      <AnchorPane prefHeight="144.0" prefWidth="800.0" style="-fx-background-color: #2eacd2;">
-         <children>
-            <Label layoutX="13.0" layoutY="4.0" prefHeight="20.0" prefWidth="186.0" text="Dr. Subodh C. Khare" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="15.0" layoutY="28.0" prefHeight="25.0" prefWidth="197.0" text="Surgeon Commander (Retd) I.N" textFill="WHITE" />
-            <Label layoutX="15.0" layoutY="50.0" prefHeight="25.0" prefWidth="197.0" text="M.D. (Radio Diagnosis)" textFill="WHITE" />
-            <Label layoutX="15.0" layoutY="71.0" prefHeight="25.0" prefWidth="197.0" text="Clinic: 21634691" textFill="WHITE" />
-            <Label layoutX="15.0" layoutY="94.0" prefHeight="25.0" prefWidth="197.0" text="Mobile:9326408735" textFill="WHITE" />
-            <Label layoutX="15.0" layoutY="116.0" prefHeight="25.0" prefWidth="197.0" text="Email: drsubodhkhare@yahoo.co.uk" textFill="WHITE" />
-            <Label layoutX="604.0" layoutY="4.0" prefHeight="20.0" prefWidth="186.0" text="Subodh Diagonstics" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="604.0" layoutY="28.0" prefHeight="25.0" prefWidth="186.0" text="Commercial Block no 11" textFill="WHITE" />
-            <Label layoutX="604.0" layoutY="50.0" prefHeight="25.0" prefWidth="186.0" text="Chintamani Society" textFill="WHITE" />
-            <Label layoutX="604.0" layoutY="71.0" prefHeight="25.0" prefWidth="186.0" text="Babanrao Kulkarni Marg" textFill="WHITE" />
-            <Label layoutX="604.0" layoutY="94.0" prefHeight="25.0" prefWidth="186.0" text="Mulund (East) Mumbai 400 081" textFill="WHITE" />
-            <ImageView fitHeight="120.0" fitWidth="175.0" layoutX="351.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../imgs/logo.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
    </children>
 </AnchorPane>

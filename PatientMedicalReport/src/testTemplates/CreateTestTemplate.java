@@ -25,7 +25,7 @@ public class CreateTestTemplate {
 	public static Stage reportScreen;
 	public static ScrollPane sPane;
 	public static AnchorPane contentPane;
-	public static VBox vbox = new VBox();
+	public static VBox vbox = new VBox(10);
 	public static String tName;
 	private static Connection con;
 	private static PreparedStatement ps;
@@ -64,10 +64,9 @@ public class CreateTestTemplate {
 
 	public static void screenContent(String testname, int pid) throws Exception {
 		try {
-			contentPane = HeaderController.getPaneTemplate();
 			reportScreen = new Stage();
 			Parent header = FXMLLoader.load(CreateTestTemplate.class.getResource("/testTemplates/Header.fxml"));
-
+			contentPane = HeaderController.getPaneTemplate();
 			Scene scene = new Scene(header);
 			reportScreen.setTitle("Patient Report");
 			reportScreen.setScene(scene);
@@ -77,7 +76,7 @@ public class CreateTestTemplate {
 			Label lblTestname = new Label(testname);
 			lblTestname.setId("testname");
 			lblTestname.setLayoutX(220);
-			lblTestname.setLayoutY(90);
+			lblTestname.setLayoutY(230);
 			lblTestname.setPrefWidth(741);
 			lblTestname.setPrefHeight(32);
 			lblTestname.setTextAlignment(TextAlignment.CENTER);
@@ -86,7 +85,7 @@ public class CreateTestTemplate {
 			
 			vbox.setId("template_vbox");
 			vbox.setLayoutX(40);
-			vbox.setLayoutY(120);
+			vbox.setLayoutY(260);
 			
 			Label lblsign = new Label("DR SUBODH C KHARE");
 			Label lbldesignatn = new Label("CONSULTANT RADIOLOGIST");
@@ -99,7 +98,7 @@ public class CreateTestTemplate {
 			vbox.getChildren().addAll(lblsign,lbldesignatn,btnPrint);
 			HeaderController.getPaneTemplate().getChildren().addAll(lblTestname,vbox);
 			btnPrint.setOnAction(e->{
-				PrintableData.downloadReport(e,testname);
+				PrintableData.downloadReport(e,testname,HeaderController.getPaneTemplate());
 			});
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
