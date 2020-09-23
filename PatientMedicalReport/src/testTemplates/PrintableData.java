@@ -11,7 +11,6 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.printing.PDFPageable;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import DBConnection.DBConnectivity;
@@ -44,44 +43,14 @@ public class PrintableData {
 	private static Connection con;
 	private static PreparedStatement ps;
 	private static int flag;
-	
 	public static Button btn_print=CreateTestTemplate.getBtnPrint();
-    public static void printReport(ActionEvent event) {
-		Printer printer = Printer.getDefaultPrinter();
-		printer.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.HARDWARE_MINIMUM);
-	    PageLayout pageLayout=printer.getDefaultPageLayout();
-	    PrinterJob job = PrinterJob.createPrinterJob(printer);
-
-	    if(job != null){
-	    	btn_print.setVisible(false);
-	 		double scaleX = pageLayout.getPrintableWidth() / viewReportpane.getBoundsInParent().getWidth();
-			double scaleY = pageLayout.getPrintableHeight() / viewReportpane.getBoundsInParent().getHeight();
-			Scale scale = new Scale(scaleX, scaleY);
-			viewReportpane.getTransforms().add(scale);
-			boolean showDialog = job.showPageSetupDialog(viewReportpane.getScene().getWindow());
-	 		job.showPrintDialog(viewReportpane.getScene().getWindow()); 
-			job.printPage(viewReportpane);
-			viewReportpane.getTransforms().remove(scale);
-	    	btn_print.setVisible(true);
-	    } 
-	    job.endJob();
-	    
-	    Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Dr Subodh App");
-		Label label = new Label("Print");
-		label.textProperty().bind(job.jobStatusProperty().asString());
-		alert.setHeaderText(label.getText());
-		alert.getButtonTypes().setAll(ButtonType.OK);
-		alert.getDialogPane().setHeaderText("File saved!!");
-		alert.showAndWait().ifPresent(bt -> {
-			if (bt == ButtonType.OK) {
-				CreateTestTemplate.getReportScreen().close();
-			}
-		});
-    }
-    
-    
-    public static void downloadReport(ActionEvent event, String testname) {
+	
+	public static int count = 1;
+	
+	public void increaseCount() {
+	    count++;
+	}
+	public static void downloadReport(ActionEvent event, String testname) {
 		try {
 			p_id=Integer.valueOf(HeaderController.getP_id().getText());
 			p_name=HeaderController.getP_name().getText();
@@ -118,8 +87,8 @@ public class PrintableData {
             if (!f.isDirectory()) {
               boolean success = f.mkdirs();
               if (success) {
-                doc.save(f+"/"+ p_id +"_" + p_name +"_" + test_name +".pdf");
-                path=f+"/"+ p_id +"_" + p_name +"_" + test_name+".pdf";
+                doc.save(f+"/"+ p_id +"_" + p_name +"_" + test_name +"_"+count+".pdf");
+                path=f+"/"+ p_id +"_" + p_name +"_" + test_name +"_"+count+".pdf";
               } else {
             	Alert alert = new Alert(AlertType.WARNING);
   				alert.setTitle("Dr. Subodh App");
@@ -128,9 +97,10 @@ public class PrintableData {
   				alert.showAndWait();
               }
             } else {
-              doc.save(f+"/"+ p_id +"_" + p_name +"_" + test_name +".pdf");
-              path=f+"/"+ p_id+"_" + p_name+"_" + test_name +".pdf";
+              doc.save(f+"/"+ p_id +"_" + p_name +"_" + test_name +"_"+count+".pdf");
+              path=f+"/"+ p_id +"_" + p_name +"_" + test_name +"_"+count+".pdf";
             }
+           
             doc.close();
             output.delete();
 
@@ -146,11 +116,18 @@ public class PrintableData {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Dr. Subodh App");
 				alert.initStyle(StageStyle.TRANSPARENT);
-				alert.setContentText("File Saved!!");
+				alert.getButtonTypes().setAll(ButtonType.OK);
+				alert.getDialogPane().setHeaderText("File Saved!!");
+				alert.showAndWait().ifPresent(bt -> {
+					if (bt == ButtonType.OK) {
+						CreateTestTemplate.getReportScreen().close();
+					}
+				});
 			}
-			
 		} catch (Exception e) { // catching exception if any backend error occurs
 			e.printStackTrace();
 		}
 	}
+	
+	
 }

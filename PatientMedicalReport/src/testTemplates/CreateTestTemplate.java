@@ -99,7 +99,6 @@ public class CreateTestTemplate {
 			vbox.getChildren().addAll(lblsign,lbldesignatn,btnPrint);
 			HeaderController.getPaneTemplate().getChildren().addAll(lblTestname,vbox);
 			btnPrint.setOnAction(e->{
-				PrintableData.printReport(e);
 				PrintableData.downloadReport(e,testname);
 			});
 		} catch (IOException e) {
