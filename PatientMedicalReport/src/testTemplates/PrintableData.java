@@ -1,5 +1,6 @@
 package testTemplates;
 
+import java.awt.print.PrinterException;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,13 +11,13 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.printing.PDFPageable;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import DBConnection.DBConnectivity;
 import addTest.addTestController;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.print.PageLayout;
 import javafx.print.PageOrientation;
 import javafx.print.Paper;
@@ -25,12 +26,10 @@ import javafx.print.PrinterJob;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.WritableImage;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
@@ -72,7 +71,13 @@ public class PrintableData {
 		Label label = new Label("Print");
 		label.textProperty().bind(job.jobStatusProperty().asString());
 		alert.setHeaderText(label.getText());
-		alert.showAndWait();
+		alert.getButtonTypes().setAll(ButtonType.OK);
+		alert.getDialogPane().setHeaderText("File saved!!");
+		alert.showAndWait().ifPresent(bt -> {
+			if (bt == ButtonType.OK) {
+				CreateTestTemplate.getReportScreen().close();
+			}
+		});
     }
     
     
@@ -142,12 +147,6 @@ public class PrintableData {
 				alert.setTitle("Dr. Subodh App");
 				alert.initStyle(StageStyle.TRANSPARENT);
 				alert.setContentText("File Saved!!");
-				alert.getButtonTypes().setAll(ButtonType.OK);
-				alert.showAndWait().ifPresent(bt -> {
-					if (bt == ButtonType.OK) {
-						addTestController.getReportScreen().close();
-					}
-				});
 			}
 			
 		} catch (Exception e) { // catching exception if any backend error occurs
