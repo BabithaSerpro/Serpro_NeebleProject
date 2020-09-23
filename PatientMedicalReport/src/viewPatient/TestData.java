@@ -28,6 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import screens.HomePageController;
+import testTemplates.CreateTestTemplate;
 
 public class TestData {
 	public final SimpleIntegerProperty tId = new SimpleIntegerProperty();
@@ -78,20 +79,30 @@ public class TestData {
                     	btn.setOnAction((ActionEvent event) -> {
                         	TestData data = getTableView().getItems().get(getIndex());
                         	try {
-                        		reportScreen = new Stage();
-            					Parent root = FXMLLoader.load(getClass().getResource("/addTest/viewReport.fxml"));
-            					Scene scene = new Scene(root);
-            					reportScreen.setTitle("Patient Report");
-            					reportScreen.setScene(scene);
-            					reportScreen.show();
-            					setReportScreen(reportScreen);
-								viewReportController.viewReport(data.gettId());
-							} catch (IOException e) {
+                        		CreateTestTemplate.screenContent(data.getTestName(), pid);
+							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-                            
                         });
+                    	
+//                    	btn.setOnAction((ActionEvent event) -> {
+//                        	TestData data = getTableView().getItems().get(getIndex());
+//                        	try {
+//                        		reportScreen = new Stage();
+//            					Parent root = FXMLLoader.load(getClass().getResource("/addTest/viewReport.fxml"));
+//            					Scene scene = new Scene(root);
+//            					reportScreen.setTitle("Patient Report");
+//            					reportScreen.setScene(scene);
+//            					reportScreen.show();
+//            					setReportScreen(reportScreen);
+//								viewReportController.viewReport(data.gettId());
+//							} catch (IOException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
+//                            
+//                        });
                     }
 
                     @Override

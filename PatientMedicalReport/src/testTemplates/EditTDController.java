@@ -213,7 +213,8 @@ public class EditTDController {
 		btnSave.setOnAction(e -> {
 			try {
 				addTest();
-				CreateTestTemplate.screenContent(testname,p_id.getText());
+				int pid=Integer.valueOf(p_id.getText());
+				CreateTestTemplate.screenContent(testname,pid);
 			} catch (Exception e1) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Dr. Subodh App");

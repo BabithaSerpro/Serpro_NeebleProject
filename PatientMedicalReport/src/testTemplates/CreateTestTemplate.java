@@ -53,7 +53,7 @@ public class CreateTestTemplate {
 		return reportScreen;
 	}
 
-	public static void screenContent(String testname, String pid) throws Exception {
+	public static void screenContent(String testname, int pid) throws Exception {
 		try {
 			contentPane = HeaderController.getPaneTemplate();
 			reportScreen = new Stage();
@@ -71,8 +71,7 @@ public class CreateTestTemplate {
 		}
 	}
 
-	public static void createTemplate(String testname, String pid) throws SQLException {
-		int pID=Integer.valueOf(pid);
+	public static void createTemplate(String testname, int pID) throws SQLException {
 		Label lblTestname = new Label(testname);
 		lblTestname.setLayoutX(220);
 		lblTestname.setLayoutY(90);
@@ -101,28 +100,28 @@ public class CreateTestTemplate {
 		}
 		Test_Template.create_testDetails(pID,testname);
 		if(past_history.equals("TRUE")) {
-			Test_Template.create_pastHistory(pID);
+			Test_Template.create_pastHistory(pID,testname);
 		}
 		if(clinical_impression.equals("TRUE")) {
-			Test_Template.create_clinicalImp(pID);
+			Test_Template.create_clinicalImp(pID,testname);
 		}
 		if(fetal_parameter.equals("TRUE")) {
-			Test_Template.create_fetalParameter(pID);
+			Test_Template.create_fetalParameter(pID,testname);
 		}
 		if(fetal_dop_studies.equals("TRUE")) {
-			Test_Template.create_fetaldopStudies(pID);
+			Test_Template.create_fetaldopStudies(pID,testname);
 		}
 		if(table1.equals("TRUE")) {
-			Test_Template.create_table1(pID);
+			Test_Template.create_table1(pID,testname);
 		}
 		if(table2.equals("TRUE")) {
-			Test_Template.create_table2(pID);
+			Test_Template.create_table2(pID,testname);
 		}
 		if(impression.equals("TRUE")) {
-			Test_Template.create_impression(pID);
+			Test_Template.create_impression(pID,testname);
 		}
 		if(note.equals("TRUE")) {
-			Test_Template.create_note(pID);
+			Test_Template.create_note(pID,testname);
 		}
 		ps.close();
 		rs.close();

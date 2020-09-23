@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
 
 public class Test_Template {
-	private static Connection con = DBConnectivity.getConnection();;
+	private static Connection con = DBConnectivity.getConnection();
 	private static PreparedStatement ps;
 	private ResultSet rs;
 	public static AnchorPane contentPane = HeaderController.getPaneTemplate();
@@ -31,6 +31,10 @@ public class Test_Template {
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			he_Testdetails.setHtmlText(rs.getString("testDescription"));
+		}
+		String st=he_Testdetails.getHtmlText();
+		if(st.contains("contenteditable=\"true\"")){
+		    st=st.replace("contenteditable=\"true\"", "contenteditable=\"false\"");
 		}
 
 		// hide controls we don't need.
@@ -51,7 +55,7 @@ public class Test_Template {
 		}
 	}
 
-	public static void create_pastHistory(int pID) throws SQLException {
+	public static void create_pastHistory(int pID, String testname) throws SQLException {
 		Label lblphistory = new Label("Relevant past history");
 		HTMLEditor hE_pHistory = new HTMLEditor();
 		hE_pHistory.setPrefWidth(700);
@@ -59,7 +63,7 @@ public class Test_Template {
 		hE_pHistory.setId("hePastHistory");
 		hE_pHistory.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_pHistory.setHtmlText(rs.getString("patientHistory"));
@@ -79,7 +83,7 @@ public class Test_Template {
 		vbox.getChildren().addAll(lblphistory, hE_pHistory);
 	}
 
-	public static void create_clinicalImp(int pID) throws SQLException {
+	public static void create_clinicalImp(int pID, String testname) throws SQLException {
 		Label lblclinicalImp = new Label("CLINICAL IMPRESSION");
 		HTMLEditor hE_clinicalImp = new HTMLEditor();
 		hE_clinicalImp.setPrefHeight(-1);
@@ -87,7 +91,7 @@ public class Test_Template {
 		hE_clinicalImp.setId("hePastHistory");
 		hE_clinicalImp.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_clinicalImp.setHtmlText(rs.getString("clinicalImpression"));
@@ -106,7 +110,7 @@ public class Test_Template {
 		vbox.getChildren().addAll(lblclinicalImp, hE_clinicalImp);
 	}
 
-	public static void create_fetalParameter(int pID) {
+	public static void create_fetalParameter(int pID, String testname) {
 		try {
 			Label lblfp = new Label("FETAL PARAMETERS: ");
 
@@ -116,7 +120,7 @@ public class Test_Template {
 			hE_fp.setId("heFetalParameter");
 			hE_fp.setStyle("-fx-border-color:white;");
 
-			ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "'");
+			ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				hE_fp.setHtmlText(rs.getString("fetalParameter"));
@@ -138,14 +142,14 @@ public class Test_Template {
 		}
 	}
 
-	public static void create_fetaldopStudies(int pID) throws SQLException {
+	public static void create_fetaldopStudies(int pID, String testname) throws SQLException {
 		HTMLEditor hE_fds = new HTMLEditor();
 		hE_fds.setPrefWidth(700);
 		hE_fds.setPrefHeight(-1);
 		hE_fds.setId("heFetalDS");
 		hE_fds.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_fds.setHtmlText(rs.getString("fetalDoplerStudies"));
@@ -164,7 +168,7 @@ public class Test_Template {
 		vbox.getChildren().addAll(hE_fds);
 	}
 
-	public static void create_table1(int pID) throws SQLException {
+	public static void create_table1(int pID, String testname) throws SQLException {
 		HTMLEditor hE_table1 = new HTMLEditor();
 		hE_table1.setPrefWidth(700);
 		hE_table1.setPrefHeight(-1);
@@ -183,7 +187,7 @@ public class Test_Template {
 				+ "        -fx-opacity: 0;");
 		hE_table1.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_table1.setHtmlText(rs.getString("table1"));
@@ -192,7 +196,7 @@ public class Test_Template {
 		vbox.getChildren().addAll(hE_table1);
 	}
 
-	public static void create_table2(int pID) throws SQLException {
+	public static void create_table2(int pID, String testname) throws SQLException {
 		HTMLEditor hE_table2 = new HTMLEditor();
 		hE_table2.setPrefWidth(700);
 		hE_table2.setPrefHeight(-1);
@@ -211,7 +215,7 @@ public class Test_Template {
 				+ "        -fx-opacity: 0;");
 		hE_table2.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_table2.setHtmlText(rs.getString("table2"));
@@ -220,7 +224,7 @@ public class Test_Template {
 		vbox.getChildren().addAll(hE_table2);
 	}
 
-	public static void create_impression(int pID) throws SQLException {
+	public static void create_impression(int pID, String testname) throws SQLException {
 		Label lblimp = new Label("Impression: ");
 		HTMLEditor hE_imp = new HTMLEditor();
 		hE_imp.setPrefWidth(700);
@@ -228,7 +232,7 @@ public class Test_Template {
 		hE_imp.setId("heImpression");
 		hE_imp.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_imp.setHtmlText(rs.getString("impression"));
@@ -248,7 +252,7 @@ public class Test_Template {
 		vbox.getChildren().addAll(lblimp, hE_imp);
 	}
 
-	public static void create_note(int tID) throws SQLException {
+	public static void create_note(int pID, String testname) throws SQLException {
 		Label lblnote = new Label("Please Note: ");
 		HTMLEditor hE_note = new HTMLEditor();
 		hE_note.setPrefWidth(700);
@@ -256,7 +260,7 @@ public class Test_Template {
 		hE_note.setId("heNote");
 		hE_note.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_report_testdetails WHERE tId='" + tID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_note.setHtmlText(rs.getString("note"));
