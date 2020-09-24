@@ -58,6 +58,66 @@ public class TestContent {
 		vbox.getChildren().addAll(lblphistory, hE_pHistory);
 	}
 
+	public static void create_table1(int tID) throws SQLException {
+		HTMLEditor hE_table1 = new HTMLEditor();
+		hE_table1.setPrefHeight(600);
+		hE_table1.setPrefWidth(700);
+		hE_table1.setId("hE_tbl1");
+
+		// hide controls we don't need.
+		Node t_node = hE_table1.lookup(".top-toolbar");
+		Node b_node = hE_table1.lookup(".bottom-toolbar");
+		t_node.setVisible(false);
+		b_node.setVisible(false);
+		t_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
+				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
+				+ "        -fx-opacity: 0;");
+		b_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
+				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
+				+ "        -fx-opacity: 0;");
+		hE_table1.setStyle("-fx-border-color:white;");
+
+		ps = con.prepareStatement("SELECT * FROM patient_report_tabledetails WHERE testId='" + tID + "'");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			hE_table1.setHtmlText(rs.getString("table"));
+		}
+		if (!hE_table1.equals(null)) {
+			table1 = hE_table1;
+		} 
+		vbox.getChildren().addAll(hE_table1);
+	}
+	
+	public static void create_table2(int tID) throws SQLException {
+		HTMLEditor hE_table2 = new HTMLEditor();
+		hE_table2.setPrefHeight(400);
+		hE_table2.setPrefWidth(700);
+		hE_table2.setId("hE_tbl2");
+
+		// hide controls we don't need.
+		Node t_node = hE_table2.lookup(".top-toolbar");
+		Node b_node = hE_table2.lookup(".bottom-toolbar");
+		t_node.setVisible(false);
+		b_node.setVisible(false);
+		t_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
+				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
+				+ "        -fx-opacity: 0;");
+		b_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
+				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
+				+ "        -fx-opacity: 0;");
+		hE_table2.setStyle("-fx-border-color:white;");
+
+		ps = con.prepareStatement("SELECT * FROM patient_report_tabledetails WHERE testId='" + tID + "'");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			hE_table2.setHtmlText(rs.getString("table"));
+		}
+		if (!hE_table2.equals(null)) {
+			table2 = hE_table2;
+		} 
+		vbox.getChildren().addAll(hE_table2);
+	}
+	
 	public static void create_impression(int tID) throws SQLException {
 		Label lblimp = new Label("Impression: ");
 		HTMLEditor hE_imp = new HTMLEditor();

@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -177,10 +178,10 @@ public class EditTDController {
 //			clinical_impression = rs.getString("CLINICAL_IMPRESSION");
 //			fetal_parameter = rs.getString("FETAL PARAMETER");
 //			fetal_dop_studies = rs.getString("FETAL DOPPLER STUDIES");
-//			table1 = rs.getString("TABLE1");
+			table1 = rs.getString("TABLE1");
 //			table1_col = rs.getInt("TABLE1_NO_OF_COLUMNS");
 //			table1_row = rs.getInt("TABLE1_NO_OF_ROWS");
-//			table2 = rs.getString("TABLE2");
+			table2 = rs.getString("TABLE2");
 //			table2_col = rs.getInt("TABLE2_NO_OF_COLUMNS");
 //			table2_row = rs.getInt("TABLE2_NO_OF_ROWS");
 			impression = rs.getString("IMPRESSION");
@@ -203,12 +204,12 @@ public class EditTDController {
 //		if (fetal_dop_studies.equals("TRUE")) {
 //			TestContent.create_fetaldopStudies(tID);
 //		}
-//		if (table1.equals("TRUE")) {
-//			TestContent.create_table1(tID);
-//		}
-//		if (table2.equals("TRUE")) {
-//			TestContent.create_table2(tID);
-//		}
+		if (table1.equals("TRUE")) {
+			TestContent.create_table1(tID);
+		}
+		if (table2.equals("TRUE")) {
+			TestContent.create_table2(tID);
+		}
 		if (impression.equals("TRUE")) {
 			TestContent.create_impression(tID);
 		}
@@ -239,8 +240,8 @@ public class EditTDController {
 
 		String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
 		String insert = "INSERT into patient_reportmasterdata (regNumber,ref_doctor,testName,testDate,reportDate,patientHistory,testDescription,"
-				+ "impression,note,active,created_timestamp,modified_timestamp)"
-				+ " values(?,?,?,?,?,?,?,?,?,'Y','" + timeStamp + "','" + timeStamp + "')";
+				+ "table1,table2,impression,note,active,created_timestamp,modified_timestamp)"
+				+ " values(?,?,?,?,?,?,?,?,?,?,?,'Y','" + timeStamp + "','" + timeStamp + "')";
 		con = DBConnectivity.getConnection();
 		try {
 			ps = con.prepareStatement(insert);
@@ -275,25 +276,25 @@ public class EditTDController {
 //			}else {
 //				ps.setString(10, "");
 //			}
-//			if (table1.equals("TRUE")) {
-//				ps.setString(11, TestContent.table1.getHtmlText());
-//			}else {
-//				ps.setString(11, "");
-//			}
-//			if (table2.equals("TRUE")) {
-//				ps.setString(12, TestContent.table2.getHtmlText());
-//			}else {
-//				ps.setString(12, "");
-//			}
-			if (impression.equals("TRUE")) {
-				ps.setString(8, TestContent.impression.getHtmlText());
+			if (table1.equals("TRUE")) {
+				ps.setString(8, TestContent.table1.getHtmlText());
 			}else {
 				ps.setString(8, "");
 			}
-			if (note.equals("TRUE")) {
-				ps.setString(9, TestContent.note.getHtmlText());
+			if (table2.equals("TRUE")) {
+				ps.setString(9, TestContent.table2.getHtmlText());
 			}else {
 				ps.setString(9, "");
+			}
+			if (impression.equals("TRUE")) {
+				ps.setString(10, TestContent.impression.getHtmlText());
+			}else {
+				ps.setString(10, "");
+			}
+			if (note.equals("TRUE")) {
+				ps.setString(11, TestContent.note.getHtmlText());
+			}else {
+				ps.setString(11, "");
 			}
 			flag = ps.executeUpdate();
 
@@ -303,7 +304,11 @@ public class EditTDController {
 				alert.setHeaderText(null);
 				alert.initStyle(StageStyle.TRANSPARENT);
 				alert.setContentText("Test Added Successfully");
-				alert.showAndWait();
+				alert.showAndWait().ifPresent(bt -> {
+					if (bt == ButtonType.OK) {
+						close();
+					}
+				});
 			} else {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Dr. Subodh App");
@@ -324,9 +329,12 @@ public class EditTDController {
 		}
 
 	}
-
+	
 	@FXML
 	void cancelBtn(ActionEvent event) {
+		close();
+	}
+	public static void close() {
 		AnchorPane pane = MainScreenController.getHomePage();
 		for (int i = 0; i < pane.getChildren().size(); i++) {
 			String paneID = pane.getChildren().get(i).getId();

@@ -116,10 +116,10 @@ public class CreateTestTemplate {
 //			clinical_impression=rs.getString("CLINICAL_IMPRESSION");
 //			fetal_parameter=rs.getString("FETAL PARAMETER");
 //			fetal_dop_studies=rs.getString("FETAL DOPPLER STUDIES");
-//			table1=rs.getString("TABLE1");
+			table1=rs.getString("TABLE1");
 //			table1_col=rs.getInt("TABLE1_NO_OF_COLUMNS");
 //			table1_row=rs.getInt("TABLE1_NO_OF_ROWS");
-//			table2=rs.getString("TABLE2");
+			table2=rs.getString("TABLE2");
 //			table2_col=rs.getInt("TABLE2_NO_OF_COLUMNS");
 //			table2_row=rs.getInt("TABLE2_NO_OF_ROWS");  
 			impression=rs.getString("IMPRESSION");
@@ -143,12 +143,12 @@ public class CreateTestTemplate {
 //		if(fetal_dop_studies.equals("TRUE")) {
 //			Test_Template.create_fetaldopStudies(pID,testname);
 //		}
-//		if(table1.equals("TRUE")) {
-//			Test_Template.create_table1(pID,testname);
-//		}
-//		if(table2.equals("TRUE")) {
-//			Test_Template.create_table2(pID,testname);
-//		}
+		if(table1.equals("TRUE")) {
+			Test_Template.create_table1(pID,testname);
+		}
+		if(table2.equals("TRUE")) {
+			Test_Template.create_table2(pID,testname);
+		}
 		if(impression.equals("TRUE")) {
 			Test_Template.create_impression(pID,testname);
 		}

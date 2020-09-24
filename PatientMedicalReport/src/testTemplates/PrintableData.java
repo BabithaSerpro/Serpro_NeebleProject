@@ -16,6 +16,7 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import DBConnection.DBConnectivity;
+import application.MainScreenController;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.scene.SnapshotParameters;
@@ -76,7 +77,7 @@ public class PrintableData {
             double factor = Math.min(box.getWidth() / snapshot.getWidth(), box.getHeight() / snapshot.getHeight());
             float height = (float) (snapshot.getHeight() * factor);
             
-            content.drawImage(pdimage, 10, box.getHeight() - height-10, (float) (snapshot.getWidth() * factor), height-4);
+            content.drawImage(pdimage, 15, box.getHeight() - height-5, (float) (snapshot.getWidth() * factor), height-5);
             content.close();
             doc.addPage(page);
            
@@ -128,6 +129,4 @@ public class PrintableData {
 			e.printStackTrace();
 		}
 	}
-	
-	
 }

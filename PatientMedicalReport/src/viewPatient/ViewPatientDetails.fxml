@@ -64,9 +64,9 @@
          </font></Button>
       <TableView fx:id="tbl_testDetails" layoutX="20.0" layoutY="249.0" prefHeight="250.0" prefWidth="763.0">
         <columns>
-        	<TableColumn fx:id="clm_testName" prefWidth="364.0" text="Test Name" />
-          <TableColumn fx:id="clm_tDate" prefWidth="97.0" text="Date" />
-          <TableColumn fx:id="clm_status" prefWidth="95.0" text="Status" />
+        	<TableColumn fx:id="clm_testName" prefWidth="431.0" text="Test Name" />
+          <TableColumn fx:id="clm_tDate" prefWidth="87.0" text="Date" />
+          <TableColumn fx:id="clm_status" prefWidth="82.0" text="Status" />
         </columns>
       </TableView>
       <AnchorPane prefHeight="40.0" prefWidth="800.0" style="-fx-background-color: #2eacd5;;">

@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
+import javafx.scene.web.WebView;
 
 public class Test_Template {
 	private static Connection con = DBConnectivity.getConnection();
@@ -26,7 +27,8 @@ public class Test_Template {
 	public static void patientreportData(int pID, String testname) {
 		try {
 			con = DBConnectivity.getConnection();
-			ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+			ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID
+					+ "' AND testName='" + testname + "'");
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -37,13 +39,14 @@ public class Test_Template {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void create_testDetails(int pID, String testname) throws SQLException {
 		HTMLEditor he_Testdetails = new HTMLEditor();
 		he_Testdetails.setPrefWidth(700);
 		he_Testdetails.setId("heTestdetails");
 		he_Testdetails.setStyle("-fx-border-color:white;");
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+		ps = con.prepareStatement(
+				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			he_Testdetails.setHtmlText(rs.getString("testDescription"));
@@ -52,12 +55,18 @@ public class Test_Template {
 		if (st.contains("contenteditable=\"true\"")) {
 			st = st.replace("contenteditable=\"true\"", "contenteditable=\"false\"");
 		}
-		
-		he_Testdetails=htmlEditorStyle(he_Testdetails);
 
+		he_Testdetails = htmlEditorStyle(he_Testdetails);
+		System.out.println(he_Testdetails.getHtmlText().length());
+		
+		Node scPane = he_Testdetails.lookup(".scroll-bar:vertical");
+		scPane.setVisible(true);
+		scPane.setDisable(true);
+		
 		String text = stripHTMLTags(he_Testdetails.getHtmlText());
-		heHeightTestDeatils(he_Testdetails,testname);
-		System.out.println("he_Testdetails "+he_Testdetails.getHtmlText().length());
+		he_testDetailsHeight(he_Testdetails, testname);
+//		he_Testdetails.setDisable(true);
+		
 		if (!(text.equals(""))) {
 			vbox.getChildren().add(he_Testdetails);
 		}
@@ -67,7 +76,6 @@ public class Test_Template {
 		Label lblphistory = new Label("Relevant past history");
 		HTMLEditor hE_pHistory = new HTMLEditor();
 		hE_pHistory.setPrefWidth(700);
-		hE_pHistory.setPrefHeight(400);
 		hE_pHistory.setId("hePastHistory");
 		hE_pHistory.setStyle("-fx-border-color:white;");
 
@@ -78,9 +86,50 @@ public class Test_Template {
 			hE_pHistory.setHtmlText(rs.getString("patientHistory"));
 		}
 		// hide controls we don't need.
-		hE_pHistory=htmlEditorStyle(hE_pHistory);
-
+		hE_pHistory = htmlEditorStyle(hE_pHistory);
+		htmlEditorHeight(hE_pHistory, testname);
+		hE_pHistory.setDisable(true);
 		vbox.getChildren().addAll(lblphistory, hE_pHistory);
+	}
+
+	public static void create_table1(int pID, String testname) throws SQLException {
+		HTMLEditor hE_table1 = new HTMLEditor();
+		hE_table1.setPrefWidth(700);
+		hE_table1.setPrefHeight(400);
+		hE_table1.setId("hE_tbl1");
+		System.out.println(hE_table1.getHtmlText().length());
+		// hide controls we don't need.
+		hE_table1 = htmlEditorStyle(hE_table1);
+		hE_table1.setStyle("-fx-border-color:white;");
+
+		ps = con.prepareStatement(
+				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			hE_table1.setHtmlText(rs.getString("table1"));
+		}
+
+		vbox.getChildren().addAll(hE_table1);
+	}
+
+	public static void create_table2(int pID, String testname) throws SQLException {
+		HTMLEditor hE_table2 = new HTMLEditor();
+		hE_table2.setPrefWidth(700);
+		hE_table2.setPrefHeight(400);
+		hE_table2.setId("hE_tbl2");
+
+		// hide controls we don't need.
+		hE_table2 = htmlEditorStyle(hE_table2);
+		hE_table2.setStyle("-fx-border-color:white;");
+
+		ps = con.prepareStatement(
+				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			hE_table2.setHtmlText(rs.getString("table2"));
+		}
+
+		vbox.getChildren().addAll(hE_table2);
 	}
 
 	public static void create_impression(int pID, String testname) throws SQLException {
@@ -97,11 +146,10 @@ public class Test_Template {
 		while (rs.next()) {
 			hE_imp.setHtmlText(rs.getString("impression"));
 		}
-		htmlEditorHeight(hE_imp,testname);
-		System.out.println("hE_imp "+hE_imp.getHtmlText().length());
+		htmlEditorHeight(hE_imp, testname);
 		// hide controls we don't need.
-		hE_imp=htmlEditorStyle(hE_imp);
-
+		hE_imp = htmlEditorStyle(hE_imp);
+		hE_imp.setDisable(true);
 		vbox.getChildren().addAll(lblimp, hE_imp);
 	}
 
@@ -113,15 +161,16 @@ public class Test_Template {
 		hE_note.setId("heNote");
 		hE_note.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+		ps = con.prepareStatement(
+				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_note.setHtmlText(rs.getString("note"));
 		}
-		
-		hE_note=htmlEditorStyle(hE_note);
-		htmlEditorHeight(hE_note,testname);
-		System.out.println("hE_note "+hE_note.getHtmlText().length());
+
+		hE_note = htmlEditorStyle(hE_note);
+		htmlEditorHeight(hE_note, testname);
+		hE_note.setDisable(true);
 		vbox.getChildren().addAll(lblnote, hE_note);
 	}
 
@@ -155,7 +204,7 @@ public class Test_Template {
 	public static HTMLEditor heHeightTestDeatils(HTMLEditor htmleditor, String testname) {
 		switch (testname) {
 		case "COLOUR DOPPLER OBSTRETIC":
-			htmleditor.setPrefHeight(1800);
+			htmleditor.setPrefHeight(1000);
 			break;
 		case "FOLLICULAR STUDY":
 			htmleditor.setPrefHeight(800);
@@ -254,7 +303,7 @@ public class Test_Template {
 			htmleditor.setPrefHeight(580);
 			break;
 		case "CAROTID AND RADIAL COLOUR  DOPPLER":
-			htmleditor.setPrefHeight(630);
+			htmleditor.setPrefHeight(700);
 			break;
 		case "COLOR DOPPLER EXAMINATION  OF ABDOMINAL VESSELS":
 			htmleditor.setPrefHeight(900);
@@ -280,64 +329,123 @@ public class Test_Template {
 		case "TRANSCRANIAL COLOR  DOPPLER  EXAMINATION":
 			htmleditor.setPrefHeight(800);
 			break;
-		
+
 		}
-		
 		return htmleditor;
 	}
+
 	public static HTMLEditor htmlEditorHeight(HTMLEditor htmleditor, String testname) {
 		String text = stripHTMLTags(htmleditor.getHtmlText());
-		int lngth=htmleditor.getHtmlText().length();
-		
-		System.out.println("text "+lngth);
-		if(lngth>10 && lngth<=50) {
+		int lngth = htmleditor.getHtmlText().length();
+		System.out.println("text " + lngth);
+		if (lngth > 10 && lngth <= 50) {
 			htmleditor.setPrefHeight(10);
-		}else if(lngth>50 && lngth<=100){
+		} else if (lngth > 50 && lngth <= 100) {
 			htmleditor.setPrefHeight(50);
-		}else if(lngth>100 && lngth<=200){
-			htmleditor.setPrefHeight(70);
-		}else if(lngth>200 && lngth<=300){
+		} else if (lngth > 100 && lngth <= 200) {
+			htmleditor.setPrefHeight(90);
+		} else if (lngth > 200 && lngth <= 300) {
 			htmleditor.setPrefHeight(100);
-		}else if(lngth>300 && lngth<=400){
-			htmleditor.setPrefHeight(100);
-		}else if(lngth>400 && lngth<=600){
+		} else if (lngth > 300 && lngth <= 350) {
+			htmleditor.setPrefHeight(250);
+		} else if (lngth > 350 && lngth <= 400) {
+			htmleditor.setPrefHeight(140);
+		} else if (lngth > 400 && lngth <= 600) {
 			htmleditor.setPrefHeight(430);
-		}else if(lngth>600 && lngth<=800){
+		} else if (lngth > 600 && lngth <= 800) {
 			htmleditor.setPrefHeight(520);
-		}else if(lngth>900 && lngth<=1000){
+		} else if (lngth > 900 && lngth <= 1000) {
 			htmleditor.setPrefHeight(450);
-		}else if(lngth>1000 && lngth<=1200){
+		} else if (lngth > 1000 && lngth <= 1200) {
 			htmleditor.setPrefHeight(550);
-		}else if(lngth>1200 && lngth<=1400){
+		} else if (lngth > 1200 && lngth <= 1400) {
 			htmleditor.setPrefHeight(650);
-		}else if(lngth>1400 && lngth<=1600){
-			htmleditor.setPrefHeight(900);
-		}else if(lngth>1600 && lngth<=1800){
-			htmleditor.setPrefHeight(5000);
-		}else if(lngth>1800 && lngth<=2000){
+		} else if (lngth > 1400 && lngth <= 1600) {
+			htmleditor.setPrefHeight(800);
+		} else if (lngth > 1600 && lngth <= 1800) {
+			htmleditor.setPrefHeight(1000);
+		} else if (lngth > 1800 && lngth <= 2000) {
 			htmleditor.setPrefHeight(1100);
-		}else if(lngth>2000 && lngth<=2200){
+		} else if (lngth > 2000 && lngth <= 2200) {
 			htmleditor.setPrefHeight(1200);
-		}else if(lngth>2200 && lngth<=2400){
-			htmleditor.setPrefHeight(1300);
-		}else if(lngth>2400 && lngth<=2600){
-			htmleditor.setPrefHeight(1400);
-		}else if(lngth>2600 && lngth<=2800){
-			htmleditor.setPrefHeight(1500);
-		}else if(lngth>2800 && lngth<=3000){
-			htmleditor.setPrefHeight(1600);
-		}else if(lngth>3000 && lngth<=3200){
-			htmleditor.setPrefHeight(1700);
-		}else if(lngth>3200 && lngth<=3400){
-			htmleditor.setPrefHeight(1800);
-		}else if(lngth>3400 && lngth<=3600){
-			htmleditor.setPrefHeight(2000);
-		}else if(lngth>3600 && lngth<=3800){
-			htmleditor.setPrefHeight(1800);
-		}else if(lngth>7000 && lngth<=7400){
-			htmleditor.setPrefHeight(5000);
 		}
-		
 		return htmleditor;
 	}
+
+	public static HTMLEditor he_testDetailsHeight(HTMLEditor htmleditor, String testname) {
+		int lngth = htmleditor.getHtmlText().length();
+		if (lngth > 300 && lngth <= 350) {
+			htmleditor.setPrefHeight(150);
+		} else if (lngth > 350 && lngth <= 400) {
+			htmleditor.setPrefHeight(400);
+		} else if (lngth > 400 && lngth <= 600) {
+			htmleditor.setPrefHeight(360);
+		} else if (lngth > 600 && lngth <= 700) {
+			htmleditor.setPrefHeight(450);
+		} else if (lngth > 700 && lngth <= 750) {
+			htmleditor.setPrefHeight(420);
+		} else if (lngth > 750 && lngth <= 800) {
+			htmleditor.setPrefHeight(500);
+		} else if (lngth > 800 && lngth <= 900) {
+			htmleditor.setPrefHeight(440);
+		} else if (lngth > 900 && lngth <= 950) {
+			htmleditor.setPrefHeight(450);
+		} else if (lngth > 950 && lngth <= 1000) {
+			htmleditor.setPrefHeight(520);
+		} else if (lngth > 1000 && lngth <= 1100) {
+			htmleditor.setPrefHeight(500);
+		} else if (lngth > 1100 && lngth <= 1200) {
+			htmleditor.setPrefHeight(510);
+		} else if (lngth > 1200 && lngth <= 1300) {
+			htmleditor.setPrefHeight(530);
+		} else if (lngth > 1300 && lngth <= 1400) {
+			htmleditor.setPrefHeight(500);
+		} else if (lngth > 1400 && lngth <= 1440) {
+			htmleditor.setPrefHeight(530);
+		}else if (lngth > 1440 && lngth <= 1500) {
+			htmleditor.setPrefHeight(680);
+		} else if (lngth > 1500 && lngth <= 1600) {
+			htmleditor.setPrefHeight(540);
+		} else if (lngth > 1600 && lngth <= 1700) {
+			htmleditor.setPrefHeight(550);
+		} else if (lngth > 1800 && lngth <= 1900) {
+			htmleditor.setPrefHeight(560);
+		} else if (lngth > 1900 && lngth <= 2000) {
+			htmleditor.setPrefHeight(570);
+		} else if (lngth > 2100 && lngth <= 2200) {
+			htmleditor.setPrefHeight(580);
+		} else if (lngth > 2200 && lngth <= 2300) {
+			htmleditor.setPrefHeight(590);
+		} else if (lngth > 2300 && lngth <= 2400) {
+			htmleditor.setPrefHeight(600);
+		} else if (lngth > 2400 && lngth <= 2500) {
+			htmleditor.setPrefHeight(630);
+		} else if (lngth > 2500 && lngth <= 2600) {
+			htmleditor.setPrefHeight(640);
+		} else if (lngth > 2600 && lngth <= 2700) {
+			htmleditor.setPrefHeight(650);
+		} else if (lngth > 2800 && lngth <= 2900) {
+			htmleditor.setPrefHeight(660);
+		} else if (lngth > 2900 && lngth <= 3000) {
+			htmleditor.setPrefHeight(670);
+		} else if (lngth > 3100 && lngth <= 3200) {
+			htmleditor.setPrefHeight(680);
+		} else if (lngth > 3200 && lngth <= 3300) {
+			htmleditor.setPrefHeight(650);
+		} else if (lngth > 3300 && lngth <= 3400) {
+			htmleditor.setPrefHeight(690);
+		} else if (lngth > 3400 && lngth <= 3500) {
+			htmleditor.setPrefHeight(700);
+		} else if (lngth > 3500 && lngth <= 3600) {
+			htmleditor.setPrefHeight(710);
+		} else if (lngth > 3600 && lngth <= 3700) {
+			htmleditor.setPrefHeight(720);
+		} else if (lngth > 3800 && lngth <= 3900) {
+			htmleditor.setPrefHeight(730);
+		} else if (lngth > 3900 && lngth <= 4000) {
+			htmleditor.setPrefHeight(740);
+		}
+		return htmleditor;
+	}
+
 }

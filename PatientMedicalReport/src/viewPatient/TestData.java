@@ -125,67 +125,67 @@ public class TestData {
 
     }
 	
-	public static void addEditButton(int pid) {
-        TableColumn<TestData, Void> colBtn = new TableColumn("Edit");
-
-        Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>> cellFactory = new Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>>() {
-            @Override
-            public TableCell<TestData, Void> call(final TableColumn<TestData, Void> param) {
-                final TableCell<TestData, Void> cell = new TableCell<TestData, Void>() {
-
-                    private final JFXButton btn = new JFXButton();
-                    TableView<TestData> tblTest=ViewPDController.getTblTestTable();
-                    {
-                    	Image img = new Image("/imgs/edit_1.png");
-                        ImageView view = new ImageView(img);
-                    	btn.setGraphic(view);
-
-                    	btn.setOnAction((ActionEvent event) -> {
-                        	TestData data = getTableView().getItems().get(getIndex());
-                        	try {
-
-                    			AnchorPane pane = MainScreenController.getHomePage();
-                    			for (int i = 0; i < pane.getChildren().size(); i++) {
-                    				String paneID = pane.getChildren().get(i).getId();
-                    				switch (paneID) {
-                    				case "pane_Dashboard":
-                    					MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-                    					break;
-                    				case "pane_viewDetails":
-                    					MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-                    					break;
-                    				}
-                    			}
-                    			Parent root = FXMLLoader.load(DashboardController.class.getResource("/addTest/editTest.fxml"));
-                    			MainScreenController.getHomePage().getChildren().add(root);
-                    			root.setTranslateX(370);
-                    			root.setTranslateY(30);
-                    			
-                    			EditTestController.editTestDetails(data.gettId());
-                    		} catch (Exception e) {
-                    			e.printStackTrace();
-                    			System.out.println("Cant load window");
-                    		}
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
-
-        colBtn.setCellFactory(cellFactory);
-        ViewPDController.getTblTestTable().getColumns().add(colBtn);
-    }
+//	public static void addEditButton(int pid) {
+//        TableColumn<TestData, Void> colBtn = new TableColumn("Edit");
+//
+//        Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>> cellFactory = new Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>>() {
+//            @Override
+//            public TableCell<TestData, Void> call(final TableColumn<TestData, Void> param) {
+//                final TableCell<TestData, Void> cell = new TableCell<TestData, Void>() {
+//
+//                    private final JFXButton btn = new JFXButton();
+//                    TableView<TestData> tblTest=ViewPDController.getTblTestTable();
+//                    {
+//                    	Image img = new Image("/imgs/edit_1.png");
+//                        ImageView view = new ImageView(img);
+//                    	btn.setGraphic(view);
+//
+//                    	btn.setOnAction((ActionEvent event) -> {
+//                        	TestData data = getTableView().getItems().get(getIndex());
+//                        	try {
+//
+//                    			AnchorPane pane = MainScreenController.getHomePage();
+//                    			for (int i = 0; i < pane.getChildren().size(); i++) {
+//                    				String paneID = pane.getChildren().get(i).getId();
+//                    				switch (paneID) {
+//                    				case "pane_Dashboard":
+//                    					MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+//                    					break;
+//                    				case "pane_viewDetails":
+//                    					MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+//                    					break;
+//                    				}
+//                    			}
+//                    			Parent root = FXMLLoader.load(DashboardController.class.getResource("/addTest/editTest.fxml"));
+//                    			MainScreenController.getHomePage().getChildren().add(root);
+//                    			root.setTranslateX(370);
+//                    			root.setTranslateY(30);
+//                    			
+//                    			EditTestController.editTestDetails(data.gettId());
+//                    		} catch (Exception e) {
+//                    			e.printStackTrace();
+//                    			System.out.println("Cant load window");
+//                    		}
+//                        });
+//                    }
+//
+//                    @Override
+//                    public void updateItem(Void item, boolean empty) {
+//                        super.updateItem(item, empty);
+//                        if (empty) {
+//                            setGraphic(null);
+//                        } else {
+//                            setGraphic(btn);
+//                        }
+//                    }
+//                };
+//                return cell;
+//            }
+//        };
+//
+//        colBtn.setCellFactory(cellFactory);
+//        ViewPDController.getTblTestTable().getColumns().add(colBtn);
+//    }
 
 	public static void addDeleteButton(int pid, Connection con) {
         TableColumn<TestData, Void> colBtn = new TableColumn("Delete");
