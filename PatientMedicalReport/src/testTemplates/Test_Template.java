@@ -56,7 +56,7 @@ public class Test_Template {
 		he_Testdetails=htmlEditorStyle(he_Testdetails);
 
 		String text = stripHTMLTags(he_Testdetails.getHtmlText());
-		htmlEditorHeight(he_Testdetails,testname);
+		heHeightTestDeatils(he_Testdetails,testname);
 		System.out.println("he_Testdetails "+he_Testdetails.getHtmlText().length());
 		if (!(text.equals(""))) {
 			vbox.getChildren().add(he_Testdetails);
@@ -152,6 +152,139 @@ public class Test_Template {
 		return htmleditor;
 	}
 
+	public static HTMLEditor heHeightTestDeatils(HTMLEditor htmleditor, String testname) {
+		switch (testname) {
+		case "COLOUR DOPPLER OBSTRETIC":
+			htmleditor.setPrefHeight(800);
+			break;
+		case "FOLLICULAR STUDY":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG OF PELVIS (VERY EARLY STAGE PREGNANCY)":
+			htmleditor.setPrefHeight(700);
+			break;
+		case "ULTRASONOGRAPHY OF BOTH BREAST":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG  OBSTRETIC ANOMALY SCAN":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG ABDOMEN AND PELVIS - RUS":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG ABDOMEN AND PELVIS - FEMALE":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG ABDOMEN AND PELVIS - MALE BPH":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG ABDOMEN AND PELVIS BKS":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG ABDOMEN AND PELVIS MALE":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG ABDOMEN":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG CHEST":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG GROIN (THIGH)":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG KUB BKS":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG KUB":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG  OBSTRETIC TWINS":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG OF OBSTETRIC NT SCAN (I TRIMESTER ANOMALY SCAN)":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG  OBSTRETIC 4-9 MTH":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG OBSTRETIC EARLY PREGNANCY":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG OF SKULL":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG OF THYROID":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG OF PELVIS (FEMALE)":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG OF SCROTUM ":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "USG OF SMALL PART":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "VENOUS DOPPLER OF BOTH LOWER LIMBS":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "VENOUS DOPPLER OF BOTH UPPER LIMBS":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "ARTERIAL DOPPLER OF BOTH LOWER LIMBS":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "ARTERIAL DOPPLER BOTH UPPER LIMBS":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "COLOUR DOPPLER OF  CAROTID AND VERTEBRAL ARTERIES":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "COLOR DOPPLER EXAMINATION OF SCROTUM":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "RENAL COLOR DOPPLER":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "SCROTUM COLOR DOPPLER":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "3D ULTRASONOGRAPHY OF PELVIS":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "CAROTID AND RADIAL COLOUR  DOPPLER":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "COLOR DOPPLER EXAMINATION  OF ABDOMINAL VESSELS":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "COLOR DOPPLER EXAMINATION  OF SUPERIOR MESENTRIC  ARTERY":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "COLOR DOPPLER EXAMINATION OF LEFT SUBCLAVIAN  ARTERY":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "COLOR DOPPLER EXAMINATION OF NECK VESSELS":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "COLOR DOPPLER EXAMINATION OF UPPER EXTREMITY VENOUS CIRCULATION":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "COLOR DOPPLER OF FEMALE PELVIS":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "PENILE COLOR DOPPLER":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "TRANSCRANIAL COLOR  DOPPLER  EXAMINATION":
+			htmleditor.setPrefHeight(500);
+			break;
+		
+		}
+		
+		return htmleditor;
+	}
 	public static HTMLEditor htmlEditorHeight(HTMLEditor htmleditor, String testname) {
 		String text = stripHTMLTags(htmleditor.getHtmlText());
 		int lngth=htmleditor.getHtmlText().length();
