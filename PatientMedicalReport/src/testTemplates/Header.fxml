@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane_header" prefHeight="546.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testTemplates.HeaderController">
+<AnchorPane fx:id="pane_header" prefHeight="546.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testTemplates.HeaderController">
    <children>
-      <ScrollPane prefHeight="546.0" prefWidth="800.0" style="-fx-background-color: white;">
+      <ScrollPane id="sPane" fx:id="sPane" hbarPolicy="NEVER" maxWidth="800.0" minWidth="800.0" prefHeight="546.0" prefWidth="800.0" style="-fx-background-color: white;">
         <content>
           <AnchorPane fx:id="pane_template" layoutY="144.0" prefWidth="800.0" style="-fx-background-color: white;">
                <children>

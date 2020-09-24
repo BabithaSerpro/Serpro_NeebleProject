@@ -27,13 +27,12 @@ public class TestContent {
 		he_Testdetails.setId("heTestdetails");
 		he_Testdetails.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_report_testdetails WHERE tId='" + tID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_testdetails WHERE tId='" + tID + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			he_Testdetails.setHtmlText(rs.getString("testDetails"));
 		}
 		String text = Test_Template.stripHTMLTags(he_Testdetails.getHtmlText());
-
 		if (!(text.equals(""))) {
 			testDetstails = he_Testdetails;
 			vbox.getChildren().addAll(he_Testdetails);
@@ -48,7 +47,7 @@ public class TestContent {
 		hE_pHistory.setId("hePastHistory");
 		hE_pHistory.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_report_testdetails WHERE tId='" + tID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_testdetails WHERE tId='" + tID + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_pHistory.setHtmlText(rs.getString("PAST HISTORY"));
@@ -67,7 +66,7 @@ public class TestContent {
 		hE_clinicalImp.setId("hePastHistory");
 		hE_clinicalImp.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_report_testdetails WHERE tId='" + tID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_testdetails WHERE tId='" + tID + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_clinicalImp.setHtmlText(rs.getString("CLINICAL_IMPRESSION"));
@@ -88,7 +87,7 @@ public class TestContent {
 			hE_fp.setId("heFetalParameter");
 			hE_fp.setStyle("-fx-border-color:white;");
 
-			ps = con.prepareStatement("SELECT * FROM patient_report_testdetails WHERE tId='" + tID + "'");
+			ps = con.prepareStatement("SELECT * FROM patient_testdetails WHERE tId='" + tID + "'");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				hE_fp.setHtmlText(rs.getString("FETAL PARAMETER"));
@@ -109,7 +108,7 @@ public class TestContent {
 		hE_fds.setId("heFetalDS");
 		hE_fds.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_report_testdetails WHERE tId='" + tID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_testdetails WHERE tId='" + tID + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_fds.setHtmlText(rs.getString("FETAL DOPPLER STUDIES"));
@@ -188,7 +187,7 @@ public class TestContent {
 		hE_imp.setId("heImpression");
 		hE_imp.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT IMPRESSION FROM patient_report_testdetails WHERE tId='" + tID + "'");
+		ps = con.prepareStatement("SELECT IMPRESSION FROM patient_testdetails WHERE tId='" + tID + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_imp.setHtmlText(rs.getString("IMPRESSION"));
@@ -207,7 +206,7 @@ public class TestContent {
 		hE_note.setId("heNote");
 		hE_note.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT PLEASE_NOTE FROM patient_report_testdetails WHERE tId='" + tID + "'");
+		ps = con.prepareStatement("SELECT PLEASE_NOTE FROM patient_testdetails WHERE tId='" + tID + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_note.setHtmlText(rs.getString("PLEASE_NOTE"));

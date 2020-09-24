@@ -10,7 +10,7 @@ import java.util.Date;
 import DBConnection.DBConnectivity;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import viewPatient.ViewPDController;
 
@@ -22,6 +22,9 @@ public class HeaderController {
 	@FXML
 	private AnchorPane pane_template;
 
+	@FXML
+    private ScrollPane sPane;
+	
 	@FXML
 	private Label pname;
 

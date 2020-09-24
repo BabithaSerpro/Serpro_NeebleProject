@@ -174,40 +174,41 @@ public class EditTDController {
 			tID = rs.getInt("ID");
 			test_details=rs.getString("TEST_DETAILS");
 			past_history = rs.getString("PAST HISTORY");
-			clinical_impression = rs.getString("CLINICAL_IMPRESSION");
-			fetal_parameter = rs.getString("FETAL PARAMETER");
-			fetal_dop_studies = rs.getString("FETAL DOPPLER STUDIES");
-			table1 = rs.getString("TABLE1");
-			table1_col = rs.getInt("TABLE1_NO_OF_COLUMNS");
-			table1_row = rs.getInt("TABLE1_NO_OF_ROWS");
-			table2 = rs.getString("TABLE2");
-			table2_col = rs.getInt("TABLE2_NO_OF_COLUMNS");
-			table2_row = rs.getInt("TABLE2_NO_OF_ROWS");
+//			clinical_impression = rs.getString("CLINICAL_IMPRESSION");
+//			fetal_parameter = rs.getString("FETAL PARAMETER");
+//			fetal_dop_studies = rs.getString("FETAL DOPPLER STUDIES");
+//			table1 = rs.getString("TABLE1");
+//			table1_col = rs.getInt("TABLE1_NO_OF_COLUMNS");
+//			table1_row = rs.getInt("TABLE1_NO_OF_ROWS");
+//			table2 = rs.getString("TABLE2");
+//			table2_col = rs.getInt("TABLE2_NO_OF_COLUMNS");
+//			table2_row = rs.getInt("TABLE2_NO_OF_ROWS");
 			impression = rs.getString("IMPRESSION");
 			note = rs.getString("PLEASE_NOTE");
+		}
+		if (past_history.equals("TRUE")) {
+			TestContent.create_pastHistory(tID);
 		}
 		
 		if (test_details.equals("TRUE")) {
 			TestContent.create_testDetails(tID);
 		}
-		if (past_history.equals("TRUE")) {
-			TestContent.create_pastHistory(tID);
-		}
-		if (clinical_impression.equals("TRUE")) {
-			TestContent.create_clinicalImp(tID);
-		}
-		if (fetal_parameter.equals("TRUE")) {
-			TestContent.create_fetalParameter(tID);
-		}
-		if (fetal_dop_studies.equals("TRUE")) {
-			TestContent.create_fetaldopStudies(tID);
-		}
-		if (table1.equals("TRUE")) {
-			TestContent.create_table1(tID);
-		}
-		if (table2.equals("TRUE")) {
-			TestContent.create_table2(tID);
-		}
+		
+//		if (clinical_impression.equals("TRUE")) {
+//			TestContent.create_clinicalImp(tID);
+//		}
+//		if (fetal_parameter.equals("TRUE")) {
+//			TestContent.create_fetalParameter(tID);
+//		}
+//		if (fetal_dop_studies.equals("TRUE")) {
+//			TestContent.create_fetaldopStudies(tID);
+//		}
+//		if (table1.equals("TRUE")) {
+//			TestContent.create_table1(tID);
+//		}
+//		if (table2.equals("TRUE")) {
+//			TestContent.create_table2(tID);
+//		}
 		if (impression.equals("TRUE")) {
 			TestContent.create_impression(tID);
 		}
@@ -219,6 +220,7 @@ public class EditTDController {
 				addTest();
 				int pid=Integer.valueOf(p_id.getText());
 				CreateTestTemplate.screenContent(testname,pid);
+				ViewPDController.refreshTestDetails(pid);
 			} catch (Exception e1) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Dr. Subodh App");
@@ -236,9 +238,9 @@ public class EditTDController {
 	public static void addTest() throws Exception {
 
 		String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
-		String insert = "INSERT into patient_reportmasterdata (regNumber,ref_doctor,testName,testDate,reportDate,patientHistory,testDescription,clinicalImpression"
-				+ ",fetalParameter,fetalDoplerStudies,table1,table2,impression,note,active,created_timestamp,modified_timestamp)"
-				+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,'Y','" + timeStamp + "','" + timeStamp + "')";
+		String insert = "INSERT into patient_reportmasterdata (regNumber,ref_doctor,testName,testDate,reportDate,patientHistory,testDescription,"
+				+ "impression,note,active,created_timestamp,modified_timestamp)"
+				+ " values(?,?,?,?,?,?,?,?,?,'Y','" + timeStamp + "','" + timeStamp + "')";
 		con = DBConnectivity.getConnection();
 		try {
 			ps = con.prepareStatement(insert);
@@ -253,42 +255,45 @@ public class EditTDController {
 			}else {
 				ps.setString(6, "");
 			}
-			
-			ps.setString(7, TestContent.testDetstails.getHtmlText());
-			if (clinical_impression.equals("TRUE")) {
-				ps.setString(8, TestContent.clinicalImp.getHtmlText());
+			if(test_details.equals("TRUE")) {
+				ps.setString(7, TestContent.testDetstails.getHtmlText());
+			}else {
+				ps.setString(7, "");
+			}
+//			if (clinical_impression.equals("TRUE")) {
+//				ps.setString(8, TestContent.clinicalImp.getHtmlText());
+//			}else {
+//				ps.setString(8, "");
+//			}
+//			if (fetal_parameter.equals("TRUE")) {
+//				ps.setString(9, TestContent.fetalParameter.getHtmlText());
+//			}else {
+//				ps.setString(9, "");
+//			}
+//			if (fetal_dop_studies.equals("TRUE")) {
+//				ps.setString(10, TestContent.fetaldopStudies.getHtmlText());
+//			}else {
+//				ps.setString(10, "");
+//			}
+//			if (table1.equals("TRUE")) {
+//				ps.setString(11, TestContent.table1.getHtmlText());
+//			}else {
+//				ps.setString(11, "");
+//			}
+//			if (table2.equals("TRUE")) {
+//				ps.setString(12, TestContent.table2.getHtmlText());
+//			}else {
+//				ps.setString(12, "");
+//			}
+			if (impression.equals("TRUE")) {
+				ps.setString(8, TestContent.impression.getHtmlText());
 			}else {
 				ps.setString(8, "");
 			}
-			if (fetal_parameter.equals("TRUE")) {
-				ps.setString(9, TestContent.fetalParameter.getHtmlText());
+			if (note.equals("TRUE")) {
+				ps.setString(9, TestContent.note.getHtmlText());
 			}else {
 				ps.setString(9, "");
-			}
-			if (fetal_dop_studies.equals("TRUE")) {
-				ps.setString(10, TestContent.fetaldopStudies.getHtmlText());
-			}else {
-				ps.setString(10, "");
-			}
-			if (table1.equals("TRUE")) {
-				ps.setString(11, TestContent.table1.getHtmlText());
-			}else {
-				ps.setString(11, "");
-			}
-			if (table2.equals("TRUE")) {
-				ps.setString(12, TestContent.table2.getHtmlText());
-			}else {
-				ps.setString(12, "");
-			}
-			if (impression.equals("TRUE")) {
-				ps.setString(13, TestContent.impression.getHtmlText());
-			}else {
-				ps.setString(13, "");
-			}
-			if (note.equals("TRUE")) {
-				ps.setString(14, TestContent.note.getHtmlText());
-			}else {
-				ps.setString(14, "");
 			}
 			flag = ps.executeUpdate();
 

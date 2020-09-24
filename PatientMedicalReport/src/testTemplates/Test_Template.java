@@ -56,7 +56,8 @@ public class Test_Template {
 		he_Testdetails=htmlEditorStyle(he_Testdetails);
 
 		String text = stripHTMLTags(he_Testdetails.getHtmlText());
-		htmlEditorHeight(he_Testdetails);
+		htmlEditorHeight(he_Testdetails,testname);
+		System.out.println("he_Testdetails "+he_Testdetails.getHtmlText().length());
 		if (!(text.equals(""))) {
 			vbox.getChildren().add(he_Testdetails);
 		}
@@ -189,7 +190,7 @@ public class Test_Template {
 		Label lblimp = new Label("Impression: ");
 		HTMLEditor hE_imp = new HTMLEditor();
 		hE_imp.setPrefWidth(700);
-		hE_imp.setPrefHeight(400);
+		hE_imp.setPrefHeight(150);
 		hE_imp.setId("heImpression");
 		hE_imp.setStyle("-fx-border-color:white;");
 
@@ -199,6 +200,8 @@ public class Test_Template {
 		while (rs.next()) {
 			hE_imp.setHtmlText(rs.getString("impression"));
 		}
+		htmlEditorHeight(hE_imp,testname);
+		System.out.println("hE_imp "+hE_imp.getHtmlText().length());
 		// hide controls we don't need.
 		hE_imp=htmlEditorStyle(hE_imp);
 
@@ -209,19 +212,19 @@ public class Test_Template {
 		Label lblnote = new Label("Please Note: ");
 		HTMLEditor hE_note = new HTMLEditor();
 		hE_note.setPrefWidth(700);
-		hE_note.setPrefHeight(400);
+		hE_note.setPrefHeight(100);
 		hE_note.setId("heNote");
 		hE_note.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement(
-				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_note.setHtmlText(rs.getString("note"));
 		}
 		
 		hE_note=htmlEditorStyle(hE_note);
-		
+		htmlEditorHeight(hE_note,testname);
+		System.out.println("hE_note "+hE_note.getHtmlText().length());
 		vbox.getChildren().addAll(lblnote, hE_note);
 	}
 
@@ -252,32 +255,31 @@ public class Test_Template {
 		return htmleditor;
 	}
 
-	public static HTMLEditor htmlEditorHeight(HTMLEditor htmleditor) {
+	public static HTMLEditor htmlEditorHeight(HTMLEditor htmleditor, String testname) {
 		String text = stripHTMLTags(htmleditor.getHtmlText());
-		int lngth=text.length();
+		int lngth=htmleditor.getHtmlText().length();
 		
 		System.out.println("text "+lngth);
-		System.out.println("htmltext "+htmleditor.getHtmlText().length());
 		if(lngth>10 && lngth<=50) {
 			htmleditor.setPrefHeight(10);
 		}else if(lngth>50 && lngth<=100){
-			htmleditor.setPrefHeight(200);
-		}else if(lngth>100 && lngth<=200){
 			htmleditor.setPrefHeight(50);
+		}else if(lngth>100 && lngth<=200){
+			htmleditor.setPrefHeight(70);
 		}else if(lngth>200 && lngth<=300){
 			htmleditor.setPrefHeight(100);
 		}else if(lngth>300 && lngth<=400){
 			htmleditor.setPrefHeight(100);
 		}else if(lngth>400 && lngth<=600){
-			htmleditor.setPrefHeight(200);
+			htmleditor.setPrefHeight(430);
 		}else if(lngth>600 && lngth<=800){
-			htmleditor.setPrefHeight(300);
+			htmleditor.setPrefHeight(520);
 		}else if(lngth>900 && lngth<=1000){
-			htmleditor.setPrefHeight(630);
+			htmleditor.setPrefHeight(450);
 		}else if(lngth>1000 && lngth<=1200){
-			htmleditor.setPrefHeight(700);
+			htmleditor.setPrefHeight(550);
 		}else if(lngth>1200 && lngth<=1400){
-			htmleditor.setPrefHeight(800);
+			htmleditor.setPrefHeight(650);
 		}else if(lngth>1400 && lngth<=1600){
 			htmleditor.setPrefHeight(900);
 		}else if(lngth>1600 && lngth<=1800){

@@ -55,7 +55,7 @@ public class PrintableData {
 			test_name=testname;
 	    	btn_print.setVisible(false);
 			double pixelScale=2.0;
-			WritableImage writableImage = new WritableImage((int)Math.rint(pixelScale*viewReportpane.getWidth()), (int)Math.rint(pixelScale*viewReportpane.getHeight()));
+			WritableImage writableImage = new WritableImage((int)Math.rint(pixelScale*viewReportpane.getWidth())-161, (int)Math.rint(pixelScale*viewReportpane.getHeight()));
 		    SnapshotParameters spa = new SnapshotParameters();
 		    spa.setTransform(Transform.scale(pixelScale, pixelScale));
             WritableImage snapshot = viewReportpane.snapshot(spa, writableImage);
