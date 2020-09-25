@@ -1,6 +1,5 @@
 package testTemplates;
 
-import java.awt.print.PrinterException;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -77,7 +76,7 @@ public class PrintableData {
             double factor = Math.min(box.getWidth() / snapshot.getWidth(), box.getHeight() / snapshot.getHeight());
             float height = (float) (snapshot.getHeight() * factor);
             
-            content.drawImage(pdimage, 15, box.getHeight() - height-5, (float) (snapshot.getWidth() * factor), height-5);
+            content.drawImage(pdimage, 28, box.getHeight() - height-5, (float) (snapshot.getWidth() * factor), height-5);
             content.close();
             doc.addPage(page);
            

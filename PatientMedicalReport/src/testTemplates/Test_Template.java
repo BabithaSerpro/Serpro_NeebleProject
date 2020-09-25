@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
-import javafx.scene.web.WebView;
 
 public class Test_Template {
 	private static Connection con = DBConnectivity.getConnection();
@@ -57,15 +56,14 @@ public class Test_Template {
 		}
 
 		he_Testdetails = htmlEditorStyle(he_Testdetails);
-		System.out.println(he_Testdetails.getHtmlText().length());
 		
 		Node scPane = he_Testdetails.lookup(".scroll-bar:vertical");
-		scPane.setVisible(true);
-		scPane.setDisable(true);
+		scPane.setVisible(false);
+//		scPane.setDisable(true);
 		
 		String text = stripHTMLTags(he_Testdetails.getHtmlText());
 		he_testDetailsHeight(he_Testdetails, testname);
-//		he_Testdetails.setDisable(true);
+		he_Testdetails.setDisable(true);
 		
 		if (!(text.equals(""))) {
 			vbox.getChildren().add(he_Testdetails);
@@ -95,20 +93,20 @@ public class Test_Template {
 	public static void create_table1(int pID, String testname) throws SQLException {
 		HTMLEditor hE_table1 = new HTMLEditor();
 		hE_table1.setPrefWidth(700);
-		hE_table1.setPrefHeight(400);
 		hE_table1.setId("hE_tbl1");
-		System.out.println(hE_table1.getHtmlText().length());
 		// hide controls we don't need.
 		hE_table1 = htmlEditorStyle(hE_table1);
 		hE_table1.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement(
-				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_table1.setHtmlText(rs.getString("table1"));
 		}
-
+		he_TableHeight(hE_table1,testname);
+		hE_table1.setDisable(true);
+		Node scPane = hE_table1.lookup(".scroll-bar:vertical");
+		scPane.setVisible(false);
 		vbox.getChildren().addAll(hE_table1);
 	}
 
@@ -128,7 +126,8 @@ public class Test_Template {
 		while (rs.next()) {
 			hE_table2.setHtmlText(rs.getString("table2"));
 		}
-
+		he_TableHeight(hE_table2,testname);
+		hE_table2.setDisable(true);
 		vbox.getChildren().addAll(hE_table2);
 	}
 
@@ -161,8 +160,7 @@ public class Test_Template {
 		hE_note.setId("heNote");
 		hE_note.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement(
-				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_note.setHtmlText(rs.getString("note"));
@@ -335,9 +333,7 @@ public class Test_Template {
 	}
 
 	public static HTMLEditor htmlEditorHeight(HTMLEditor htmleditor, String testname) {
-		String text = stripHTMLTags(htmleditor.getHtmlText());
 		int lngth = htmleditor.getHtmlText().length();
-		System.out.println("text " + lngth);
 		if (lngth > 10 && lngth <= 50) {
 			htmleditor.setPrefHeight(10);
 		} else if (lngth > 50 && lngth <= 100) {
@@ -374,14 +370,24 @@ public class Test_Template {
 
 	public static HTMLEditor he_testDetailsHeight(HTMLEditor htmleditor, String testname) {
 		int lngth = htmleditor.getHtmlText().length();
-		if (lngth > 300 && lngth <= 350) {
+		if (lngth > 200 && lngth <= 350) {
+			htmleditor.setPrefHeight(150);
+		}else if (lngth > 300 && lngth <= 350) {
 			htmleditor.setPrefHeight(150);
 		} else if (lngth > 350 && lngth <= 400) {
 			htmleditor.setPrefHeight(400);
-		} else if (lngth > 400 && lngth <= 600) {
-			htmleditor.setPrefHeight(360);
-		} else if (lngth > 600 && lngth <= 700) {
+		} else if (lngth > 400 && lngth <= 470) {
+			htmleditor.setPrefHeight(350);
+		}else if (lngth > 470 && lngth <= 500) {
+			htmleditor.setPrefHeight(300);
+		}else if (lngth > 500 && lngth <= 550) {
+			htmleditor.setPrefHeight(220);
+		}else if (lngth > 550 && lngth <= 600) {
+			htmleditor.setPrefHeight(300);
+		} else if (lngth > 600 && lngth <= 660) {
 			htmleditor.setPrefHeight(450);
+		}else if (lngth > 660 && lngth <= 700) {
+			htmleditor.setPrefHeight(340);
 		} else if (lngth > 700 && lngth <= 750) {
 			htmleditor.setPrefHeight(420);
 		} else if (lngth > 750 && lngth <= 800) {
@@ -393,7 +399,7 @@ public class Test_Template {
 		} else if (lngth > 950 && lngth <= 1000) {
 			htmleditor.setPrefHeight(520);
 		} else if (lngth > 1000 && lngth <= 1100) {
-			htmleditor.setPrefHeight(500);
+			htmleditor.setPrefHeight(540);
 		} else if (lngth > 1100 && lngth <= 1200) {
 			htmleditor.setPrefHeight(510);
 		} else if (lngth > 1200 && lngth <= 1300) {
@@ -403,7 +409,7 @@ public class Test_Template {
 		} else if (lngth > 1400 && lngth <= 1440) {
 			htmleditor.setPrefHeight(530);
 		}else if (lngth > 1440 && lngth <= 1500) {
-			htmleditor.setPrefHeight(680);
+			htmleditor.setPrefHeight(650);
 		} else if (lngth > 1500 && lngth <= 1600) {
 			htmleditor.setPrefHeight(540);
 		} else if (lngth > 1600 && lngth <= 1700) {
@@ -431,7 +437,7 @@ public class Test_Template {
 		} else if (lngth > 3100 && lngth <= 3200) {
 			htmleditor.setPrefHeight(680);
 		} else if (lngth > 3200 && lngth <= 3300) {
-			htmleditor.setPrefHeight(650);
+			htmleditor.setPrefHeight(620);
 		} else if (lngth > 3300 && lngth <= 3400) {
 			htmleditor.setPrefHeight(690);
 		} else if (lngth > 3400 && lngth <= 3500) {
@@ -444,6 +450,48 @@ public class Test_Template {
 			htmleditor.setPrefHeight(730);
 		} else if (lngth > 3900 && lngth <= 4000) {
 			htmleditor.setPrefHeight(740);
+		}
+		return htmleditor;
+	}
+	
+	public static HTMLEditor he_TableHeight(HTMLEditor htmleditor, String testname) {
+		switch (testname) {
+		case "COLOUR DOPPLER OBSTRETIC":
+			htmleditor.setPrefHeight(600);
+			break;
+		case "FOLLICULAR STUDY":
+			htmleditor.setPrefHeight(600);
+			break;
+		case "ARTERIAL DOPPLER OF BOTH LOWER LIMBS":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "ARTERIAL DOPPLER BOTH UPPER LIMBS":
+			htmleditor.setPrefHeight(500);
+			break;
+		case "COLOUR DOPPLER OF  CAROTID AND VERTEBRAL ARTERIES":
+			htmleditor.setPrefHeight(700);
+			break;
+		case "RENAL COLOR DOPPLER":
+			htmleditor.setPrefHeight(650);
+			break;
+		case "CAROTID AND RADIAL COLOUR  DOPPLER":
+			htmleditor.setPrefHeight(600);
+			break;
+		case "COLOR DOPPLER EXAMINATION  OF ABDOMINAL VESSELS":
+			htmleditor.setPrefHeight(600);
+			break;
+		case "COLOR DOPPLER EXAMINATION OF LEFT SUBCLAVIAN  ARTERY":
+			htmleditor.setPrefHeight(370);
+			break;
+		case "COLOR DOPPLER EXAMINATION OF NECK VESSELS":
+			htmleditor.setPrefHeight(580);
+			break;
+		case "COLOR DOPPLER OF FEMALE PELVIS":
+			htmleditor.setPrefHeight(280);
+			break;
+		case "TRANSCRANIAL COLOR  DOPPLER  EXAMINATION":
+			htmleditor.setPrefHeight(760);
+			break;
 		}
 		return htmleditor;
 	}
