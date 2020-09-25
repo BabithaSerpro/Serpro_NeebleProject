@@ -24,6 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import screens.HomePageController;
 import viewPatient.ViewPDController;
 
 public class EditTDController {
@@ -222,6 +223,9 @@ public class EditTDController {
 				int pid=Integer.valueOf(p_id.getText());
 				CreateTestTemplate.screenContent(testname,pid);
 				ViewPDController.refreshTestDetails(pid);
+				HomePageController.totalTestCount();
+				HomePageController.totalTestCompleted();
+				HomePageController.totalTestCount();
 			} catch (Exception e1) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Dr. Subodh App");
