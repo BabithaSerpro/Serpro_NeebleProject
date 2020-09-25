@@ -127,18 +127,15 @@ public class Test_Screens {
 			System.out.println("past_history");
 			TestContent.create_pastHistory(tID);
 		}
-		if(clinical_impression.equals("TRUE")) {
-			TestContent.create_clinicalImp(tID);
-			System.out.println("clinical_impression");
-		}
-		if(fetal_parameter.equals("TRUE")) {
-			System.out.println("fetal_parameter");
-			TestContent.create_fetalParameter(tID);
-		}
-		if(fetal_dop_studies.equals("TRUE")) {
-			System.out.println("fetal_dop_studies");
-			TestContent.create_fetaldopStudies(tID);
-		}
+		/*
+		 * if(clinical_impression.equals("TRUE")) { TestContent.create_clinicalImp(tID);
+		 * System.out.println("clinical_impression"); }
+		 * if(fetal_parameter.equals("TRUE")) { System.out.println("fetal_parameter");
+		 * TestContent.create_fetalParameter(tID); }
+		 * if(fetal_dop_studies.equals("TRUE")) {
+		 * System.out.println("fetal_dop_studies");
+		 * TestContent.create_fetaldopStudies(tID); }
+		 */
 		if(table1.equals("TRUE")) {
 			System.out.println("table1");
 			TestContent.create_table1(tID);
