@@ -79,7 +79,7 @@ public class TestData {
                     	btn.setOnAction((ActionEvent event) -> {
                         	TestData data = getTableView().getItems().get(getIndex());
                         	try {
-                        		CreateTestTemplate.screenContent(data.getTestName(), pid);
+                        		CreateTestTemplate.screenContent(data.getTestName(), pid,data.gettId());
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -66,16 +67,16 @@ public class EditTDController {
 
 	public static AnchorPane paneEdit, testContentPane;
 	private static Label p_name, p_age, p_gender, p_id, test_name;
-	private static TextField ref_doctor, test_date;
+	public static TextField ref_doctor, test_date;
 	public static String tName;
 	private static Connection con;
 	private static PreparedStatement ps;
 	public static String test_details, past_history, menstural_data, clinical_impression, fetal_parameter, fetal_dop_studies, table1,
 			table2, impression, note;
-	public static int tID, table1_col, table1_row, table2_col, table2_row;
+	public static int tID, ID;
 	public static VBox tvbox = new VBox(10);
 	public static Button btnSave = new Button("Save");
-
+	private static ResultSet rs;
 	private static int flag;
 
 	public static Stage getReportScreen() {
@@ -110,6 +111,22 @@ public class EditTDController {
 		EditTDController.tvbox = tvbox;
 	}
 
+	public static TextField getRef_doctor() {
+		return ref_doctor;
+	}
+
+	public static void setRef_doctor(TextField ref_doctor) {
+		EditTDController.ref_doctor = ref_doctor;
+	}
+	
+	public static int getID() {
+		return ID;
+	}
+
+	public static void setID(int iD) {
+		ID = iD;
+	}
+	
 	@FXML
 	public void initialize() throws ClassNotFoundException, SQLException {
 		paneEdit = pane_EditTD;
@@ -221,7 +238,7 @@ public class EditTDController {
 			try {
 				addTest();
 				int pid=Integer.valueOf(p_id.getText());
-				CreateTestTemplate.screenContent(testname,pid);
+				CreateTestTemplate.screenContent(testname,pid,getID());
 				ViewPDController.refreshTestDetails(pid);
 				HomePageController.totalTestCount();
 				HomePageController.totalTestCompleted();
@@ -248,7 +265,7 @@ public class EditTDController {
 				+ " values(?,?,?,?,?,?,?,?,?,?,?,'Y','" + timeStamp + "','" + timeStamp + "')";
 		con = DBConnectivity.getConnection();
 		try {
-			ps = con.prepareStatement(insert);
+			ps = con.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, p_id.getText());
 			ps.setString(2, ref_doctor.getText());
 			ps.setString(3, gettName());
@@ -301,7 +318,12 @@ public class EditTDController {
 				ps.setString(11, "");
 			}
 			flag = ps.executeUpdate();
+			rs = ps.getGeneratedKeys();
 
+			if (rs.next()) {
+				ID = rs.getInt(1);
+				setID(ID);
+			}
 			if (flag > 0) { // redirecting to dashboard
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Dr. Subodh App");
@@ -311,6 +333,7 @@ public class EditTDController {
 				alert.showAndWait().ifPresent(bt -> {
 					if (bt == ButtonType.OK) {
 						close();
+						
 					}
 				});
 			} else {

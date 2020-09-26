@@ -110,7 +110,7 @@ public class TestContent {
 		ps = con.prepareStatement("SELECT * FROM patient_report_tabledetails WHERE testId='" + tID + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			hE_table2.setHtmlText(rs.getString("table"));
+			hE_table2.setHtmlText(rs.getString("table2"));
 		}
 		if (!hE_table2.equals(null)) {
 			table2 = hE_table2;

@@ -62,13 +62,14 @@ public class CreateTestTemplate {
 		CreateTestTemplate.btnPrint = btnPrint;
 	}
 
-	public static void screenContent(String testname, int pid) throws Exception {
+	public static void screenContent(String testname, int pid, int id) throws Exception {
 		try {
 			reportScreen = new Stage();
 			Parent header = FXMLLoader.load(CreateTestTemplate.class.getResource("/testTemplates/Header.fxml"));
 			contentPane = HeaderController.getPaneTemplate();
 			Scene scene = new Scene(header);
 			reportScreen.setTitle("Patient Report");
+			reportScreen.setResizable(false);
 			reportScreen.setScene(scene);
 			reportScreen.show();
 			
@@ -81,7 +82,7 @@ public class CreateTestTemplate {
 			lblTestname.setPrefHeight(32);
 			lblTestname.setTextAlignment(TextAlignment.CENTER);
 			
-			createTemplate(testname,pid);
+			createTemplate(testname,pid,id);
 			
 			vbox.setId("template_vbox");
 			vbox.setLayoutX(40);
@@ -105,7 +106,7 @@ public class CreateTestTemplate {
 		}
 	}
 
-	public static void createTemplate(String testname, int pID) throws SQLException {
+	public static void createTemplate(String testname, int pID, int id) throws SQLException {
 		con = DBConnectivity.getConnection();
 		ps = con.prepareStatement("SELECT * FROM patient_report WHERE TEST_NAME='"+testname+"'");
 		ResultSet rs = ps.executeQuery();
@@ -125,13 +126,14 @@ public class CreateTestTemplate {
 			impression=rs.getString("IMPRESSION");
 			note=rs.getString("PLEASE_NOTE");
 		}
-		Test_Template.patientreportData(pID, testname);
+		Test_Template.patientreportData(pID, testname,id);
+		
 		if(past_history.equals("TRUE")) {
-			Test_Template.create_pastHistory(pID,testname);
+			Test_Template.create_pastHistory(pID,testname,id);
 		}
 		
 		if(test_details.equals("TRUE")) {
-			Test_Template.create_testDetails(pID,testname);
+			Test_Template.create_testDetails(pID,testname,id);
 		}
 		
 //		if(clinical_impression.equals("TRUE")) {
@@ -144,16 +146,16 @@ public class CreateTestTemplate {
 //			Test_Template.create_fetaldopStudies(pID,testname);
 //		}
 		if(table1.equals("TRUE")) {
-			Test_Template.create_table1(pID,testname);
+			Test_Template.create_table1(pID,testname,id);
 		}
 		if(table2.equals("TRUE")) {
-			Test_Template.create_table2(pID,testname);
+			Test_Template.create_table2(pID,testname,id);
 		}
 		if(impression.equals("TRUE")) {
-			Test_Template.create_impression(pID,testname);
+			Test_Template.create_impression(pID,testname,id);
 		}
 		if(note.equals("TRUE")) {
-			Test_Template.create_note(pID,testname);
+			Test_Template.create_note(pID,testname,id);
 		}
 		ps.close();
 		rs.close();

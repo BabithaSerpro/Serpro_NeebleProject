@@ -23,11 +23,10 @@ public class Test_Template {
 	public static HTMLEditor history, clinicalImp, fetalParameter, fetaldopStudies, impression, note, table1, table2,
 			testDetstails;
 
-	public static void patientreportData(int pID, String testname) {
+	public static void patientreportData(int pID, String testname,int id) {
 		try {
 			con = DBConnectivity.getConnection();
-			ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID
-					+ "' AND testName='" + testname + "'");
+			ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "'");
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -39,13 +38,12 @@ public class Test_Template {
 		}
 	}
 
-	public static void create_testDetails(int pID, String testname) throws SQLException {
+	public static void create_testDetails(int pID, String testname,int id) throws SQLException {
 		HTMLEditor he_Testdetails = new HTMLEditor();
 		he_Testdetails.setPrefWidth(700);
 		he_Testdetails.setId("heTestdetails");
 		he_Testdetails.setStyle("-fx-border-color:white;");
-		ps = con.prepareStatement(
-				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			he_Testdetails.setHtmlText(rs.getString("testDescription"));
@@ -70,15 +68,14 @@ public class Test_Template {
 		}
 	}
 
-	public static void create_pastHistory(int pID, String testname) throws SQLException {
+	public static void create_pastHistory(int pID, String testname,int id) throws SQLException {
 		Label lblphistory = new Label("Relevant past history");
 		HTMLEditor hE_pHistory = new HTMLEditor();
 		hE_pHistory.setPrefWidth(700);
 		hE_pHistory.setId("hePastHistory");
 		hE_pHistory.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement(
-				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_pHistory.setHtmlText(rs.getString("patientHistory"));
@@ -90,7 +87,7 @@ public class Test_Template {
 		vbox.getChildren().addAll(lblphistory, hE_pHistory);
 	}
 
-	public static void create_table1(int pID, String testname) throws SQLException {
+	public static void create_table1(int pID, String testname,int id) throws SQLException {
 		HTMLEditor hE_table1 = new HTMLEditor();
 		hE_table1.setPrefWidth(700);
 		hE_table1.setId("hE_tbl1");
@@ -98,7 +95,7 @@ public class Test_Template {
 		hE_table1 = htmlEditorStyle(hE_table1);
 		hE_table1.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_table1.setHtmlText(rs.getString("table1"));
@@ -110,7 +107,7 @@ public class Test_Template {
 		vbox.getChildren().addAll(hE_table1);
 	}
 
-	public static void create_table2(int pID, String testname) throws SQLException {
+	public static void create_table2(int pID, String testname,int id) throws SQLException {
 		HTMLEditor hE_table2 = new HTMLEditor();
 		hE_table2.setPrefWidth(700);
 		hE_table2.setPrefHeight(400);
@@ -120,8 +117,7 @@ public class Test_Template {
 		hE_table2 = htmlEditorStyle(hE_table2);
 		hE_table2.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement(
-				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_table2.setHtmlText(rs.getString("table2"));
@@ -131,7 +127,7 @@ public class Test_Template {
 		vbox.getChildren().addAll(hE_table2);
 	}
 
-	public static void create_impression(int pID, String testname) throws SQLException {
+	public static void create_impression(int pID, String testname,int id) throws SQLException {
 		Label lblimp = new Label("Impression: ");
 		HTMLEditor hE_imp = new HTMLEditor();
 		hE_imp.setPrefWidth(700);
@@ -139,8 +135,7 @@ public class Test_Template {
 		hE_imp.setId("heImpression");
 		hE_imp.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement(
-				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_imp.setHtmlText(rs.getString("impression"));
@@ -152,7 +147,7 @@ public class Test_Template {
 		vbox.getChildren().addAll(lblimp, hE_imp);
 	}
 
-	public static void create_note(int pID, String testname) throws SQLException {
+	public static void create_note(int pID, String testname, int id) throws SQLException {
 		Label lblnote = new Label("Please Note: ");
 		HTMLEditor hE_note = new HTMLEditor();
 		hE_note.setPrefWidth(700);
@@ -160,7 +155,7 @@ public class Test_Template {
 		hE_note.setId("heNote");
 		hE_note.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND testName='" + testname + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_note.setHtmlText(rs.getString("note"));
@@ -484,7 +479,11 @@ public class Test_Template {
 			htmleditor.setPrefHeight(370);
 			break;
 		case "COLOR DOPPLER EXAMINATION OF NECK VESSELS":
-			htmleditor.setPrefHeight(580);
+			if(htmleditor.getId().equals("hE_tbl1")) {
+				htmleditor.setPrefHeight(550);
+			}else {
+				htmleditor.setPrefHeight(600);
+			}
 			break;
 		case "COLOR DOPPLER OF FEMALE PELVIS":
 			htmleditor.setPrefHeight(280);
