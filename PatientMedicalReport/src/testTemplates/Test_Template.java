@@ -49,6 +49,9 @@ public class Test_Template {
 			he_Testdetails.setHtmlText(rs.getString("testDescription"));
 		}
 		String st = he_Testdetails.getHtmlText();
+		if (st.contains("<br>")) {
+			st = st.replace("<br>", "<br/>");
+		}
 		if (st.contains("contenteditable=\"true\"")) {
 			st = st.replace("contenteditable=\"true\"", "contenteditable=\"false\"");
 		}

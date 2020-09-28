@@ -34,6 +34,7 @@ public class TestContent {
 		while (rs.next()) {
 			he_Testdetails.setHtmlText(rs.getString("testDetails"));
 		}
+		
 		String text = Test_Template.stripHTMLTags(he_Testdetails.getHtmlText());
 		if (!(text.equals(""))) {
 			testDetstails = he_Testdetails;
@@ -174,8 +175,6 @@ public class TestContent {
 		String text = Test_Template.stripHTMLTags(he_eTestdetails.getHtmlText());
 		if (!(text.equals(""))) {
 			etestDetstails = he_eTestdetails;
-
-
 			vbox1.getChildren().addAll(he_eTestdetails);
 		}
 	}

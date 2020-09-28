@@ -278,7 +278,11 @@ public class EditTDController {
 				ps.setString(6, "");
 			}
 			if(test_details.equals("TRUE")) {
-				ps.setString(7, TestContent.testDetstails.getHtmlText());
+				String st = TestContent.testDetstails.getHtmlText();
+				if (st.contains("<br>")) {
+					st = st.replace("<br>", "<br/>");
+				}
+				ps.setString(7, st);
 			}else {
 				ps.setString(7, "");
 			}
