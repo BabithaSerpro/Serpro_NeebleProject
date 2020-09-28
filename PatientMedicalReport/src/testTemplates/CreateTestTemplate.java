@@ -98,7 +98,13 @@ public class CreateTestTemplate {
 			vbox.getChildren().addAll(lblsign,lbldesignatn,btnPrint);
 			HeaderController.getPaneTemplate().getChildren().addAll(lblTestname,vbox);
 			btnPrint.setOnAction(e->{
-				PrintableData.downloadReport(e,testname,HeaderController.getPaneTemplate());
+//				PrintableData.downloadReport(e,testname,HeaderController.getPaneTemplate(),vbox);
+				try {
+					PrintableData.generatePdfReport(testname,pid,id,vbox);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			});
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

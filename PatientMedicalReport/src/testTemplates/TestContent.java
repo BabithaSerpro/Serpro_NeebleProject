@@ -40,28 +40,6 @@ public class TestContent {
 			vbox.getChildren().addAll(he_Testdetails);
 		}
 	}
-	public static void edit_testDetails(int tID) throws SQLException {
-		
-		HTMLEditor he_eTestdetails = new HTMLEditor();
-		he_eTestdetails.setPrefHeight(370);
-		he_eTestdetails.setPrefWidth(700);
-		he_eTestdetails.setId("heETestdetails");
-		he_eTestdetails.setStyle("-fx-border-color:white;");
-
-		System.out.println("tId--------->"+tID);
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'");
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			he_eTestdetails.setHtmlText(rs.getString("testDescription"));
-		}
-		String text = Test_Template.stripHTMLTags(he_eTestdetails.getHtmlText());
-		if (!(text.equals(""))) {
-			etestDetstails = he_eTestdetails;
-			
-			
-			vbox1.getChildren().addAll(he_eTestdetails);
-		}
-	}
 
 	public static void create_pastHistory(int tID) throws SQLException {
 		Label lblphistory = new Label("Relevant past history");
@@ -80,24 +58,6 @@ public class TestContent {
 			history = hE_pHistory;
 		} 
 		vbox.getChildren().addAll(lblphistory, hE_pHistory);
-	}
-	public static void edit_pastHistory(int tID) throws SQLException {
-		Label lblphistory = new Label("Relevant past history");
-		HTMLEditor hE_epHistory = new HTMLEditor();
-		hE_epHistory.setPrefHeight(200);
-		hE_epHistory.setPrefWidth(700);
-		hE_epHistory.setId("heEPastHistory");
-		hE_epHistory.setStyle("-fx-border-color:white;");
-
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'");
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			hE_epHistory.setHtmlText(rs.getString("patientHistory"));
-		}
-		if (!hE_epHistory.equals(null)) {
-			ehistory = hE_epHistory;
-		} 
-		vbox1.getChildren().addAll(lblphistory, hE_epHistory);
 	}
 
 	public static void create_table1(int tID) throws SQLException {
@@ -129,35 +89,6 @@ public class TestContent {
 		} 
 		vbox.getChildren().addAll(hE_table1);
 	}
-	public static void edit_table1(int tID) throws SQLException {
-		HTMLEditor hE_etable1 = new HTMLEditor();
-		hE_etable1.setPrefHeight(600);
-		hE_etable1.setPrefWidth(700);
-		hE_etable1.setId("hE_Etbl1");
-
-		// hide controls we don't need.
-		Node t_node = hE_etable1.lookup(".top-toolbar");
-		Node b_node = hE_etable1.lookup(".bottom-toolbar");
-		t_node.setVisible(false);
-		b_node.setVisible(false);
-		t_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
-				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
-				+ "        -fx-opacity: 0;");
-		b_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
-				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
-				+ "        -fx-opacity: 0;");
-		hE_etable1.setStyle("-fx-border-color:white;");
-
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'");
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			hE_etable1.setHtmlText(rs.getString("table1"));
-		}
-		if (!hE_etable1.equals(null)) {
-			etable1 = hE_etable1;
-		} 
-		vbox1.getChildren().addAll(hE_etable1);
-	}
 	
 	public static void create_table2(int tID) throws SQLException {
 		HTMLEditor hE_table2 = new HTMLEditor();
@@ -188,6 +119,116 @@ public class TestContent {
 		} 
 		vbox.getChildren().addAll(hE_table2);
 	}
+	
+	public static void create_impression(int tID) throws SQLException {
+		Label lblimp = new Label("Impression: ");
+		HTMLEditor hE_imp = new HTMLEditor();
+		hE_imp.setPrefHeight(150);
+		hE_imp.setPrefWidth(700);
+		hE_imp.setId("heImpression");
+		hE_imp.setStyle("-fx-border-color:white;");
+
+		ps = con.prepareStatement("SELECT IMPRESSION FROM patient_testdetails WHERE tId='" + tID + "'");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			hE_imp.setHtmlText(rs.getString("IMPRESSION"));
+		}
+		if (!hE_imp.equals(null)) {
+			impression = hE_imp;
+		} 
+		vbox.getChildren().addAll(lblimp, hE_imp);
+	}
+
+	public static void create_note(int tID) throws SQLException {
+		Label lblnote = new Label("Please Note: ");
+		HTMLEditor hE_note = new HTMLEditor();
+		hE_note.setPrefHeight(150);
+		hE_note.setPrefWidth(700);
+		hE_note.setId("heNote");
+		hE_note.setStyle("-fx-border-color:white;");
+
+		ps = con.prepareStatement("SELECT PLEASE_NOTE FROM patient_testdetails WHERE tId='" + tID + "'");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			hE_note.setHtmlText(rs.getString("PLEASE_NOTE"));
+		}
+		if (!hE_note.equals(null)) {
+			note = hE_note;
+		}
+		vbox.getChildren().addAll(lblnote, hE_note);
+	}
+	//======================================================
+	public static void edit_testDetails(int tID) throws SQLException {
+
+		HTMLEditor he_eTestdetails = new HTMLEditor();
+		he_eTestdetails.setPrefHeight(370);
+		he_eTestdetails.setPrefWidth(700);
+		he_eTestdetails.setId("heETestdetails");
+		he_eTestdetails.setStyle("-fx-border-color:white;");
+
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			he_eTestdetails.setHtmlText(rs.getString("testDescription"));
+		}
+		String text = Test_Template.stripHTMLTags(he_eTestdetails.getHtmlText());
+		if (!(text.equals(""))) {
+			etestDetstails = he_eTestdetails;
+
+
+			vbox1.getChildren().addAll(he_eTestdetails);
+		}
+	}
+	
+	public static void edit_pastHistory(int tID) throws SQLException {
+		Label lblphistory = new Label("Relevant past history");
+		HTMLEditor hE_epHistory = new HTMLEditor();
+		hE_epHistory.setPrefHeight(200);
+		hE_epHistory.setPrefWidth(700);
+		hE_epHistory.setId("heEPastHistory");
+		hE_epHistory.setStyle("-fx-border-color:white;");
+
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			hE_epHistory.setHtmlText(rs.getString("patientHistory"));
+		}
+		if (!hE_epHistory.equals(null)) {
+			ehistory = hE_epHistory;
+		} 
+		vbox1.getChildren().addAll(lblphistory, hE_epHistory);
+	}
+	
+	public static void edit_table1(int tID) throws SQLException {
+		HTMLEditor hE_etable1 = new HTMLEditor();
+		hE_etable1.setPrefHeight(600);
+		hE_etable1.setPrefWidth(700);
+		hE_etable1.setId("hE_Etbl1");
+
+		// hide controls we don't need.
+		Node t_node = hE_etable1.lookup(".top-toolbar");
+		Node b_node = hE_etable1.lookup(".bottom-toolbar");
+		t_node.setVisible(false);
+		b_node.setVisible(false);
+		t_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
+				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
+				+ "        -fx-opacity: 0;");
+		b_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
+				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
+				+ "        -fx-opacity: 0;");
+		hE_etable1.setStyle("-fx-border-color:white;");
+
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'");
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			hE_etable1.setHtmlText(rs.getString("table1"));
+		}
+		if (!hE_etable1.equals(null)) {
+			etable1 = hE_etable1;
+		} 
+		vbox1.getChildren().addAll(hE_etable1);
+	}
+	
 	public static void edit_table2(int tID) throws SQLException {
 		HTMLEditor hE_etable2 = new HTMLEditor();
 		hE_etable2.setPrefHeight(400);
@@ -217,25 +258,7 @@ public class TestContent {
 		} 
 		vbox1.getChildren().addAll(hE_etable2);
 	}
-	public static void create_impression(int tID) throws SQLException {
-		Label lblimp = new Label("Impression: ");
-		HTMLEditor hE_imp = new HTMLEditor();
-		hE_imp.setPrefHeight(150);
-		hE_imp.setPrefWidth(700);
-		hE_imp.setId("heImpression");
-		hE_imp.setStyle("-fx-border-color:white;");
-
-		ps = con.prepareStatement("SELECT IMPRESSION FROM patient_testdetails WHERE tId='" + tID + "'");
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			hE_imp.setHtmlText(rs.getString("IMPRESSION"));
-		}
-		if (!hE_imp.equals(null)) {
-			impression = hE_imp;
-		} 
-		vbox.getChildren().addAll(lblimp, hE_imp);
-	}
-
+	
 	public static void edit_impression(int tID) throws SQLException {
 		Label lblimp = new Label("Impression: ");
 		HTMLEditor hE_eimp = new HTMLEditor();
@@ -253,24 +276,6 @@ public class TestContent {
 			eimpression = hE_eimp;
 		} 
 		vbox1.getChildren().addAll(lblimp, hE_eimp);
-	}
-	public static void create_note(int tID) throws SQLException {
-		Label lblnote = new Label("Please Note: ");
-		HTMLEditor hE_note = new HTMLEditor();
-		hE_note.setPrefHeight(150);
-		hE_note.setPrefWidth(700);
-		hE_note.setId("heNote");
-		hE_note.setStyle("-fx-border-color:white;");
-
-		ps = con.prepareStatement("SELECT PLEASE_NOTE FROM patient_testdetails WHERE tId='" + tID + "'");
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			hE_note.setHtmlText(rs.getString("PLEASE_NOTE"));
-		}
-		if (!hE_note.equals(null)) {
-			note = hE_note;
-		}
-		vbox.getChildren().addAll(lblnote, hE_note);
 	}
 	
 	public static void edit_note(int tID) throws SQLException {

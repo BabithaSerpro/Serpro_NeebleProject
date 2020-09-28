@@ -357,9 +357,6 @@ public class EditTDController {
 
 	}
 	
-	
-	
-	
 	@FXML
 	void cancelBtn(ActionEvent event) {
 		close();

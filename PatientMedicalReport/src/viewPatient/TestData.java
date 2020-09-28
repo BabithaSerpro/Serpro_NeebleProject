@@ -29,7 +29,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import screens.HomePageController;
 import testTemplates.CreateTestTemplate;
-import testTemplates.EditTDController;
 import testTemplates.EditTestTemplateController;
 
 public class TestData {
@@ -37,11 +36,11 @@ public class TestData {
 	public final SimpleStringProperty testName = new SimpleStringProperty();
 	public final SimpleStringProperty reportDate = new SimpleStringProperty();
 	public final SimpleStringProperty status = new SimpleStringProperty();
-	
+
 	public int gettId() {
 		return tId.get();
 	}
-	
+
 	public String getTestName() {
 		return testName.get();
 	}
@@ -49,12 +48,13 @@ public class TestData {
 	public String getReportDate() {
 		return reportDate.get();
 	}
-	
+
 	public String getStatus() {
 		return status.get();
 	}
-	
+
 	public static Stage reportScreen;
+
 	public static Stage getReportScreen() {
 		return reportScreen;
 	}
@@ -62,32 +62,32 @@ public class TestData {
 	public static void setReportScreen(Stage reportScreen) {
 		addTestController.reportScreen = reportScreen;
 	}
-	
+
 	public static void addViewButton(int pid) {
-        TableColumn<TestData, Void> colBtn = new TableColumn("View");
+		TableColumn<TestData, Void> colBtn = new TableColumn("View");
 
-        Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>> cellFactory = new Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>>() {
-            @Override
-            public TableCell<TestData, Void> call(final TableColumn<TestData, Void> param) {
-                final TableCell<TestData, Void> cell = new TableCell<TestData, Void>() {
+		Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>> cellFactory = new Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>>() {
+			@Override
+			public TableCell<TestData, Void> call(final TableColumn<TestData, Void> param) {
+				final TableCell<TestData, Void> cell = new TableCell<TestData, Void>() {
 
-                    private final JFXButton btn = new JFXButton();
-                    
-                    {
-                    	Image img = new Image("/imgs/eye_1.png");
-                        ImageView view = new ImageView(img);
-                    	btn.setGraphic(view);
+					private final JFXButton btn = new JFXButton();
 
-                    	btn.setOnAction((ActionEvent event) -> {
-                        	TestData data = getTableView().getItems().get(getIndex());
-                        	try {
-                        		CreateTestTemplate.screenContent(data.getTestName(), pid,data.gettId());
+					{
+						Image img = new Image("/imgs/eye_1.png");
+						ImageView view = new ImageView(img);
+						btn.setGraphic(view);
+
+						btn.setOnAction((ActionEvent event) -> {
+							TestData data = getTableView().getItems().get(getIndex());
+							try {
+								CreateTestTemplate.screenContent(data.getTestName(), pid, data.gettId());
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-                        });
-                    	
+						});
+
 //                    	btn.setOnAction((ActionEvent event) -> {
 //                        	TestData data = getTableView().getItems().get(getIndex());
 //                        	try {
@@ -105,148 +105,151 @@ public class TestData {
 //							}
 //                            
 //                        });
-                    }
+					}
 
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
+					@Override
+					public void updateItem(Void item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+						} else {
+							setGraphic(btn);
+						}
+					}
+				};
+				return cell;
+			}
+		};
 
-        colBtn.setCellFactory(cellFactory);
+		colBtn.setCellFactory(cellFactory);
 
-        ViewPDController.getTblTestTable().getColumns().add(colBtn);
+		ViewPDController.getTblTestTable().getColumns().add(colBtn);
 
-    }
-		public static void addEditButton(int pid) {
-      TableColumn<TestData, Void> colBtn = new TableColumn("Edit");
+	}
 
-       Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>> cellFactory = new Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>>() {
-           @Override
-           public TableCell<TestData, Void> call(final TableColumn<TestData, Void> param) {                final TableCell<TestData, Void> cell = new TableCell<TestData, Void>() {
+	public static void addEditButton(int pid) {
+		TableColumn<TestData, Void> colBtn = new TableColumn("Edit");
 
-                    private final JFXButton btn = new JFXButton();
-                    TableView<TestData> tblTest=ViewPDController.getTblTestTable();
-                    {
-                    	Image img = new Image("/imgs/edit_1.png");
-                        ImageView view = new ImageView(img);
-                    	btn.setGraphic(view);
+		Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>> cellFactory = new Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>>() {
+			@Override
+			public TableCell<TestData, Void> call(final TableColumn<TestData, Void> param) {
+				final TableCell<TestData, Void> cell = new TableCell<TestData, Void>() {
 
-                    	btn.setOnAction((ActionEvent event) -> {
-                        	TestData data = getTableView().getItems().get(getIndex());
-                        	try {
+					private final JFXButton btn = new JFXButton();
+					TableView<TestData> tblTest = ViewPDController.getTblTestTable();
+					{
+						Image img = new Image("/imgs/edit_1.png");
+						ImageView view = new ImageView(img);
+						btn.setGraphic(view);
 
-                    			AnchorPane pane = MainScreenController.getHomePage();
-                    			for (int i = 0; i < pane.getChildren().size(); i++) {
-                    				String paneID = pane.getChildren().get(i).getId();
-                    				switch (paneID) {
-                    				case "pane_Dashboard":
-                    					MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-                    					break;
-                    				case "pane_viewDetails":
-                    					MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-                    					break;
-                   				}
-                   			}
-                    			Parent root = FXMLLoader.load(DashboardController.class.getResource("/testTemplates/editTestTemplate.fxml"));
-                    			MainScreenController.getHomePage().getChildren().add(root);
-                    			root.setTranslateX(370);
-                   			    root.setTranslateY(30);
-                    			EditTestTemplateController.editScreenContent(data.getTestName(), data.gettId());
-                    			//EditTestController.editTestDetails(data.gettId());
-                    		} catch (Exception e) {
-                    			e.printStackTrace();
-                    			System.out.println("Cant load window");
-                    		}
-                        });
-                    }
+						btn.setOnAction((ActionEvent event) -> {
+							TestData data = getTableView().getItems().get(getIndex());
+							try {
 
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                           setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-               return cell;
-            }
-        };
+								AnchorPane pane = MainScreenController.getHomePage();
+								for (int i = 0; i < pane.getChildren().size(); i++) {
+									String paneID = pane.getChildren().get(i).getId();
+									switch (paneID) {
+									case "pane_Dashboard":
+										MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+										break;
+									case "pane_viewDetails":
+										MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+										break;
+									}
+								}
+								Parent root = FXMLLoader.load(
+										DashboardController.class.getResource("/testTemplates/editTestTemplate.fxml"));
+								MainScreenController.getHomePage().getChildren().add(root);
+								root.setTranslateX(370);
+								root.setTranslateY(30);
+								EditTestTemplateController.editScreenContent(data.getTestName(), data.gettId());
+								// EditTestController.editTestDetails(data.gettId());
+							} catch (Exception e) {
+								e.printStackTrace();
+								System.out.println("Cant load window");
+							}
+						});
+					}
 
-       colBtn.setCellFactory(cellFactory);
-       ViewPDController.getTblTestTable().getColumns().add(colBtn);
-    }
+					@Override
+					public void updateItem(Void item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+						} else {
+							setGraphic(btn);
+						}
+					}
+				};
+				return cell;
+			}
+		};
+
+		colBtn.setCellFactory(cellFactory);
+		ViewPDController.getTblTestTable().getColumns().add(colBtn);
+	}
 
 	public static void addDeleteButton(int pid, Connection con) {
-        TableColumn<TestData, Void> colBtn = new TableColumn("Delete");
+		TableColumn<TestData, Void> colBtn = new TableColumn("Delete");
 
-        Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>> cellFactory = new Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>>() {
-            @Override
-            public TableCell<TestData, Void> call(final TableColumn<TestData, Void> param) {
-                final TableCell<TestData, Void> cell = new TableCell<TestData, Void>() {
+		Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>> cellFactory = new Callback<TableColumn<TestData, Void>, TableCell<TestData, Void>>() {
+			@Override
+			public TableCell<TestData, Void> call(final TableColumn<TestData, Void> param) {
+				final TableCell<TestData, Void> cell = new TableCell<TestData, Void>() {
 
-                    private final JFXButton btn = new JFXButton();
-                    
-                    {
-                    	Image img = new Image("/imgs/delete.png");
-                        ImageView view = new ImageView(img);
-                    	btn.setGraphic(view);
-                        
-                    	btn.setOnAction((ActionEvent event) -> {
-                    		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                			alert.setTitle("Dr Subodh App");
-                			alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
-                			alert.getDialogPane().setHeaderText("Are you Sure!! You want to Delete!");
-                			alert.showAndWait().ifPresent(bt -> {
-                				if (bt == ButtonType.YES) {
-                					TestData data = getTableView().getItems().get(getIndex());
-                                	String SQL_delete = "UPDATE patient_reportmasterdata SET active ='N' WHERE id='" + data.gettId() + "'";
-                                	try {
-        								con.createStatement().executeUpdate(SQL_delete);
-        								ViewPDController.refreshTestDetails(pid);
-        								HomePageController.totalTestCount();
-        								HomePageController.totalTestCompleted();
-        								HomePageController.totalTestCount();
-        							} catch (Exception e) {
-        								// TODO Auto-generated catch block
-        								e.printStackTrace();
-        							}
-                				} else if (bt == ButtonType.NO) {
-                					event.consume();
-                				}
-                			});
-                        	
-                        	
-                        });
-                    }
+					private final JFXButton btn = new JFXButton();
 
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
+					{
+						Image img = new Image("/imgs/delete.png");
+						ImageView view = new ImageView(img);
+						btn.setGraphic(view);
 
-        colBtn.setCellFactory(cellFactory);
+						btn.setOnAction((ActionEvent event) -> {
+							Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+							alert.setTitle("Dr Subodh App");
+							alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+							alert.getDialogPane().setHeaderText("Are you Sure!! You want to Delete!");
+							alert.showAndWait().ifPresent(bt -> {
+								if (bt == ButtonType.YES) {
+									TestData data = getTableView().getItems().get(getIndex());
+									String SQL_delete = "UPDATE patient_reportmasterdata SET active ='N' WHERE id='"
+											+ data.gettId() + "'";
+									try {
+										con.createStatement().executeUpdate(SQL_delete);
+										ViewPDController.refreshTestDetails(pid);
+										HomePageController.totalTestCount();
+										HomePageController.totalTestCompleted();
+										HomePageController.totalTestCount();
+									} catch (Exception e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								} else if (bt == ButtonType.NO) {
+									event.consume();
+								}
+							});
 
-        ViewPDController.getTblTestTable().getColumns().add(colBtn);
+						});
+					}
 
-    }
+					@Override
+					public void updateItem(Void item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+						} else {
+							setGraphic(btn);
+						}
+					}
+				};
+				return cell;
+			}
+		};
+
+		colBtn.setCellFactory(cellFactory);
+
+		ViewPDController.getTblTestTable().getColumns().add(colBtn);
+
+	}
 }

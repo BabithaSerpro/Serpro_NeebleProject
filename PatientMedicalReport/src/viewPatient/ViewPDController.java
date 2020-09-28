@@ -212,8 +212,6 @@ public class ViewPDController {
 				}
 				testData.add(td);
 			}
-			
-		
 			TestData.addViewButton(pid);
 			TestData.addEditButton(pid);
 			TestData.addDeleteButton(pid, con);
