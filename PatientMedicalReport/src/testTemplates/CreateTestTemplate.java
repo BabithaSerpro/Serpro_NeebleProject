@@ -98,7 +98,6 @@ public class CreateTestTemplate {
 			vbox.getChildren().addAll(lblsign,lbldesignatn,btnPrint);
 			HeaderController.getPaneTemplate().getChildren().addAll(lblTestname,vbox);
 			btnPrint.setOnAction(e->{
-//				PrintableData.downloadReport(e,testname,HeaderController.getPaneTemplate(),vbox);
 				try {
 					PrintableData.generatePdfReport(testname,pid,id,vbox);
 				} catch (Exception e1) {

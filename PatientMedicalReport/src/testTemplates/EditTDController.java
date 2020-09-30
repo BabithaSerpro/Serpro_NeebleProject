@@ -9,8 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import DBConnection.DBConnectivity;
-import addTest.addTestController;
 import application.MainScreenController;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -56,9 +56,6 @@ public class EditTDController {
 	@FXML
 	private Label lblName;
 
-//    @FXML
-//    private VBox test_vbox;
-
 	@FXML
 	private Button btn_close;
 
@@ -84,7 +81,7 @@ public class EditTDController {
 	}
 
 	public static void setReportScreen(Stage reportScreen) {
-		addTestController.reportScreen = reportScreen;
+		EditTDController.reportScreen = reportScreen;
 	}
 
 	public static String gettName() {
@@ -193,35 +190,17 @@ public class EditTDController {
 			tID = rs.getInt("ID");
 			test_details=rs.getString("TEST_DETAILS");
 			past_history = rs.getString("PAST HISTORY");
-//			clinical_impression = rs.getString("CLINICAL_IMPRESSION");
-//			fetal_parameter = rs.getString("FETAL PARAMETER");
-//			fetal_dop_studies = rs.getString("FETAL DOPPLER STUDIES");
 			table1 = rs.getString("TABLE1");
-//			table1_col = rs.getInt("TABLE1_NO_OF_COLUMNS");
-//			table1_row = rs.getInt("TABLE1_NO_OF_ROWS");
 			table2 = rs.getString("TABLE2");
-//			table2_col = rs.getInt("TABLE2_NO_OF_COLUMNS");
-//			table2_row = rs.getInt("TABLE2_NO_OF_ROWS");
 			impression = rs.getString("IMPRESSION");
 			note = rs.getString("PLEASE_NOTE");
 		}
 		if (past_history.equals("TRUE")) {
 			TestContent.create_pastHistory(tID);
 		}
-		
 		if (test_details.equals("TRUE")) {
 			TestContent.create_testDetails(tID);
 		}
-		
-//		if (clinical_impression.equals("TRUE")) {
-//			TestContent.create_clinicalImp(tID);
-//		}
-//		if (fetal_parameter.equals("TRUE")) {
-//			TestContent.create_fetalParameter(tID);
-//		}
-//		if (fetal_dop_studies.equals("TRUE")) {
-//			TestContent.create_fetaldopStudies(tID);
-//		}
 		if (table1.equals("TRUE")) {
 			TestContent.create_table1(tID);
 		}
@@ -336,8 +315,12 @@ public class EditTDController {
 				alert.setContentText("Test Added Successfully");
 				alert.showAndWait().ifPresent(bt -> {
 					if (bt == ButtonType.OK) {
-						close();
-						
+						try {
+							close();
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				});
 			} else {
@@ -362,10 +345,10 @@ public class EditTDController {
 	}
 	
 	@FXML
-	void cancelBtn(ActionEvent event) {
+	void cancelBtn(ActionEvent event) throws Exception {
 		close();
 	}
-	public static void close() {
+	public static void close() throws Exception {
 		AnchorPane pane = MainScreenController.getHomePage();
 		for (int i = 0; i < pane.getChildren().size(); i++) {
 			String paneID = pane.getChildren().get(i).getId();
@@ -373,12 +356,13 @@ public class EditTDController {
 			case "pane_Dashboard":
 				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
 				break;
-			case "pane_viewDetails":
-				MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
-				break;
 			case "pane_EditTD":
 				MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
 				break;
+			case "pane_viewDetails":
+				MainScreenController.getHomePage().getChildren().get(i).setVisible(true);
+				break;
+			
 			}
 		}
 	}

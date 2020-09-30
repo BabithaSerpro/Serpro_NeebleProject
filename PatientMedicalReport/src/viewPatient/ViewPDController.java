@@ -59,7 +59,7 @@ public class ViewPDController {
 
 	@FXML
 	private ComboBox<String> testName;
-	
+
 	@FXML
 	private TableColumn<TestData, String> clm_tDate;
 
@@ -78,19 +78,28 @@ public class ViewPDController {
 	private static ObservableList<TestData> testData = FXCollections.observableArrayList();
 
 	private static Label lblID, lblPName_top, lblPName, lblGender, lblmobileNumber, lblEmail, lblDoB, lblAge;
-	private static ComboBox<String> test_Name;
+	public static ComboBox<String> test_Name;
 	private static Connection con;
-	private PreparedStatement ps;
-	
+	private static PreparedStatement ps;
+
 	public static int PID;
-	
+
 	public static int getPID() {
 		return PID;
 	}
+
 	public static void setPID(int pID) {
 		PID = pID;
 	}
-	
+
+	public static ComboBox<String> getTest_Name() {
+		return test_Name;
+	}
+
+	public static void setTest_Name(ComboBox<String> test_Name) {
+		ViewPDController.test_Name = test_Name;
+	}
+
 	@FXML
 	public void initialize() throws ClassNotFoundException, SQLException {
 		tblTestTable = tbl_testDetails;
@@ -102,33 +111,31 @@ public class ViewPDController {
 		lblEmail = lbl_email;
 		lblDoB = lbl_dob;
 		lblAge = lbl_age;
-		test_Name=testName;
-		
+		test_Name = testName;
+
 		try {
+			test_Name.getItems().clear();
 			test_Name.setItems(FXCollections.observableArrayList(dropDownValue()));
-			test_Name.setOnAction(e->{
+			test_Name.setOnAction(e -> {
 				try {
-					try {
-						AnchorPane pane = MainScreenController.getHomePage();
-						for (int i = 0; i < pane.getChildren().size(); i++) {
-							String paneID = pane.getChildren().get(i).getId();
-							switch (paneID) {
-							case "pane_Dashboard":
-								MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-								break;
-							case "pane_viewDetails":
-								MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-								break;
-							}
+					AnchorPane pane = MainScreenController.getHomePage();
+					for (int i = 0; i < pane.getChildren().size(); i++) {
+						String paneID = pane.getChildren().get(i).getId();
+						switch (paneID) {
+						case "pane_Dashboard":
+							MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+							break;
+						case "pane_viewDetails":
+							MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+							break;
 						}
-						Parent root = FXMLLoader.load(DashboardController.class.getResource("/testTemplates/editTestData.fxml"));
-						MainScreenController.getHomePage().getChildren().add(root);
-						root.setTranslateX(370);
-						root.setTranslateY(30);
-					} catch (Exception e1) {
-						e1.printStackTrace();
 					}
+					Parent root = FXMLLoader.load(DashboardController.class.getResource("/testTemplates/editTestData.fxml"));
+					MainScreenController.getHomePage().getChildren().add(root);
+					root.setTranslateX(370);
+					root.setTranslateY(30);
 					EditTDController.screenContent(test_Name.getSelectionModel().getSelectedItem());
+
 //					Test_Screens.screenContent(test_Name.getSelectionModel().getSelectedItem());
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -143,7 +150,7 @@ public class ViewPDController {
 			alert.showAndWait();
 			e.printStackTrace();
 		}
-		
+
 		clm_testName.setCellValueFactory(new PropertyValueFactory<TestData, String>("testName"));
 		clm_tDate.setCellValueFactory(new PropertyValueFactory<TestData, String>("reportDate"));
 		clm_status.setCellValueFactory(new PropertyValueFactory<TestData, String>("status"));
@@ -254,7 +261,7 @@ public class ViewPDController {
 		}
 	}
 
-	public List<String> dropDownValue() throws Exception {
+	public static List<String> dropDownValue() throws Exception {
 		List<String> options = new ArrayList<String>();
 
 		con = DBConnectivity.getConnection();
@@ -267,31 +274,6 @@ public class ViewPDController {
 		rs.close();
 		return options;
 
-	}
-	
-	@FXML
-	public void addTest() {
-		try {
-			AnchorPane pane = MainScreenController.getHomePage();
-			for (int i = 0; i < pane.getChildren().size(); i++) {
-				String paneID = pane.getChildren().get(i).getId();
-				switch (paneID) {
-				case "pane_Dashboard":
-					MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-					break;
-				case "pane_viewDetails":
-					MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-					break;
-				}
-			}
-			Parent root = FXMLLoader.load(DashboardController.class.getResource("/addTest/addTest.fxml"));
-			MainScreenController.getHomePage().getChildren().add(root);
-			root.setTranslateX(370);
-			root.setTranslateY(30);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Cant load window");
-		}
 	}
 
 	@FXML
@@ -313,11 +295,11 @@ public class ViewPDController {
 			MainScreenController.getHomePage().getChildren().add(root);
 			root.setTranslateX(370);
 			root.setTranslateY(30);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Cant load window");
 		}
-		
+
 	}
 
 	@FXML

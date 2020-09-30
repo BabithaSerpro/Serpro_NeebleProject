@@ -85,6 +85,12 @@ public class TestContent {
 		while (rs.next()) {
 			hE_table1.setHtmlText(rs.getString("table"));
 		}
+		String st = hE_table1.getHtmlText();
+		if (st.contains("</table>")) {
+			st=st.replace("</table>", "<button type=\"button\" onclick=\"appendColumn()\">Add Column</button>");
+			hE_table1.setHtmlText(st);
+			System.out.println(st);
+		}
 		if (!hE_table1.equals(null)) {
 			table1 = hE_table1;
 		} 

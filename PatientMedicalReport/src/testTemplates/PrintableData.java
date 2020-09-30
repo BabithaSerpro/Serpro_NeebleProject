@@ -12,13 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.imageio.ImageIO;
-import javax.swing.text.StyledEditorKit.AlignmentAction;
-
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -26,32 +19,23 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.ExceptionConverter;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 import DBConnection.DBConnectivity;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.transform.Transform;
-import javafx.scene.web.HTMLEditor;
 import javafx.stage.StageStyle;
 
 public class PrintableData {
@@ -112,10 +96,38 @@ public class PrintableData {
 		writer.setPageEvent(event);
 		writer.setPageSize(PageSize.A4);
 
+		Image headerImg=new Image("/imgs/header.png");
+		Image footerImg=new Image("/imgs/footer.png");
+		File output1 = new File(home + "/Desktop/PatientReports/header.png");
+		File output2 = new File(home + "/Desktop/PatientReports/footer.png");
+		ImageIO.write(SwingFXUtils.fromFXImage(headerImg, null), "png", output1);
+		ImageIO.write(SwingFXUtils.fromFXImage(footerImg, null), "png", output2);
+		
 		document.open();
 		addPatientDetails(document, pid, id);
-		addPatientTestReport(document, pid, id,writer);
+		addPatientTestReport(document, pid, id, writer);
 		document.close();
+
+		// Save the folder path to DB
+		String update = "UPDATE patient_reportmasterdata SET active='Y', folderPath='" + path + "' WHERE regNumber=?";
+		con = DBConnectivity.getConnection();
+		ps = con.prepareStatement(update);
+		ps.setInt(1, p_id);
+		flag = ps.executeUpdate();
+
+		if (flag > 0) { // redirecting to dashboard
+			btn_print.setVisible(true);
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Dr. Subodh App");
+			alert.initStyle(StageStyle.TRANSPARENT);
+			alert.getButtonTypes().setAll(ButtonType.OK);
+			alert.getDialogPane().setHeaderText("File Saved!!");
+			alert.showAndWait().ifPresent(bt -> {
+				if (bt == ButtonType.OK) {
+					CreateTestTemplate.getReportScreen().close();
+				}
+			});
+		}
 	}
 
 	public static void addPatientDetails(Document document, int pid, int id) throws SQLException {
@@ -203,7 +215,8 @@ public class PrintableData {
 
 	private static void AddRefDoctor(PdfPTable t1, int pid, int id) throws SQLException {
 		con = DBConnectivity.getConnection();
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' AND id='" + id + "'");
+		ps = con.prepareStatement(
+				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' AND id='" + id + "'");
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
@@ -225,7 +238,8 @@ public class PrintableData {
 
 	private static void AddReportDate(PdfPTable t2, int pid, int id) throws SQLException {
 		con = DBConnectivity.getConnection();
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' AND id='" + id + "'");
+		ps = con.prepareStatement(
+				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' AND id='" + id + "'");
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
@@ -245,86 +259,88 @@ public class PrintableData {
 		}
 	}
 
-	public static void addPatientTestReport(Document document, int pid, int id, PdfWriter writer) throws SQLException, IOException, DocumentException {
+	public static void addPatientTestReport(Document document, int pid, int id, PdfWriter writer)
+			throws SQLException, IOException, DocumentException {
 		con = DBConnectivity.getConnection();
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' AND id='" + id + "'");
+		ps = con.prepareStatement(
+				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' AND id='" + id + "'");
 		ResultSet rs = ps.executeQuery();
-		
+
 		while (rs.next()) {
 			Paragraph testnameParagraph = new Paragraph();
 			testnameParagraph.add(new Chunk(rs.getString("testName"), normalFontBlack));
 			testnameParagraph.setAlignment(Element.ALIGN_CENTER);
 			document.add(testnameParagraph);
-			if(!(rs.getString("patientHistory").equals(""))){
-				document.add( Chunk.NEWLINE );
+			if (!(rs.getString("patientHistory").equals(""))) {
+				document.add(Chunk.NEWLINE);
 				Paragraph psParagraph = new Paragraph();
 				psParagraph.add(new Chunk("Past History", normalFontBlack));
 				document.add(psParagraph);
 				StringBuilder htmlPH = new StringBuilder();
 				htmlPH.append(new String(rs.getString("patientHistory")));
 				InputStream is = new ByteArrayInputStream(htmlPH.toString().getBytes());
-		        XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
+				XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
 			}
-			
-			if(!(rs.getString("testDescription").equals(""))){
-				document.add( Chunk.NEWLINE );
+
+			if (!(rs.getString("testDescription").equals(""))) {
+				document.add(Chunk.NEWLINE);
 				StringBuilder htmlTD = new StringBuilder();
 				htmlTD.append(new String(rs.getString("testDescription")));
 				InputStream is = new ByteArrayInputStream(htmlTD.toString().getBytes());
-		        XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
+				XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
 			}
-			
-			if(!(rs.getString("table1").equals(""))){
-				document.add( Chunk.NEWLINE );
+
+			if (!(rs.getString("table1").equals(""))) {
+				document.add(Chunk.NEWLINE);
 				StringBuilder htmlTbl1 = new StringBuilder();
 				htmlTbl1.append(new String(rs.getString("table1")));
 				InputStream is = new ByteArrayInputStream(htmlTbl1.toString().getBytes());
-		        XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
+				XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
 			}
-			
-			if(!(rs.getString("table2").equals(""))){
-				document.add( Chunk.NEWLINE );
+
+			if (!(rs.getString("table2").equals(""))) {
+				document.add(Chunk.NEWLINE);
 				StringBuilder htmlTbl2 = new StringBuilder();
 				htmlTbl2.append(new String(rs.getString("table2")));
 				InputStream is = new ByteArrayInputStream(htmlTbl2.toString().getBytes());
-		        XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
+				XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
 			}
-			if(!(rs.getString("impression").equals(""))){
-				document.add( Chunk.NEWLINE );
+			if (!(rs.getString("impression").equals(""))) {
+				document.add(Chunk.NEWLINE);
 				Paragraph impParagraph = new Paragraph();
 				impParagraph.add(new Chunk("Impression", normalFontBlack));
 				document.add(impParagraph);
 				StringBuilder htmlImp = new StringBuilder();
 				htmlImp.append(new String(rs.getString("impression")));
 				InputStream is = new ByteArrayInputStream(htmlImp.toString().getBytes());
-		        XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
+				XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
 			}
-			if(!(rs.getString("note").equals(""))){
-				document.add( Chunk.NEWLINE );
+			if (!(rs.getString("note").equals(""))) {
+				document.add(Chunk.NEWLINE);
 				Paragraph noteParagraph = new Paragraph();
 				noteParagraph.add(new Chunk("Note", normalFontBlack));
 				document.add(noteParagraph);
 				StringBuilder htmlNt = new StringBuilder();
 				htmlNt.append(new String(rs.getString("note")));
 				InputStream is = new ByteArrayInputStream(htmlNt.toString().getBytes());
-		        XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
+				XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
 			}
 		}
 	}
 
-	public static void downloadReport(ActionEvent event, String testname, AnchorPane viewReportpane, VBox vbox) {
-		try {
-			p_id = Integer.valueOf(HeaderController.getP_id().getText());
-			p_name = HeaderController.getP_name().getText();
-			test_name = testname;
-			btn_print.setVisible(false);
-			double pixelScale = 2.0;
-			WritableImage writableImage = new WritableImage(
-					(int) Math.rint(pixelScale * viewReportpane.getWidth()) - 161,
-					(int) Math.rint(pixelScale * viewReportpane.getHeight()));
-			SnapshotParameters spa = new SnapshotParameters();
-			spa.setTransform(Transform.scale(pixelScale, pixelScale));
-			WritableImage snapshot = viewReportpane.snapshot(spa, writableImage);
+//	public static void downloadReport(ActionEvent event, String testname, AnchorPane viewReportpane, VBox vbox) {
+//		try {
+//			p_id = Integer.valueOf(HeaderController.getP_id().getText());
+//			p_name = HeaderController.getP_name().getText();
+//			test_name = testname;
+//			btn_print.setVisible(false);
+//			double pixelScale = 2.0;
+//			WritableImage writableImage = new WritableImage(
+//					(int) Math.rint(pixelScale * viewReportpane.getWidth()) - 161,
+//					(int) Math.rint(pixelScale * viewReportpane.getHeight()));
+//			SnapshotParameters spa = new SnapshotParameters();
+//			spa.setTransform(Transform.scale(pixelScale, pixelScale));
+//			WritableImage snapshot = viewReportpane.snapshot(spa, writableImage);
 
 //			for (int i = 0; i < vbox.getChildren().size(); i++) {
 //				if(vbox.getChildren().get(i).getTypeSelector().equals("HTMLEditor")) {
@@ -342,74 +358,74 @@ public class PrintableData {
 //					ImageIO.write(SwingFXUtils.fromFXImage(snapshot1, null), "png", output1);
 //				}
 //			}
-			String home = System.getProperty("user.home");
-			File output = new File(home + "/Downloads/snapshot.png");
-
-			ImageIO.write(SwingFXUtils.fromFXImage(snapshot, null), "png", output);
-
-			PDDocument doc = new PDDocument();
-			PDPage page = new PDPage();
-			PDImageXObject pdimage;
-			PDPageContentStream content;
-
-			pdimage = PDImageXObject.createFromFile(home + "/Downloads/snapshot.png", doc);
-			content = new PDPageContentStream(doc, page);
-			PDRectangle box = page.getMediaBox();
-			double factor = Math.min(box.getWidth() / snapshot.getWidth(), box.getHeight() / snapshot.getHeight());
-			float height = (float) (snapshot.getHeight() * factor);
-
-			content.drawImage(pdimage, 28, box.getHeight() - height - 5, (float) (snapshot.getWidth() * factor),
-					height - 5);
-			content.close();
-			doc.addPage(page);
-
-			count = increaseCount(p_id, test_name);
-
-			String path_savefile = home + "/Desktop/PatientReports/" + java.time.LocalDate.now().getYear();
-			File f = new File(path_savefile);
-			if (!f.isDirectory()) {
-				boolean success = f.mkdirs();
-				if (success) {
-					doc.save(f + "/" + p_id + "_" + p_name + "_" + test_name + "_" + count + ".pdf");
-					path = f + "/" + p_id + "_" + p_name + "_" + test_name + "_" + count + ".pdf";
-				} else {
-					Alert alert = new Alert(AlertType.WARNING);
-					alert.setTitle("Dr. Subodh App");
-					alert.initStyle(StageStyle.TRANSPARENT);
-					alert.setContentText("Something went wrong..!!Please try again");
-					alert.showAndWait();
-				}
-			} else {
-				doc.save(f + "/" + p_id + "_" + p_name + "_" + test_name + "_" + count + ".pdf");
-				path = f + "/" + p_id + "_" + p_name + "_" + test_name + "_" + count + ".pdf";
-			}
-
-			doc.close();
-			output.delete();
-
-			// Save the folder path to DB
-			String update = "UPDATE patient_reportmasterdata SET active='Y', folderPath='" + path
-					+ "' WHERE regNumber=?";
-			con = DBConnectivity.getConnection();
-			ps = con.prepareStatement(update);
-			ps.setInt(1, p_id);
-			flag = ps.executeUpdate();
-
-			if (flag > 0) { // redirecting to dashboard
-				btn_print.setVisible(true);
-				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Dr. Subodh App");
-				alert.initStyle(StageStyle.TRANSPARENT);
-				alert.getButtonTypes().setAll(ButtonType.OK);
-				alert.getDialogPane().setHeaderText("File Saved!!");
-				alert.showAndWait().ifPresent(bt -> {
-					if (bt == ButtonType.OK) {
-						CreateTestTemplate.getReportScreen().close();
-					}
-				});
-			}
-		} catch (Exception e) { // catching exception if any backend error occurs
-			e.printStackTrace();
-		}
-	}
+//			String home = System.getProperty("user.home");
+//			File output = new File(home + "/Downloads/snapshot.png");
+//
+//			ImageIO.write(SwingFXUtils.fromFXImage(snapshot, null), "png", output);
+//
+//			PDDocument doc = new PDDocument();
+//			PDPage page = new PDPage();
+//			PDImageXObject pdimage;
+//			PDPageContentStream content;
+//
+//			pdimage = PDImageXObject.createFromFile(home + "/Downloads/snapshot.png", doc);
+//			content = new PDPageContentStream(doc, page);
+//			PDRectangle box = page.getMediaBox();
+//			double factor = Math.min(box.getWidth() / snapshot.getWidth(), box.getHeight() / snapshot.getHeight());
+//			float height = (float) (snapshot.getHeight() * factor);
+//
+//			content.drawImage(pdimage, 28, box.getHeight() - height - 5, (float) (snapshot.getWidth() * factor),
+//					height - 5);
+//			content.close();
+//			doc.addPage(page);
+//
+//			count = increaseCount(p_id, test_name);
+//
+//			String path_savefile = home + "/Desktop/PatientReports/" + java.time.LocalDate.now().getYear();
+//			File f = new File(path_savefile);
+//			if (!f.isDirectory()) {
+//				boolean success = f.mkdirs();
+//				if (success) {
+//					doc.save(f + "/" + p_id + "_" + p_name + "_" + test_name + "_" + count + ".pdf");
+//					path = f + "/" + p_id + "_" + p_name + "_" + test_name + "_" + count + ".pdf";
+//				} else {
+//					Alert alert = new Alert(AlertType.WARNING);
+//					alert.setTitle("Dr. Subodh App");
+//					alert.initStyle(StageStyle.TRANSPARENT);
+//					alert.setContentText("Something went wrong..!!Please try again");
+//					alert.showAndWait();
+//				}
+//			} else {
+//				doc.save(f + "/" + p_id + "_" + p_name + "_" + test_name + "_" + count + ".pdf");
+//				path = f + "/" + p_id + "_" + p_name + "_" + test_name + "_" + count + ".pdf";
+//			}
+//
+//			doc.close();
+//			output.delete();
+//
+//			// Save the folder path to DB
+//			String update = "UPDATE patient_reportmasterdata SET active='Y', folderPath='" + path
+//					+ "' WHERE regNumber=?";
+//			con = DBConnectivity.getConnection();
+//			ps = con.prepareStatement(update);
+//			ps.setInt(1, p_id);
+//			flag = ps.executeUpdate();
+//
+//			if (flag > 0) { // redirecting to dashboard
+//				btn_print.setVisible(true);
+//				Alert alert = new Alert(AlertType.CONFIRMATION);
+//				alert.setTitle("Dr. Subodh App");
+//				alert.initStyle(StageStyle.TRANSPARENT);
+//				alert.getButtonTypes().setAll(ButtonType.OK);
+//				alert.getDialogPane().setHeaderText("File Saved!!");
+//				alert.showAndWait().ifPresent(bt -> {
+//					if (bt == ButtonType.OK) {
+//						CreateTestTemplate.getReportScreen().close();
+//					}
+//				});
+//			}
+//		} catch (Exception e) { // catching exception if any backend error occurs
+//			e.printStackTrace();
+//		}
+//	}
 }

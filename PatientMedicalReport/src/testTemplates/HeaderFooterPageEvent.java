@@ -20,7 +20,9 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
     private static Image total;
     public void onStartPage(PdfWriter writer, Document document) {
     	try {
-			Image image = Image.getInstance("src/imgs/header.png");
+    		String home = System.getProperty("user.home");
+    		String path_headerfile = home + "/Desktop/PatientReports/header.png";
+			Image image = Image.getInstance(path_headerfile);
 			image.setAlignment(Element.ALIGN_CENTER);
 			image.scaleToFit(600, 140);
 			image.setAbsolutePosition(0, (float) (PageSize.A4.getHeight() - 110));
@@ -34,7 +36,9 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 
     public void onEndPage(PdfWriter writer, Document document) {
     	try {
-			Image image = Image.getInstance("src/imgs/footer.png");
+    		String home = System.getProperty("user.home");
+    		String path_footerfile = home + "/Desktop/PatientReports/footer.png";
+			Image image = Image.getInstance(path_footerfile);
 			image.setAlignment(Element.ALIGN_CENTER);
 			image.scaleToFit(190, 90);
 			image.setAbsolutePosition(25, (float) (PageSize.A4.getHeight()-820));

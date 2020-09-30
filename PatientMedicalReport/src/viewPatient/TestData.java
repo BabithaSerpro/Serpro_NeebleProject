@@ -6,9 +6,6 @@ import java.sql.SQLException;
 
 import com.jfoenix.controls.JFXButton;
 
-import addTest.EditTestController;
-import addTest.addTestController;
-import addTest.viewReportController;
 import application.DashboardController;
 import application.MainScreenController;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -29,6 +26,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import screens.HomePageController;
 import testTemplates.CreateTestTemplate;
+import testTemplates.EditTDController;
 import testTemplates.EditTestTemplateController;
 
 public class TestData {
@@ -54,15 +52,6 @@ public class TestData {
 	}
 
 	public static Stage reportScreen;
-
-	public static Stage getReportScreen() {
-		return reportScreen;
-	}
-
-	public static void setReportScreen(Stage reportScreen) {
-		addTestController.reportScreen = reportScreen;
-	}
-
 	public static void addViewButton(int pid) {
 		TableColumn<TestData, Void> colBtn = new TableColumn("View");
 
