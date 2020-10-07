@@ -265,21 +265,6 @@ public class EditTDController {
 			}else {
 				ps.setString(7, "");
 			}
-//			if (clinical_impression.equals("TRUE")) {
-//				ps.setString(8, TestContent.clinicalImp.getHtmlText());
-//			}else {
-//				ps.setString(8, "");
-//			}
-//			if (fetal_parameter.equals("TRUE")) {
-//				ps.setString(9, TestContent.fetalParameter.getHtmlText());
-//			}else {
-//				ps.setString(9, "");
-//			}
-//			if (fetal_dop_studies.equals("TRUE")) {
-//				ps.setString(10, TestContent.fetaldopStudies.getHtmlText());
-//			}else {
-//				ps.setString(10, "");
-//			}
 			if (table1.equals("TRUE")) {
 				ps.setString(8, TestContent.table1.getHtmlText());
 			}else {

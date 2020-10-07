@@ -64,7 +64,7 @@ public class Test_Template {
 		
 		String text = stripHTMLTags(he_Testdetails.getHtmlText());
 		he_testDetailsHeight(he_Testdetails, testname);
-		he_Testdetails.setDisable(true);
+//		he_Testdetails.setDisable(true);
 		
 		if (!(text.equals(""))) {
 			vbox.getChildren().add(he_Testdetails);
@@ -86,7 +86,7 @@ public class Test_Template {
 		// hide controls we don't need.
 		hE_pHistory = htmlEditorStyle(hE_pHistory);
 		htmlEditorHeight(hE_pHistory, testname);
-		hE_pHistory.setDisable(true);
+//		hE_pHistory.setDisable(true);
 		vbox.getChildren().addAll(lblphistory, hE_pHistory);
 	}
 
@@ -104,7 +104,7 @@ public class Test_Template {
 			hE_table1.setHtmlText(rs.getString("table1"));
 		}
 		he_TableHeight(hE_table1,testname);
-		hE_table1.setDisable(true);
+//		hE_table1.setDisable(true);
 		Node scPane = hE_table1.lookup(".scroll-bar:vertical");
 		scPane.setVisible(false);
 		vbox.getChildren().addAll(hE_table1);
@@ -126,7 +126,7 @@ public class Test_Template {
 			hE_table2.setHtmlText(rs.getString("table2"));
 		}
 		he_TableHeight(hE_table2,testname);
-		hE_table2.setDisable(true);
+//		hE_table2.setDisable(true);
 		vbox.getChildren().addAll(hE_table2);
 	}
 
@@ -146,7 +146,7 @@ public class Test_Template {
 		htmlEditorHeight(hE_imp, testname);
 		// hide controls we don't need.
 		hE_imp = htmlEditorStyle(hE_imp);
-		hE_imp.setDisable(true);
+//		hE_imp.setDisable(true);
 		vbox.getChildren().addAll(lblimp, hE_imp);
 	}
 
@@ -166,7 +166,7 @@ public class Test_Template {
 
 		hE_note = htmlEditorStyle(hE_note);
 		htmlEditorHeight(hE_note, testname);
-		hE_note.setDisable(true);
+//		hE_note.setDisable(true);
 		vbox.getChildren().addAll(lblnote, hE_note);
 	}
 

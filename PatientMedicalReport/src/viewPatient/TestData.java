@@ -51,7 +51,6 @@ public class TestData {
 		return status.get();
 	}
 
-	public static Stage reportScreen;
 	public static void addViewButton(int pid) {
 		TableColumn<TestData, Void> colBtn = new TableColumn("View");
 

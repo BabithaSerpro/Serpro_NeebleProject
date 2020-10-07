@@ -72,7 +72,7 @@ public class CreateTestTemplate {
 			reportScreen.setResizable(false);
 			reportScreen.setScene(scene);
 			reportScreen.show();
-			
+
 			vbox.getChildren().clear();
 			Label lblTestname = new Label(testname);
 			lblTestname.setId("testname");
@@ -119,15 +119,8 @@ public class CreateTestTemplate {
 			tID=rs.getInt("ID");
 			test_details=rs.getString("TEST_DETAILS");
 			past_history=rs.getString("PAST HISTORY");
-//			clinical_impression=rs.getString("CLINICAL_IMPRESSION");
-//			fetal_parameter=rs.getString("FETAL PARAMETER");
-//			fetal_dop_studies=rs.getString("FETAL DOPPLER STUDIES");
 			table1=rs.getString("TABLE1");
-//			table1_col=rs.getInt("TABLE1_NO_OF_COLUMNS");
-//			table1_row=rs.getInt("TABLE1_NO_OF_ROWS");
 			table2=rs.getString("TABLE2");
-//			table2_col=rs.getInt("TABLE2_NO_OF_COLUMNS");
-//			table2_row=rs.getInt("TABLE2_NO_OF_ROWS");  
 			impression=rs.getString("IMPRESSION");
 			note=rs.getString("PLEASE_NOTE");
 		}
@@ -136,20 +129,9 @@ public class CreateTestTemplate {
 		if(past_history.equals("TRUE")) {
 			Test_Template.create_pastHistory(pID,testname,id);
 		}
-		
 		if(test_details.equals("TRUE")) {
 			Test_Template.create_testDetails(pID,testname,id);
 		}
-		
-//		if(clinical_impression.equals("TRUE")) {
-//			Test_Template.create_clinicalImp(pID,testname);
-//		}
-//		if(fetal_parameter.equals("TRUE")) {
-//			Test_Template.create_fetalParameter(pID,testname);
-//		}
-//		if(fetal_dop_studies.equals("TRUE")) {
-//			Test_Template.create_fetaldopStudies(pID,testname);
-//		}
 		if(table1.equals("TRUE")) {
 			Test_Template.create_table1(pID,testname,id);
 		}
