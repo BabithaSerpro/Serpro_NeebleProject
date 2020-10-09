@@ -109,7 +109,7 @@ public class EditPatientController implements Initializable {
 		p_male=male;
 		p_female=female;
 		p_others=others;
-		p_dob=dob;
+		//p_dob=dob;
 		
 		pId.setText(ViewPDController.getLblID().getText());
 		pname.setText(ViewPDController.getLblPName().getText());
@@ -120,33 +120,23 @@ public class EditPatientController implements Initializable {
 			e.printStackTrace();
 		}
 		// disable editor
-		dob.getEditor().setDisable(true);
-		dob.setStyle("-fx-opacity: 1");
-		dob.getEditor().setStyle("-fx-opacity: 1");
-
-		// disable future date
-		dob.setDayCellFactory(param -> new DateCell() {
-			@Override
-			public void updateItem(LocalDate date, boolean empty) {
-				super.updateItem(date, empty);
-				setDisable(empty || date.compareTo(LocalDate.now()) > 0);
-			}
-		});
-
-		// set age from calender selection
-		dob.setOnAction(e -> {
-			LocalDate today = LocalDate.now();
-			LocalDate birthday = dob.getValue();
-			Period p = Period.between(birthday, today);
-			if (p.getYears() <= 0) {
-				ageLabel.setText(p.getMonths() + " months");
-				if (p.getMonths() <= 0) {
-					ageLabel.setText(p.getDays() + " days");
-				}
-			} else {
-				ageLabel.setText(p.getYears() + " years " + p.getMonths() + " months");
-			}
-		});
+		/*
+		 * dob.getEditor().setDisable(true); dob.setStyle("-fx-opacity: 1");
+		 * dob.getEditor().setStyle("-fx-opacity: 1");
+		 * 
+		 * // disable future date dob.setDayCellFactory(param -> new DateCell() {
+		 * 
+		 * @Override public void updateItem(LocalDate date, boolean empty) {
+		 * super.updateItem(date, empty); setDisable(empty ||
+		 * date.compareTo(LocalDate.now()) > 0); } });
+		 * 
+		 * // set age from calender selection dob.setOnAction(e -> { LocalDate today =
+		 * LocalDate.now(); LocalDate birthday = dob.getValue(); Period p =
+		 * Period.between(birthday, today); if (p.getYears() <= 0) {
+		 * ageLabel.setText(p.getMonths() + " months"); if (p.getMonths() <= 0) {
+		 * ageLabel.setText(p.getDays() + " days"); } } else {
+		 * ageLabel.setText(p.getYears() + " years " + p.getMonths() + " months"); } });
+		 */
 
 	}
 
@@ -172,7 +162,7 @@ public class EditPatientController implements Initializable {
 				}
 				fullName.setText(rs.getString("patient_name"));
 				email.setText(rs.getString("emailId"));
-				dob.getEditor().setText(rs.getString("dob"));
+				//dob.getEditor().setText(rs.getString("dob"));
 				ageLabel.setText(rs.getString("age"));
 			}
 		} catch (SQLException e1) {
@@ -183,7 +173,7 @@ public class EditPatientController implements Initializable {
 
 	public void cancelBtn(ActionEvent event) throws IOException {
 		//checking if any data present
-		if(mblNo.getText()!=null || fName.getText()!=null || p_email.getText()!=null || p_dob.getEditor().getText()!=null || p_age.getText()!=null) {
+		if(mblNo.getText()!=null || fName.getText()!=null || p_email.getText()!=null  || p_age.getText()!=null) {
 			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 			alert.setTitle("Dr Subodh App");
 			alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
@@ -217,11 +207,11 @@ public class EditPatientController implements Initializable {
 		}
 	}
 	public void updatePatient() throws Exception {
-		if (validateFields() && validateMobileNo() && validateName() && validateEmail()) {
+		if (validateFields() && validateMobileNo() && validateName() &&validateAge() && validateEmail()) {
 			String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
 
 			String update = "UPDATE patient_masterdata SET mobileNumber=?,"
-					+ "patient_name=?,gender=?,emailId=?,dob=?,age=?,active='Y', modified_timestamp='" + timeStamp
+					+ "patient_name=?,gender=?,emailId=?,age=?,active='Y', modified_timestamp='" + timeStamp
 					+ "' WHERE patient_id=?";
 
 			connection = DBConnectivity.getConnection();
@@ -231,10 +221,10 @@ public class EditPatientController implements Initializable {
 				ps.setString(2, fullName.getText());
 				ps.setString(3, getGender());
 				ps.setString(4, email.getText());
-				ps.setString(5, ((TextField) dob.getEditor()).getText());
-				ps.setString(6, ageLabel.getText());
+				//ps.setString(5, ((TextField) dob.getEditor()).getText());
+				ps.setString(5, ageLabel.getText());
 				int pid = Integer.parseInt(pId.getText());
-				ps.setInt(7, pid);
+				ps.setInt(6, pid);
 
 				flag = ps.executeUpdate();
 
@@ -273,18 +263,16 @@ public class EditPatientController implements Initializable {
 	}
 
 	private boolean validateFields() { // null validation of each field
-		if (mobNo.getText().isEmpty()) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Dr. Subodh App");
-			alert.setHeaderText(null);
-			alert.initStyle(StageStyle.TRANSPARENT);
-			alert.setContentText("Mobile Number Cannot Be Empty");
-			DialogPane dialogPane = alert.getDialogPane();
-			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
-			dialogPane.getStyleClass().add("myDialog");
-			alert.showAndWait();
-			return false;
-		} else if (fullName.getText().isEmpty()) {
+		/*
+		 * if (mobNo.getText().isEmpty()) { Alert alert = new Alert(AlertType.WARNING);
+		 * alert.setTitle("Dr. Subodh App"); alert.setHeaderText(null);
+		 * alert.initStyle(StageStyle.TRANSPARENT);
+		 * alert.setContentText("Mobile Number Cannot Be Empty"); DialogPane dialogPane
+		 * = alert.getDialogPane();
+		 * dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").
+		 * toExternalForm()); dialogPane.getStyleClass().add("myDialog");
+		 * alert.showAndWait(); return false; } else
+		 */if (fullName.getText().isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
@@ -306,12 +294,12 @@ public class EditPatientController implements Initializable {
 			dialogPane.getStyleClass().add("myDialog");
 			alert.showAndWait();
 			return false;
-		} else if (((TextField) dob.getEditor()).getText().isEmpty()) {
+		} else if (ageLabel.getText().isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
 			alert.initStyle(StageStyle.TRANSPARENT);
-			alert.setContentText("Please Select DOB");
+			alert.setContentText("Age Cannot be Empty");
 			DialogPane dialogPane = alert.getDialogPane();
 			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
 			dialogPane.getStyleClass().add("myDialog");
@@ -324,22 +312,25 @@ public class EditPatientController implements Initializable {
 	}
 
 	private boolean validateMobileNo() { // Mobile No. Validation
-		Pattern p = Pattern.compile("(0|91)?[5-9][0-9]{9}");
-		Matcher m = p.matcher(mobNo.getText());
-		if (m.find() && m.group().equals(mobNo.getText())) {
-			return true;
-		} else {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Dr. Subodh App");
-			alert.setHeaderText(null);
-			alert.initStyle(StageStyle.TRANSPARENT);
-			alert.setContentText("Please Enter Valid Mobile Number");
-			DialogPane dialogPane = alert.getDialogPane();
-			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
-			dialogPane.getStyleClass().add("myDialog");
-			alert.showAndWait();
-			return false;
+		if (!(mobNo.getText().isEmpty())) {
+			Pattern p = Pattern.compile("(0|91)?[5-9][0-9]{9}");
+			Matcher m = p.matcher(mobNo.getText());
+			if (m.find() && m.group().equals(mobNo.getText())) {
+				return true;
+			} else {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Dr. Subodh App");
+				alert.setHeaderText(null);
+				alert.initStyle(StageStyle.TRANSPARENT);
+				alert.setContentText("Please Enter Valid Mobile Number");
+				DialogPane dialogPane = alert.getDialogPane();
+				dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
+				dialogPane.getStyleClass().add("myDialog");
+				alert.showAndWait();
+				return false;
+			}
 		}
+		return true;
 
 	}
 
@@ -362,12 +353,30 @@ public class EditPatientController implements Initializable {
 			return false;
 		}
 	}
+	private boolean validateAge() {
+		Pattern p = Pattern.compile("^[0-3]\\d*(\\.\\d+)?$");
+		Matcher m = p.matcher(ageLabel.getText());
+		if (m.find() && m.group().equals(ageLabel.getText())) {
+			return true;
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Dr. Subodh App");
+			alert.setHeaderText(null);
+			alert.initStyle(StageStyle.TRANSPARENT);
+			alert.setContentText("Please Enter Valid Age");
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
+			dialogPane.getStyleClass().add("myDialog");
+			alert.showAndWait();
+			return false;
+		}
+	}
 
 	public static void clearFields() { // clearing fileds
 		mblNo.clear();
 		fName.clear();
 		p_email.clear();
-		p_dob.getEditor().setText("");
+	//	p_dob.getEditor().setText("");
 		p_male.setSelected(false);
 		p_female.setSelected(false);
 		p_others.setSelected(false);

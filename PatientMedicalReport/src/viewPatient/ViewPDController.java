@@ -109,7 +109,7 @@ public class ViewPDController {
 		lblGender = lbl_gender;
 		lblmobileNumber = lbl_mobileNumber;
 		lblEmail = lbl_email;
-		lblDoB = lbl_dob;
+		//lblDoB = lbl_dob;
 		lblAge = lbl_age;
 		test_Name = testName;
 
@@ -193,7 +193,7 @@ public class ViewPDController {
 				lblGender.setText(rs.getString("gender"));
 				lblmobileNumber.setText(rs.getString("mobileNumber"));
 				lblEmail.setText(rs.getString("emailId"));
-				lblDoB.setText(rs.getString("dob"));
+				//lblDoB.setText(rs.getString("dob"));
 				lblAge.setText(rs.getString("age"));
 			}
 		} catch (SQLException e1) {

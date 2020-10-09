@@ -60,8 +60,9 @@ public class AddPatientController implements Initializable {
 	@FXML
 	private ToggleGroup genderR;
 
-	@FXML
-	private DatePicker dob;
+	/*
+	 * @FXML private DatePicker dob;
+	 */
 
 	@FXML
 	private Button cancelBtn;
@@ -105,41 +106,36 @@ public class AddPatientController implements Initializable {
 		p_male = male;
 		p_female = female;
 		p_others = others;
-		p_dob = dob;
+	//	p_dob = dob;
 		// disable editor
-		dob.getEditor().setDisable(true);
-		dob.setStyle("-fx-opacity: 1");
-		dob.getEditor().setStyle("-fx-opacity: 1");
+	/*
+	 * dob.getEditor().setDisable(true); dob.setStyle("-fx-opacity: 1");
+	 * dob.getEditor().setStyle("-fx-opacity: 1");
+	 */
 
 		// disable future date
-		dob.setDayCellFactory(param -> new DateCell() {
-			@Override
-			public void updateItem(LocalDate date, boolean empty) {
-				super.updateItem(date, empty);
-				setDisable(empty || date.compareTo(LocalDate.now()) > 0);
-			}
-		});
+		/*
+		 * dob.setDayCellFactory(param -> new DateCell() {
+		 * 
+		 * @Override public void updateItem(LocalDate date, boolean empty) {
+		 * super.updateItem(date, empty); setDisable(empty ||
+		 * date.compareTo(LocalDate.now()) > 0); } });
+		 */
 
 		// set age from calender selection
-		dob.setOnAction(e -> {
-			LocalDate today = LocalDate.now();
-			LocalDate birthday = dob.getValue();
-			Period p = Period.between(birthday, today);
-			if (p.getYears() <= 0) {
-				ageLabel.setText(p.getMonths() + " months");
-				if (p.getMonths() <= 0) {
-					ageLabel.setText(p.getDays() + " days");
-				}
-			} else {
-				ageLabel.setText(p.getYears() + " years " + p.getMonths() + " months");
-			}
-		});
+		/*
+		 * dob.setOnAction(e -> { LocalDate today = LocalDate.now(); LocalDate birthday
+		 * = dob.getValue(); Period p = Period.between(birthday, today); if
+		 * (p.getYears() <= 0) { ageLabel.setText(p.getMonths() + " months"); if
+		 * (p.getMonths() <= 0) { ageLabel.setText(p.getDays() + " days"); } } else {
+		 * ageLabel.setText(p.getYears() + " years " + p.getMonths() + " months"); } });
+		 */
 	}
 
 	public void addPatient(ActionEvent event) throws Exception {
 		boolean check = checkPatientAlreadyExist(mobNo.getText());
 
-		if (validateFields() && validateMobileNo() && validateName() && validateEmail()) {
+		if (validateFields() && validateMobileNo() && validateName() &&validateAge() && validateEmail()) {
 
 			if (check == true) { // check existing patient
 
@@ -148,7 +144,7 @@ public class AddPatientController implements Initializable {
 				clearFields();
 			} else { // insert new patient
 				String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
-				String insert = "INSERT into patient_masterdata (mobileNumber,patient_name,gender,emailId,dob,age,active,created_timestamp,modified_timestamp) values(?,?,?,?,?,?,'Y','"
+				String insert = "INSERT into patient_masterdata (mobileNumber,patient_name,gender,emailId,age,active,created_timestamp,modified_timestamp) values(?,?,?,?,?,'Y','"
 						+ timeStamp + "','" + timeStamp + "')";
 				connection = DBConnectivity.getConnection();
 				try {
@@ -157,8 +153,8 @@ public class AddPatientController implements Initializable {
 					ps.setString(2, fullName.getText());
 					ps.setString(3, getGender());
 					ps.setString(4, email.getText());
-					ps.setString(5, ((TextField) dob.getEditor()).getText());
-					ps.setString(6, ageLabel.getText());
+					//ps.setString(5, ((TextField) dob.getEditor()).getText());
+					ps.setString(5, ageLabel.getText());
 					flag = ps.executeUpdate();
 					rs = ps.getGeneratedKeys();
 
@@ -237,19 +233,18 @@ public class AddPatientController implements Initializable {
 		return gen;
 	}
 
-	private boolean validateFields() { // null validation of each field
-		if (mobNo.getText().isEmpty()) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Dr. Subodh App");
-			alert.setHeaderText(null);
-			alert.initStyle(StageStyle.TRANSPARENT);
-			alert.setContentText("Mobile Number Cannot Be Empty");
-			DialogPane dialogPane = alert.getDialogPane();
-			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
-			dialogPane.getStyleClass().add("myDialog");
-			alert.showAndWait();
-			return false;
-		} else if (fullName.getText().isEmpty()) {
+	private boolean validateFields() {
+		// null validation of each field
+		/*
+		 * if (mobNo.getText().isEmpty()) { Alert alert = new Alert(AlertType.WARNING);
+		 * alert.setTitle("Dr. Subodh App"); alert.setHeaderText(null);
+		 * alert.initStyle(StageStyle.TRANSPARENT);
+		 * alert.setContentText("Mobile Number Cannot Be Empty"); DialogPane dialogPane
+		 * = alert.getDialogPane();
+		 * dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").
+		 * toExternalForm()); dialogPane.getStyleClass().add("myDialog");
+		 * alert.showAndWait(); return false; } else
+		 */ if (fullName.getText().isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
@@ -271,12 +266,12 @@ public class AddPatientController implements Initializable {
 			dialogPane.getStyleClass().add("myDialog");
 			alert.showAndWait();
 			return false;
-		} else if (((TextField) dob.getEditor()).getText().isEmpty()) {
+		} else if (ageLabel.getText().isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
 			alert.initStyle(StageStyle.TRANSPARENT);
-			alert.setContentText("Please Select DOB");
+			alert.setContentText("Age Cannot be Empty");
 			DialogPane dialogPane = alert.getDialogPane();
 			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
 			dialogPane.getStyleClass().add("myDialog");
@@ -289,23 +284,44 @@ public class AddPatientController implements Initializable {
 	}
 
 	private boolean validateMobileNo() { // Mobile No. Validation
-		Pattern p = Pattern.compile("(0|91)?[5-9][0-9]{9}");
-		Matcher m = p.matcher(mobNo.getText());
-		if (m.find() && m.group().equals(mobNo.getText())) {
+		if (!(mobNo.getText().isEmpty())) {
+			Pattern p = Pattern.compile("(0|91)?[5-9][0-9]{9}");
+			Matcher m = p.matcher(mobNo.getText());
+			if (m.find() && m.group().equals(mobNo.getText())) {
+				return true;
+			} else {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Dr. Subodh App");
+				alert.setHeaderText(null);
+				alert.initStyle(StageStyle.TRANSPARENT);
+				alert.setContentText("Please Enter Valid Mobile Number");
+				DialogPane dialogPane = alert.getDialogPane();
+				dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
+				dialogPane.getStyleClass().add("myDialog");
+				alert.showAndWait();
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean validateAge() {
+		Pattern p = Pattern.compile("^[0-3]\\d*(\\.\\d+)?$");
+		Matcher m = p.matcher(ageLabel.getText());
+		if (m.find() && m.group().equals(ageLabel.getText())) {
 			return true;
 		} else {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Dr. Subodh App");
 			alert.setHeaderText(null);
 			alert.initStyle(StageStyle.TRANSPARENT);
-			alert.setContentText("Please Enter Valid Mobile Number");
+			alert.setContentText("Please Enter Valid Age");
 			DialogPane dialogPane = alert.getDialogPane();
 			dialogPane.getStylesheets().add(getClass().getResource("myDialogs.css").toExternalForm());
 			dialogPane.getStyleClass().add("myDialog");
 			alert.showAndWait();
 			return false;
 		}
-
 	}
 
 	private boolean validateName() { // Name Validation
@@ -355,7 +371,7 @@ public class AddPatientController implements Initializable {
 		mblNo.clear();
 		fName.clear();
 		p_email.clear();
-		p_dob.getEditor().setText("");
+		//p_dob.getEditor().setText("");
 		p_male.setSelected(false);
 		p_female.setSelected(false);
 		p_others.setSelected(false);
@@ -369,11 +385,6 @@ public class AddPatientController implements Initializable {
 		ResultSet rst = stm.executeQuery("select * from patient_masterdata where mobileNumber= '" + mobileNo + "' ");
 		return rst.next();
 	}
-
-//	public void closeButton(ActionEvent event) {
-//		Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-//		stage.close();
-//	}
 
 	public static AnchorPane getPaneNewPatient() {
 		return paneNewPatient;
