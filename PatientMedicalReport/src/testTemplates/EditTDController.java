@@ -217,7 +217,8 @@ public class EditTDController {
 			try {
 				addTest();
 				int pid=Integer.valueOf(p_id.getText());
-				CreateTestTemplate.screenContent(testname,pid,getID());
+				VBox vbox=new VBox(10);
+				CreateTestTemplate.screenContent(testname,pid,getID(),vbox);
 				ViewPDController.refreshTestDetails(pid);
 				HomePageController.totalTestCount();
 				HomePageController.totalTestCompleted();

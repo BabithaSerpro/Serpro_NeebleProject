@@ -155,7 +155,6 @@ public class EditTestTemplateController implements Initializable {
 		testContentPane.getChildren().addAll(lblTestname, tvbox);
 	}
 	public static void edittestDetails(int tId) throws Exception {
-     
 		con = DBConnectivity.getConnection();
 		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tId + "'");
 		ResultSet rs = ps.executeQuery();
@@ -172,15 +171,11 @@ public class EditTestTemplateController implements Initializable {
 			note = rs.getString("note");
 		}
 		if (!past_history.isEmpty() ) {
-			
 			TestContent.edit_pastHistory(tId);
 		}
-
 		if (!test_details.isEmpty() ) {
 			TestContent.edit_testDetails(tId);
-			
 		}
-
 		if (!table1.isEmpty() ) {
 			TestContent.edit_table1(tId);
 		}

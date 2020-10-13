@@ -7,16 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import DBConnection.DBConnectivity;
-import application.MainScreenController;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -25,7 +22,6 @@ public class CreateTestTemplate {
 	public static Stage reportScreen;
 	public static ScrollPane sPane;
 	public static AnchorPane contentPane;
-	public static VBox vbox = new VBox(10);
 	public static String tName;
 	private static Connection con;
 	private static PreparedStatement ps;
@@ -43,14 +39,6 @@ public class CreateTestTemplate {
 		CreateTestTemplate.tName = tName;
 	}
 
-	public static VBox getVbox() {
-		return vbox;
-	}
-
-	public static void setVbox(VBox vbox) {
-		CreateTestTemplate.vbox = vbox;
-	}
-
 	public static Stage getReportScreen() {
 		return reportScreen;
 	}
@@ -62,7 +50,7 @@ public class CreateTestTemplate {
 		CreateTestTemplate.btnPrint = btnPrint;
 	}
 
-	public static void screenContent(String testname, int pid, int id) throws Exception {
+	public static void screenContent(String testname, int pid, int id, VBox vbox) throws Exception {
 		try {
 			reportScreen = new Stage();
 			Parent header = FXMLLoader.load(CreateTestTemplate.class.getResource("/testTemplates/Header.fxml"));
@@ -82,7 +70,7 @@ public class CreateTestTemplate {
 			lblTestname.setPrefHeight(32);
 			lblTestname.setTextAlignment(TextAlignment.CENTER);
 			
-			createTemplate(testname,pid,id);
+			createTemplate(testname,pid,id,vbox);
 			
 			vbox.setId("template_vbox");
 			vbox.setLayoutX(40);
@@ -90,13 +78,13 @@ public class CreateTestTemplate {
 			
 			Label lblsign = new Label("DR SUBODH C KHARE");
 			Label lbldesignatn = new Label("CONSULTANT RADIOLOGIST");
-			lblsign.setStyle("-fx-font-size: 15; -fx-text-fill: #2eacd2; -fx-font-weight: bold; -fx-padding: 80 80 2 2;");
+			lblsign.setStyle("-fx-font-size: 15; -fx-text-fill: #2eacd2; -fx-font-weight: bold; -fx-padding: 30 80 2 2;");
 			lbldesignatn.setStyle("-fx-font-size: 15; -fx-text-fill: #2eacd2; -fx-padding: 2 2 2 2;");
 			btnPrint.setPrefWidth(110);
 			btnPrint.setPrefHeight(30);
 			btnPrint.setStyle("-fx-font-size: 15; -fx-text-fill: white; -fx-background-color:  #2eacd2; -fx-padding: 2 2 2 2;");
 			vbox.getChildren().addAll(lblsign,lbldesignatn,btnPrint);
-			HeaderController.getPaneTemplate().getChildren().addAll(lblTestname,vbox);
+			contentPane.getChildren().addAll(lblTestname,vbox);
 			btnPrint.setOnAction(e->{
 				try {
 					PrintableData.generatePdfReport(testname,pid,id,vbox);
@@ -111,7 +99,7 @@ public class CreateTestTemplate {
 		}
 	}
 
-	public static void createTemplate(String testname, int pID, int id) throws SQLException {
+	public static void createTemplate(String testname, int pID, int id, VBox vbox) throws SQLException {
 		con = DBConnectivity.getConnection();
 		ps = con.prepareStatement("SELECT * FROM patient_report WHERE TEST_NAME='"+testname+"'");
 		ResultSet rs = ps.executeQuery();
@@ -127,22 +115,22 @@ public class CreateTestTemplate {
 		Test_Template.patientreportData(pID, testname,id);
 		
 		if(past_history.equals("TRUE")) {
-			Test_Template.create_pastHistory(pID,testname,id);
+			Test_Template.create_pastHistory(pID,testname,id,vbox);
 		}
 		if(test_details.equals("TRUE")) {
-			Test_Template.create_testDetails(pID,testname,id);
+			Test_Template.create_testDetails(pID,testname,id,vbox);
 		}
 		if(table1.equals("TRUE")) {
-			Test_Template.create_table1(pID,testname,id);
+			Test_Template.create_table1(pID,testname,id,vbox);
 		}
 		if(table2.equals("TRUE")) {
-			Test_Template.create_table2(pID,testname,id);
+			Test_Template.create_table2(pID,testname,id,vbox);
 		}
 		if(impression.equals("TRUE")) {
-			Test_Template.create_impression(pID,testname,id);
+			Test_Template.create_impression(pID,testname,id,vbox);
 		}
 		if(note.equals("TRUE")) {
-			Test_Template.create_note(pID,testname,id);
+			Test_Template.create_note(pID,testname,id,vbox);
 		}
 		ps.close();
 		rs.close();

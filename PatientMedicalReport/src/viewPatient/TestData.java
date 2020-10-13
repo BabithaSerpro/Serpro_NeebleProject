@@ -22,6 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import screens.HomePageController;
@@ -68,8 +69,9 @@ public class TestData {
 
 						btn.setOnAction((ActionEvent event) -> {
 							TestData data = getTableView().getItems().get(getIndex());
+							VBox vbox=new VBox(10);
 							try {
-								CreateTestTemplate.screenContent(data.getTestName(), pid, data.gettId());
+								CreateTestTemplate.screenContent(data.getTestName(), pid, data.gettId(),vbox);
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -146,8 +148,7 @@ public class TestData {
 										break;
 									}
 								}
-								Parent root = FXMLLoader.load(
-										DashboardController.class.getResource("/testTemplates/editTestTemplate.fxml"));
+								Parent root = FXMLLoader.load(DashboardController.class.getResource("/testTemplates/editTestTemplate.fxml"));
 								MainScreenController.getHomePage().getChildren().add(root);
 								root.setTranslateX(370);
 								root.setTranslateY(30);

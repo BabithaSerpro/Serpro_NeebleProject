@@ -306,7 +306,7 @@ public class AddPatientController implements Initializable {
 	}
 	
 	private boolean validateAge() {
-		Pattern p = Pattern.compile("^[0-3]\\d*(\\.\\d+)?$");
+		Pattern p = Pattern.compile("^[0-4]\\d*(\\.\\d+)?$");
 		Matcher m = p.matcher(ageLabel.getText());
 		if (m.find() && m.group().equals(ageLabel.getText())) {
 			return true;
