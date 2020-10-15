@@ -1,5 +1,6 @@
 package testTemplates;
 
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,10 +8,22 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
 
 import DBConnection.DBConnectivity;
 import application.MainScreenController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -23,12 +36,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.web.WebEngine;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import screens.HomePageController;
 import viewPatient.ViewPDController;
 
-public class EditTDController {
+public class ModifyTDController {
 	@FXML
 	private AnchorPane pane_EditTD;
 
@@ -81,7 +95,7 @@ public class EditTDController {
 	}
 
 	public static void setReportScreen(Stage reportScreen) {
-		EditTDController.reportScreen = reportScreen;
+		ModifyTDController.reportScreen = reportScreen;
 	}
 
 	public static String gettName() {
@@ -89,7 +103,7 @@ public class EditTDController {
 	}
 
 	public static void settName(String tName) {
-		EditTDController.tName = tName;
+		ModifyTDController.tName = tName;
 	}
 
 	public static AnchorPane getTestContentPane() {
@@ -97,7 +111,7 @@ public class EditTDController {
 	}
 
 	public static void setTestContentPane(AnchorPane testContentPane) {
-		EditTDController.testContentPane = testContentPane;
+		ModifyTDController.testContentPane = testContentPane;
 	}
 
 	public static VBox getVbox() {
@@ -105,7 +119,7 @@ public class EditTDController {
 	}
 
 	public static void setVbox(VBox tvbox) {
-		EditTDController.tvbox = tvbox;
+		ModifyTDController.tvbox = tvbox;
 	}
 
 	public static TextField getRef_doctor() {
@@ -113,7 +127,7 @@ public class EditTDController {
 	}
 
 	public static void setRef_doctor(TextField ref_doctor) {
-		EditTDController.ref_doctor = ref_doctor;
+		ModifyTDController.ref_doctor = ref_doctor;
 	}
 	
 	public static int getID() {
@@ -236,7 +250,7 @@ public class EditTDController {
 		ps.close();
 		rs.close();
 	}
-
+	public static String result;
 	public static void addTest() throws Exception {
 
 		String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
@@ -328,6 +342,11 @@ public class EditTDController {
 			e.printStackTrace();
 		}
 
+	}
+	public static String tableVal;
+	public static void tableValue(String result) {
+		tableVal=result;
+		System.out.println(tableVal);
 	}
 	
 	@FXML

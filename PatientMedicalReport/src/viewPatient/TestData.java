@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import screens.HomePageController;
 import testTemplates.CreateTestTemplate;
-import testTemplates.EditTDController;
+import testTemplates.ModifyTDController;
 import testTemplates.EditTestTemplateController;
 
 public class TestData {

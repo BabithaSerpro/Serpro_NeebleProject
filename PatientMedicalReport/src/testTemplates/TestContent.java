@@ -1,26 +1,46 @@
 package testTemplates;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
+import org.jsoup.select.Elements;
 
 import DBConnection.DBConnectivity;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 public class TestContent {
 	private static Connection con = DBConnectivity.getConnection();;
 	private static PreparedStatement ps;
-	public static AnchorPane contentPane = EditTDController.getTestContentPane();
-	public static VBox vbox = EditTDController.getVbox();
+	public static AnchorPane contentPane = ModifyTDController.getTestContentPane();
+	public static VBox vbox = ModifyTDController.getVbox();
 	public static VBox vbox1 = EditTestTemplateController.getVbox();
-	public static HTMLEditor history, clinicalImp, fetalParameter, fetaldopStudies, 
-	impression, note, table1, table2,testDetstails;
-	public static HTMLEditor ehistory, eimpression, enote, etable1, etable2,etestDetstails;
+	public static HTMLEditor history, clinicalImp, fetalParameter, fetaldopStudies, impression, note, testDetstails;
+	public static HTMLEditor table1,table2;
+	public static HTMLEditor etable1, etable2;
+	public static HTMLEditor ehistory, eimpression, enote, etestDetstails;
 
 	public static void create_testDetails(int tID) throws SQLException {
 		HTMLEditor he_Testdetails = new HTMLEditor();
@@ -34,7 +54,7 @@ public class TestContent {
 		while (rs.next()) {
 			he_Testdetails.setHtmlText(rs.getString("testDetails"));
 		}
-		
+
 		String text = Test_Template.stripHTMLTags(he_Testdetails.getHtmlText());
 		if (!(text.equals(""))) {
 			testDetstails = he_Testdetails;
@@ -57,27 +77,17 @@ public class TestContent {
 		}
 		if (!hE_pHistory.equals(null)) {
 			history = hE_pHistory;
-		} 
+		}
 		vbox.getChildren().addAll(lblphistory, hE_pHistory);
 	}
 
 	public static void create_table1(int tID) throws SQLException {
-		HTMLEditor hE_table1 = new HTMLEditor();
-		hE_table1.setPrefHeight(600);
+		final HTMLEditor hE_table1 = new HTMLEditor();
 		hE_table1.setPrefWidth(700);
+		hE_table1.setPrefHeight(500);
 		hE_table1.setId("hE_tbl1");
-
 		// hide controls we don't need.
-		Node t_node = hE_table1.lookup(".top-toolbar");
-		Node b_node = hE_table1.lookup(".bottom-toolbar");
-		t_node.setVisible(false);
-		b_node.setVisible(false);
-		t_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
-				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
-				+ "        -fx-opacity: 0;");
-		b_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
-				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
-				+ "        -fx-opacity: 0;");
+		Test_Template.htmlEditorStyle(hE_table1);
 		hE_table1.setStyle("-fx-border-color:white;");
 
 		ps = con.prepareStatement("SELECT * FROM patient_report_tabledetails WHERE testId='" + tID + "'");
@@ -85,30 +95,20 @@ public class TestContent {
 		while (rs.next()) {
 			hE_table1.setHtmlText(rs.getString("table"));
 		}
-		String st = hE_table1.getHtmlText();
+		vbox.getChildren().addAll(hE_table1);
+		//Add buttons
+		addRowsCol(hE_table1,vbox);
 		if (!hE_table1.equals(null)) {
 			table1 = hE_table1;
-		} 
-		vbox.getChildren().addAll(hE_table1);
+		}
 	}
-	
 	public static void create_table2(int tID) throws SQLException {
-		HTMLEditor hE_table2 = new HTMLEditor();
-		hE_table2.setPrefHeight(400);
+		final HTMLEditor hE_table2 = new HTMLEditor();
 		hE_table2.setPrefWidth(700);
+		hE_table2.setPrefHeight(500);
 		hE_table2.setId("hE_tbl2");
-
 		// hide controls we don't need.
-		Node t_node = hE_table2.lookup(".top-toolbar");
-		Node b_node = hE_table2.lookup(".bottom-toolbar");
-		t_node.setVisible(false);
-		b_node.setVisible(false);
-		t_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
-				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
-				+ "        -fx-opacity: 0;");
-		b_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
-				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
-				+ "        -fx-opacity: 0;");
+		Test_Template.htmlEditorStyle(hE_table2);
 		hE_table2.setStyle("-fx-border-color:white;");
 
 		ps = con.prepareStatement("SELECT * FROM patient_report_tabledetails WHERE testId='" + tID + "'");
@@ -116,12 +116,71 @@ public class TestContent {
 		while (rs.next()) {
 			hE_table2.setHtmlText(rs.getString("table2"));
 		}
+		vbox.getChildren().addAll(hE_table2);
+		//Add buttons
+		addRowsCol(hE_table2,vbox);
 		if (!hE_table2.equals(null)) {
 			table2 = hE_table2;
-		} 
-		vbox.getChildren().addAll(hE_table2);
+		}
 	}
-	
+//	public static void create__table1(int tID) throws SQLException, IOException {
+//		WebView webview = new WebView();
+//		webview.setVisible(true);
+//		webview.setId("table1");
+//		WebEngine webengine = webview.getEngine();
+//		webengine.setJavaScriptEnabled(true);
+//		String home = System.getProperty("user.home");
+//
+//		ps = con.prepareStatement("SELECT * FROM patient_tabledetails WHERE testId='" + tID + "'");
+//		ResultSet rs = ps.executeQuery();
+//		StringBuilder contentBuilder = new StringBuilder();
+//		BufferedReader in = null;
+//		while (rs.next()) {
+//			String fileLocation = rs.getString("table1");
+//			File file = new File(home + "/" + fileLocation);
+//			webengine.load(file.toURI().toURL().toString());
+//			in = new BufferedReader(new FileReader(file));
+//		}
+//		String str;
+//		while ((str = in.readLine()) != null) {
+//			contentBuilder.append(str);
+//		}
+//
+//		contentBuilder.delete(0, contentBuilder.indexOf("</div>") + 6);
+//		contentBuilder.delete(contentBuilder.indexOf("<br>"), contentBuilder.length());
+//
+//		table1 = contentBuilder;
+//		vbox.getChildren().add(webview);
+//	}
+
+//	public static void create__table2(int tID) throws SQLException, IOException {
+//		WebView webview = new WebView();
+//		webview.setVisible(true);
+//		webview.setId("table2");
+//		WebEngine webengine = webview.getEngine();
+//		webengine.setJavaScriptEnabled(true);
+//		String home = System.getProperty("user.home");
+//
+//		ps = con.prepareStatement("SELECT * FROM patient_tabledetails WHERE testId='" + tID + "'");
+//		ResultSet rs = ps.executeQuery();
+//		StringBuilder contentBuilder = new StringBuilder();
+//		BufferedReader in = null;
+//		while (rs.next()) {
+//			String fileLocation = rs.getString("table2");
+//			File file = new File(home + "/" + fileLocation);
+//			webengine.load(file.toURI().toURL().toString());
+//			in = new BufferedReader(new FileReader(file));
+//		}
+//		String str;
+//		while ((str = in.readLine()) != null) {
+//			contentBuilder.append(str);
+//		}
+//		contentBuilder.delete(0, contentBuilder.indexOf("</div>") + 6);
+//		contentBuilder.delete(contentBuilder.indexOf("<br>"), contentBuilder.length());
+//		table2 = contentBuilder;
+//		vbox.getChildren().add(webview);
+//	}
+
 	public static void create_impression(int tID) throws SQLException {
 		Label lblimp = new Label("Impression: ");
 		HTMLEditor hE_imp = new HTMLEditor();
@@ -137,7 +196,7 @@ public class TestContent {
 		}
 		if (!hE_imp.equals(null)) {
 			impression = hE_imp;
-		} 
+		}
 		vbox.getChildren().addAll(lblimp, hE_imp);
 	}
 
@@ -159,7 +218,8 @@ public class TestContent {
 		}
 		vbox.getChildren().addAll(lblnote, hE_note);
 	}
-	//======================================================
+
+	// =====================EDIT TEST DETAILS=================================
 	public static void edit_testDetails(int tID) throws SQLException {
 
 		HTMLEditor he_eTestdetails = new HTMLEditor();
@@ -179,7 +239,7 @@ public class TestContent {
 			vbox1.getChildren().addAll(he_eTestdetails);
 		}
 	}
-	
+
 	public static void edit_pastHistory(int tID) throws SQLException {
 		Label lblphistory = new Label("Relevant past history");
 		HTMLEditor hE_epHistory = new HTMLEditor();
@@ -195,70 +255,54 @@ public class TestContent {
 		}
 		if (!hE_epHistory.equals(null)) {
 			ehistory = hE_epHistory;
-		} 
+		}
 		vbox1.getChildren().addAll(lblphistory, hE_epHistory);
 	}
-	
-	public static void edit_table1(int tID) throws SQLException {
-		HTMLEditor hE_etable1 = new HTMLEditor();
-		hE_etable1.setPrefHeight(600);
-		hE_etable1.setPrefWidth(700);
-		hE_etable1.setId("hE_Etbl1");
 
+	public static void edit_table1(int tID) throws SQLException, IOException {
+		final HTMLEditor hE_table1 = new HTMLEditor();
+		hE_table1.setPrefWidth(700);
+		hE_table1.setPrefHeight(500);
+		hE_table1.setId("hE_tbl1");
 		// hide controls we don't need.
-		Node t_node = hE_etable1.lookup(".top-toolbar");
-		Node b_node = hE_etable1.lookup(".bottom-toolbar");
-		t_node.setVisible(false);
-		b_node.setVisible(false);
-		t_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
-				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
-				+ "        -fx-opacity: 0;");
-		b_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
-				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
-				+ "        -fx-opacity: 0;");
-		hE_etable1.setStyle("-fx-border-color:white;");
+		Test_Template.htmlEditorStyle(hE_table1);
+		hE_table1.setStyle("-fx-border-color:white;");
 
 		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			hE_etable1.setHtmlText(rs.getString("table1"));
+			hE_table1.setHtmlText(rs.getString("table1"));
 		}
-		if (!hE_etable1.equals(null)) {
-			etable1 = hE_etable1;
-		} 
-		vbox1.getChildren().addAll(hE_etable1);
+		vbox1.getChildren().addAll(hE_table1);
+		//Add buttons
+		addRowsCol(hE_table1,vbox1);
+		if (!hE_table1.equals(null)) {
+			etable1 = hE_table1;
+		}
 	}
-	
-	public static void edit_table2(int tID) throws SQLException {
-		HTMLEditor hE_etable2 = new HTMLEditor();
-		hE_etable2.setPrefHeight(400);
-		hE_etable2.setPrefWidth(700);
-		hE_etable2.setId("hE_Etbl2");
 
+	public static void edit_table2(int tID) throws SQLException, IOException {
+		final HTMLEditor hE_table2 = new HTMLEditor();
+		hE_table2.setPrefWidth(700);
+		hE_table2.setPrefHeight(500);
+		hE_table2.setId("hE_tbl2");
 		// hide controls we don't need.
-		Node t_node = hE_etable2.lookup(".top-toolbar");
-		Node b_node = hE_etable2.lookup(".bottom-toolbar");
-		t_node.setVisible(false);
-		b_node.setVisible(false);
-		t_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
-				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
-				+ "        -fx-opacity: 0;");
-		b_node.setStyle("-fx-max-width: 0px;\r\n" + "	-fx-min-width: 0px;\r\n" + "	-fx-pref-width: 0px;\r\n"
-				+ "	-fx-max-height: 0px;\r\n" + "	-fx-min-height: 0px;\r\n" + "	-fx-pref-height: 0px;\r\n"
-				+ "        -fx-opacity: 0;");
-		hE_etable2.setStyle("-fx-border-color:white;");
+		Test_Template.htmlEditorStyle(hE_table2);
+		hE_table2.setStyle("-fx-border-color:white;");
 
 		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			hE_etable2.setHtmlText(rs.getString("table2"));
+			hE_table2.setHtmlText(rs.getString("table2"));
 		}
-		if (!hE_etable2.equals(null)) {
-			etable2 = hE_etable2;
-		} 
-		vbox1.getChildren().addAll(hE_etable2);
+		vbox1.getChildren().addAll(hE_table2);
+		//Add buttons
+		addRowsCol(hE_table2,vbox1);
+		if (!hE_table2.equals(null)) {
+			etable1 = hE_table2;
+		}
 	}
-	
+
 	public static void edit_impression(int tID) throws SQLException {
 		Label lblimp = new Label("Impression: ");
 		HTMLEditor hE_eimp = new HTMLEditor();
@@ -274,10 +318,10 @@ public class TestContent {
 		}
 		if (!hE_eimp.equals(null)) {
 			eimpression = hE_eimp;
-		} 
+		}
 		vbox1.getChildren().addAll(lblimp, hE_eimp);
 	}
-	
+
 	public static void edit_note(int tID) throws SQLException {
 		Label lblnote = new Label("Please Note: ");
 		HTMLEditor hE_enote = new HTMLEditor();
@@ -295,5 +339,65 @@ public class TestContent {
 			enote = hE_enote;
 		}
 		vbox1.getChildren().addAll(lblnote, hE_enote);
+	}
+
+	// ========================ADD/DELETE ROWS/COLOUMNs===========================================
+	public static void addRowsCol(HTMLEditor htmlEditor, VBox vbox) {
+		Button btnaddRow = new Button("Add Row");
+		Button btnaddCol = new Button("Add Coloumn");
+		Button btnDeleteRow = new Button("Delete Row");
+		Button btnDeleteCol = new Button("Delete Coloumn");
+		btnaddRow.setOnAction(e -> {
+			String data = htmlEditor.getHtmlText();
+			Document document = Jsoup.parse(data, "", Parser.xmlParser());
+			int row = document.select("tr").size();
+			int totalCol = document.select("td").size();
+			int colRow = totalCol / row;
+			String numRow = null;
+
+			if (data.contains("</tbody>")) {
+				List<String> rowData = new ArrayList<>();
+				for (int i = 0; i < colRow; i++) {
+					numRow = "<td></td>";
+					rowData.add(numRow);
+				}
+				String str = rowData.toString();
+				if (str.contains("[") && str.contains("]") && str.contains(",")) {
+					str = str.replace("[", "");
+					str = str.replace("]", "");
+					str = str.replace(",", " ");
+				}
+				data = data.replace("</tbody>", "<tr style='width: 78px; height: 35px;'>" + str + "</tr></tbody>");
+			}
+			htmlEditor.setHtmlText(data);
+		});
+		btnaddCol.setOnAction(e -> {
+			String st = htmlEditor.getHtmlText();
+			if (st.contains("</tr>")) {
+				st = st.replace("</tr>", "<td style='width: 78px; height: 35px;'></td></tr>");
+			}
+			htmlEditor.setHtmlText(st);
+		});
+		btnDeleteRow.setOnAction(e -> {
+			String data = htmlEditor.getHtmlText();
+			Document document = Jsoup.parse(data, "", Parser.xmlParser());
+			Element lastRow = document.select("tr").last();
+			lastRow.remove();
+			htmlEditor.setHtmlText(document.children().toString());
+		});
+		
+		btnDeleteCol.setOnAction(e -> {
+			String data = htmlEditor.getHtmlText();
+			Document document = Jsoup.parse(data, "", Parser.xmlParser());
+			Elements lastCol = document.select("tr");
+			for (Element element : lastCol) {
+				Element eachCol = element.select("td").last();
+				eachCol.remove();
+			}
+			htmlEditor.setHtmlText(document.children().toString());
+		});
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(btnaddRow, btnaddCol, btnDeleteRow, btnDeleteCol);
+		vbox.getChildren().add(hbox);
 	}
 }

@@ -146,14 +146,14 @@ public class PrintableData {
 				Paragraph paneParagraph = new Paragraph();
 				paneParagraph.add(new Chunk("Patient Name", normalFontBlack));
 				pnameCell.addElement(paneParagraph);
-				pnameCell.setBorder(Rectangle.NO_BORDER);
+				pnameCell.setBorder(Rectangle.BOX);
 				t1.addCell(pnameCell);
 
 				PdfPCell pnameValueCell = new PdfPCell();
 				Paragraph pnameValueParagraph = new Paragraph();
 				pnameValueParagraph.add(new Chunk(rs.getString("patient_name"), normalFontBlack));
 				pnameValueCell.addElement(pnameValueParagraph);
-				pnameValueCell.setBorder(Rectangle.NO_BORDER);
+				pnameValueCell.setBorder(Rectangle.BOX);
 				t1.addCell(pnameValueCell);
 
 				AddRefDoctor(t1, pid, id);
@@ -162,46 +162,46 @@ public class PrintableData {
 				Paragraph regnumParagraph = new Paragraph();
 				regnumParagraph.add(new Chunk("Reg. No", normalFontBlack));
 				regnumCell.addElement(regnumParagraph);
-				regnumCell.setBorder(Rectangle.NO_BORDER);
+				regnumCell.setBorder(Rectangle.BOX);
 				t1.addCell(regnumCell);
 
 				PdfPCell regnumValueCell = new PdfPCell();
 				Paragraph regnumValueParagraph = new Paragraph();
 				regnumValueParagraph.add(new Chunk(String.valueOf(pid), normalFontBlack));
 				regnumValueCell.addElement(regnumValueParagraph);
-				regnumValueCell.setBorder(Rectangle.NO_BORDER);
+				regnumValueCell.setBorder(Rectangle.BOX);
 				t1.addCell(regnumValueCell);
 				titleHeader.addCell(t1);
 
 				PdfPTable t2 = new PdfPTable(2);
-				t2.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				t2.getDefaultCell().setBorder(Rectangle.BOX);
 
 				PdfPCell ageCell = new PdfPCell();
 				Paragraph ageParagraph = new Paragraph();
 				ageParagraph.add(new Chunk("Age", normalFontBlack));
 				ageCell.addElement(ageParagraph);
-				ageCell.setBorder(Rectangle.NO_BORDER);
+				ageCell.setBorder(Rectangle.BOX);
 				t2.addCell(ageCell);
 
 				PdfPCell ageValueCell = new PdfPCell();
 				Paragraph ageValueParagraph = new Paragraph();
 				ageValueParagraph.add(new Chunk(rs.getString("age"), normalFontBlack));
 				ageValueCell.addElement(ageValueParagraph);
-				ageValueCell.setBorder(Rectangle.NO_BORDER);
+				ageValueCell.setBorder(Rectangle.BOX);
 				t2.addCell(ageValueCell);
 
 				PdfPCell genderCell = new PdfPCell();
 				Paragraph genderParagraph = new Paragraph();
 				genderParagraph.add(new Chunk("Gender", normalFontBlack));
 				genderCell.addElement(genderParagraph);
-				genderCell.setBorder(Rectangle.NO_BORDER);
+				genderCell.setBorder(Rectangle.BOX);
 				t2.addCell(genderCell);
 
 				PdfPCell genderValueCell = new PdfPCell();
 				Paragraph genderValueParagraph = new Paragraph();
 				genderValueParagraph.add(new Chunk(rs.getString("gender"), normalFontBlack));
 				genderValueCell.addElement(genderValueParagraph);
-				genderValueCell.setBorder(Rectangle.NO_BORDER);
+				genderValueCell.setBorder(Rectangle.BOX);
 				t2.addCell(genderValueCell);
 				AddReportDate(t2, pid, id);
 
@@ -224,14 +224,14 @@ public class PrintableData {
 			Paragraph refdocParagraph = new Paragraph();
 			refdocParagraph.add(new Chunk("Ref. Doctor", normalFontBlack));
 			refdocCell.addElement(refdocParagraph);
-			refdocCell.setBorder(Rectangle.NO_BORDER);
+			refdocCell.setBorder(Rectangle.BOX);
 			t1.addCell(refdocCell);
 
 			PdfPCell prefdocValueCell = new PdfPCell();
 			Paragraph prefdocValueParagraph = new Paragraph();
 			prefdocValueParagraph.add(new Chunk(rs.getString("ref_doctor"), normalFontBlack));
 			prefdocValueCell.addElement(prefdocValueParagraph);
-			prefdocValueCell.setBorder(Rectangle.NO_BORDER);
+			prefdocValueCell.setBorder(Rectangle.BOX);
 			t1.addCell(prefdocValueCell);
 		}
 	}
@@ -247,14 +247,14 @@ public class PrintableData {
 			Paragraph visitdateParagraph = new Paragraph();
 			visitdateParagraph.add(new Chunk("Visit Date", normalFontBlack));
 			visitdateCell.addElement(visitdateParagraph);
-			visitdateCell.setBorder(Rectangle.NO_BORDER);
+			visitdateCell.setBorder(Rectangle.BOX);
 			t2.addCell(visitdateCell);
 
 			PdfPCell visitdateValueCell = new PdfPCell();
 			Paragraph visitdateValueParagraph = new Paragraph();
 			visitdateValueParagraph.add(new Chunk(rs.getString("reportDate"), normalFontBlack));
 			visitdateValueCell.addElement(visitdateValueParagraph);
-			visitdateValueCell.setBorder(Rectangle.NO_BORDER);
+			visitdateValueCell.setBorder(Rectangle.BOX);
 			t2.addCell(visitdateValueCell);
 		}
 	}

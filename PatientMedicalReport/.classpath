@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="C:/Users/Personal/git/Serpro_NeebleProject/PatientMedicalReport/src/jarfiles/mysql-connector-java-8.0.21.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Personal/git/Serpro_NeebleProject/PatientMedicalReport/src/jarfiles/pdfbox-2.0.21.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Personal/git/Serpro_NeebleProject/PatientMedicalReport/src/jarfiles/xmlworker-5.4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Personal/git/Serpro_NeebleProject/PatientMedicalReport/src/jarfiles/jsoup-1.13.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane_EditTD" prefHeight="546.0" prefWidth="800.0" stylesheets="@../cssFiles/addTest.css" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testTemplates.EditTDController">
+<AnchorPane fx:id="pane_EditTD" prefHeight="546.0" prefWidth="800.0" stylesheets="@../cssFiles/addTest.css" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testTemplates.ModifyTDController">
    <children>
       <ScrollPane fx:id="sEditPane" layoutY="40.0" prefHeight="506.0" prefWidth="800.0">
         <content>

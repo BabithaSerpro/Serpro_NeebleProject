@@ -82,7 +82,7 @@ public class EditTestTemplateController implements Initializable {
 	}
 
 	public static void setTestContentPane(AnchorPane testContentPane) {
-		EditTDController.testContentPane = testContentPane;
+		ModifyTDController.testContentPane = testContentPane;
 	}
 
 	public static VBox getVbox() {
@@ -90,7 +90,7 @@ public class EditTestTemplateController implements Initializable {
 	}
 
 	public static void setVbox(VBox tvbox) {
-		EditTDController.tvbox = tvbox;
+		ModifyTDController.tvbox = tvbox;
 	}
 
 	public static TextField getRef_doctor() {
@@ -98,7 +98,7 @@ public class EditTestTemplateController implements Initializable {
 	}
 
 	public static void setRef_doctor(TextField ref_doctor) {
-		EditTDController.ref_doctor = ref_doctor;
+		ModifyTDController.ref_doctor = ref_doctor;
 	}
 	
 
@@ -180,7 +180,7 @@ public class EditTestTemplateController implements Initializable {
 			TestContent.edit_table1(tId);
 		}
 		if (!table2.isEmpty() ) {
-			TestContent.create_table2(tId);
+			TestContent.edit_table2(tId);
 		}
 		if (!impression.isEmpty() ) {
 			TestContent.edit_impression(tId);
@@ -191,7 +191,6 @@ public class EditTestTemplateController implements Initializable {
 		btnUpdate.setOnAction(e -> {
 			try {
 				updateTest(tId);
-				
 			} catch (Exception e1) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Dr. Subodh App");
@@ -232,7 +231,6 @@ public class EditTestTemplateController implements Initializable {
 			} else {
 				ps.setString(4, "");
 			}
-
 			if (!table1.isEmpty()) {
 				ps.setString(5, TestContent.etable1.getHtmlText());
 			} else {

@@ -24,7 +24,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import testTemplates.EditTDController;
+import testTemplates.ModifyTDController;
 
 public class ViewPDController {
 	@FXML
@@ -130,11 +130,11 @@ public class ViewPDController {
 							break;
 						}
 					}
-					Parent root = FXMLLoader.load(DashboardController.class.getResource("/testTemplates/editTestData.fxml"));
+					Parent root = FXMLLoader.load(DashboardController.class.getResource("/testTemplates/modifyTestData.fxml"));
 					MainScreenController.getHomePage().getChildren().add(root);
 					root.setTranslateX(370);
 					root.setTranslateY(30);
-					EditTDController.screenContent(test_Name.getSelectionModel().getSelectedItem());
+					ModifyTDController.screenContent(test_Name.getSelectionModel().getSelectedItem());
 
 //					Test_Screens.screenContent(test_Name.getSelectionModel().getSelectedItem());
 				} catch (Exception e1) {
