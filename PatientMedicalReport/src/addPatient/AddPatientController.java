@@ -134,6 +134,7 @@ public class AddPatientController implements Initializable {
 
 	public void addPatient(ActionEvent event) throws Exception {
 		boolean check = false;
+		//if mobile number entered
 		if(!(mobNo.getText().equals(""))){
 			check = checkPatientAlreadyExist(mobNo.getText());
 		}
