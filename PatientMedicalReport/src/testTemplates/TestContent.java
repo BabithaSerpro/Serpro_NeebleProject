@@ -82,7 +82,7 @@ public class TestContent {
 		hE_pHistory.setId("hePastHistory");
 		hE_pHistory.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_testdetails WHERE tId='" + tID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_testdetails WHERE tId='" + tID + "' and active='Y' ");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_pHistory.setHtmlText(rs.getString("PAST HISTORY"));
@@ -102,7 +102,7 @@ public class TestContent {
 		Test_Template.htmlEditorStyle(hE_table1);
 		hE_table1.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_report_tabledetails WHERE testId='" + tID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_report_tabledetails WHERE testId='" + tID + "' and active='Y' ");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_table1.setHtmlText(rs.getString("table"));
@@ -123,7 +123,7 @@ public class TestContent {
 		Test_Template.htmlEditorStyle(hE_table2);
 		hE_table2.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_report_tabledetails WHERE testId='" + tID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_report_tabledetails WHERE testId='" + tID + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_table2.setHtmlText(rs.getString("table2"));
@@ -201,7 +201,7 @@ public class TestContent {
 		hE_imp.setId("heImpression");
 		hE_imp.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT IMPRESSION FROM patient_testdetails WHERE tId='" + tID + "'");
+		ps = con.prepareStatement("SELECT IMPRESSION FROM patient_testdetails WHERE tId='" + tID + "' and active='Y' ");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_imp.setHtmlText(rs.getString("IMPRESSION"));
@@ -220,7 +220,7 @@ public class TestContent {
 		hE_note.setId("heNote");
 		hE_note.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT PLEASE_NOTE FROM patient_testdetails WHERE tId='" + tID + "'");
+		ps = con.prepareStatement("SELECT PLEASE_NOTE FROM patient_testdetails WHERE tId='" + tID + "' and active='Y' ");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_note.setHtmlText(rs.getString("PLEASE_NOTE"));
@@ -240,7 +240,7 @@ public class TestContent {
 		he_eTestdetails.setId("heETestdetails");
 		he_eTestdetails.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			he_eTestdetails.setHtmlText(rs.getString("testDescription"));
@@ -260,7 +260,7 @@ public class TestContent {
 		hE_epHistory.setId("heEPastHistory");
 		hE_epHistory.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_epHistory.setHtmlText(rs.getString("patientHistory"));
@@ -280,7 +280,7 @@ public class TestContent {
 		Test_Template.htmlEditorStyle(hE_table1);
 		hE_table1.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_table1.setHtmlText(rs.getString("table1"));
@@ -302,7 +302,7 @@ public class TestContent {
 		Test_Template.htmlEditorStyle(hE_table2);
 		hE_table2.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_table2.setHtmlText(rs.getString("table2"));
@@ -323,7 +323,7 @@ public class TestContent {
 		hE_eimp.setId("heEImpression");
 		hE_eimp.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_eimp.setHtmlText(rs.getString("impression"));
@@ -342,7 +342,7 @@ public class TestContent {
 		hE_enote.setId("heENote");
 		hE_enote.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_enote.setHtmlText(rs.getString("note"));

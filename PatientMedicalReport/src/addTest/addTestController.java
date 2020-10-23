@@ -233,7 +233,7 @@ public class addTestController implements Initializable {
 		List<String> options = new ArrayList<String>();
 
 		connection = DBConnectivity.getConnection();
-		ps = connection.prepareStatement("SELECT TEST_NAME FROM patient_report");
+		ps = connection.prepareStatement("SELECT TEST_NAME FROM patient_report where ACTIVE='Y'");
 		rs = ps.executeQuery();
 
 		while (rs.next()) {

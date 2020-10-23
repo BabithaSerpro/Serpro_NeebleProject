@@ -57,7 +57,7 @@ public class PrintableData {
 	public static int increaseCount(int p_id, String test_name) throws SQLException {
 		con = DBConnectivity.getConnection();
 		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + p_id + "' AND testName='"
-				+ test_name + "'");
+				+ test_name + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			count = rs.getInt("id");
@@ -109,7 +109,7 @@ public class PrintableData {
 		document.close();
 
 		// Save the folder path to DB
-		String update = "UPDATE patient_reportmasterdata SET active='Y', folderPath='" + path + "' WHERE regNumber=?";
+		String update = "UPDATE patient_reportmasterdata SET  folderPath='" + path + "' WHERE regNumber=? and active='Y'";
 		con = DBConnectivity.getConnection();
 		ps = con.prepareStatement(update);
 		ps.setInt(1, p_id);
@@ -133,7 +133,7 @@ public class PrintableData {
 	public static void addPatientDetails(Document document, int pid, int id) throws SQLException {
 		try {
 			con = DBConnectivity.getConnection();
-			ps = con.prepareStatement("SELECT * FROM patient_masterdata WHERE patient_id='" + pid + "'");
+			ps = con.prepareStatement("SELECT * FROM patient_masterdata WHERE patient_id='" + pid + "' and active='Y'");
 			ResultSet rs = ps.executeQuery();
 
 			PdfPTable titleHeader = new PdfPTable(2);
@@ -216,7 +216,7 @@ public class PrintableData {
 	private static void AddRefDoctor(PdfPTable t1, int pid, int id) throws SQLException {
 		con = DBConnectivity.getConnection();
 		ps = con.prepareStatement(
-				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' AND id='" + id + "'");
+				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' AND id='" + id + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
@@ -239,7 +239,7 @@ public class PrintableData {
 	private static void AddReportDate(PdfPTable t2, int pid, int id) throws SQLException {
 		con = DBConnectivity.getConnection();
 		ps = con.prepareStatement(
-				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' AND id='" + id + "'");
+				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' AND id='" + id + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
@@ -263,7 +263,7 @@ public class PrintableData {
 			throws SQLException, IOException, DocumentException {
 		con = DBConnectivity.getConnection();
 		ps = con.prepareStatement(
-				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' AND id='" + id + "'");
+				"SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pid + "' AND id='" + id + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {

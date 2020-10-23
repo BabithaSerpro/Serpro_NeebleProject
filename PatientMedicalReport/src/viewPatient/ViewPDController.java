@@ -182,7 +182,7 @@ public class ViewPDController {
 	}
 
 	public static void refreshViewDetails(int patientID) throws SQLException {
-		String SQL_view = "SELECT * FROM patient_masterdata WHERE patient_id='" + patientID + "'";
+		String SQL_view = "SELECT * FROM patient_masterdata WHERE patient_id='" + patientID + "' and active='Y' ";
 		try {
 			ResultSet rs = con.createStatement().executeQuery(SQL_view);
 			lblID.setText(String.valueOf(patientID));
@@ -265,7 +265,7 @@ public class ViewPDController {
 		List<String> options = new ArrayList<String>();
 
 		con = DBConnectivity.getConnection();
-		ps = con.prepareStatement("SELECT TEST_NAME FROM patient_report");
+		ps = con.prepareStatement("SELECT TEST_NAME FROM patient_report where active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			options.add(rs.getString("TEST_NAME"));

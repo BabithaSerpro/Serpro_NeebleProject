@@ -63,7 +63,7 @@ public class viewTestController implements Initializable {
 					"SELECT pm.patient_name,pm.age,pm.gender,pr.ref_doctor,pr.regNumber,pr.testDate,pr.reportDate,pr.patientHistory,pr.testName,\r\n"
 							+ "pr.testDescription,pr.impression,pr.note\r\n"
 							+ "FROM patient_masterdata pm, patient_reportmasterdata pr WHERE\r\n"
-							+ "pm.patient_id= pr.regNumber AND pr.id=? AND pm.active='Y'");
+							+ "pm.patient_id= pr.regNumber AND pr.id=? AND pm.active='Y' AND pr.active='Y'");
 			ps.setInt(1, testId);
 			rs = ps.executeQuery();
 			if (rs.next()) {

@@ -382,7 +382,7 @@ public class AddPatientController implements Initializable {
 	public boolean checkPatientAlreadyExist(String mobileNo) throws Exception {
 		Connection connection = DBConnectivity.getConnection();
 		Statement stm = connection.createStatement();
-		ResultSet rst = stm.executeQuery("select * from patient_masterdata where mobileNumber= '" + mobileNo + "' ");
+		ResultSet rst = stm.executeQuery("select * from patient_masterdata where mobileNumber= '" + mobileNo + "' and active='Y' ");
 		return rst.next();
 	}
 

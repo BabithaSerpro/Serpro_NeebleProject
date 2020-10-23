@@ -204,6 +204,7 @@ public class TestData {
 									TestData data = getTableView().getItems().get(getIndex());
 									String SQL_delete = "UPDATE patient_reportmasterdata SET active ='N' WHERE regNumber='" + pid + "'"
 											+ "and id='"+ data.gettId() + "'";
+									
 									try {
 										con.createStatement().executeUpdate(SQL_delete);
 										ViewPDController.refreshTestDetails(pid);

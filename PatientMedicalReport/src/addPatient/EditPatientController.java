@@ -141,7 +141,7 @@ public class EditPatientController implements Initializable {
 	}
 
 	public void ViewDetails() throws SQLException {
-		String update = "SELECT * FROM patient_masterdata WHERE patient_id='" + pId.getText() + "'";
+		String update = "SELECT * FROM patient_masterdata WHERE patient_id='" + pId.getText() + "' and active='Y'";
 		try {
 			connection = DBConnectivity.getConnection();
 			ps = connection.prepareStatement(update);

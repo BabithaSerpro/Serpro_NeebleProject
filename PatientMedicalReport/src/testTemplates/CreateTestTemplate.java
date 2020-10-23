@@ -101,7 +101,7 @@ public class CreateTestTemplate {
 
 	public static void createTemplate(String testname, int pID, int id, VBox vbox) throws SQLException {
 		con = DBConnectivity.getConnection();
-		ps = con.prepareStatement("SELECT * FROM patient_report WHERE TEST_NAME='"+testname+"'");
+		ps = con.prepareStatement("SELECT * FROM patient_report WHERE TEST_NAME='"+testname+"' and ACTIVE='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			tID=rs.getInt("ID");

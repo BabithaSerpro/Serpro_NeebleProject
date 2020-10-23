@@ -129,7 +129,7 @@ public class HeaderController {
 		try {
 			con = DBConnectivity.getConnection();
 			int patientID = ViewPDController.getPID();
-			ps = con.prepareStatement("SELECT * FROM patient_masterdata WHERE patient_id='" + patientID + "'");
+			ps = con.prepareStatement("SELECT * FROM patient_masterdata WHERE patient_id='" + patientID + "' and active='Y'");
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {

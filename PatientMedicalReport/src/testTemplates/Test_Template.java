@@ -26,7 +26,7 @@ public class Test_Template {
 	public static void patientreportData(int pID, String testname,int id) {
 		try {
 			con = DBConnectivity.getConnection();
-			ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "'");
+			ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "' and active='Y'");
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -44,7 +44,7 @@ public class Test_Template {
 		he_Testdetails.setPrefHeight(400);
 		he_Testdetails.setId("heTestdetails");
 		he_Testdetails.setStyle("-fx-border-color:white;");
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			he_Testdetails.setHtmlText(rs.getString("testDescription"));
@@ -78,7 +78,7 @@ public class Test_Template {
 		hE_pHistory.setId("hePastHistory");
 		hE_pHistory.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_pHistory.setHtmlText(rs.getString("patientHistory"));
@@ -98,7 +98,7 @@ public class Test_Template {
 		hE_table1 = htmlEditorStyle(hE_table1);
 		hE_table1.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_table1.setHtmlText(rs.getString("table1"));
@@ -119,7 +119,7 @@ public class Test_Template {
 		hE_table2 = htmlEditorStyle(hE_table2);
 		hE_table2.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_table2.setHtmlText(rs.getString("table2"));
@@ -136,7 +136,7 @@ public class Test_Template {
 		hE_imp.setId("heImpression");
 		hE_imp.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_imp.setHtmlText(rs.getString("impression"));
@@ -155,7 +155,7 @@ public class Test_Template {
 		hE_note.setId("heNote");
 		hE_note.setStyle("-fx-border-color:white;");
 
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE regNumber='" + pID + "' AND id='" + id + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			hE_note.setHtmlText(rs.getString("note"));

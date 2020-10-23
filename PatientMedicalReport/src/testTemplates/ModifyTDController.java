@@ -159,7 +159,7 @@ public class ModifyTDController {
 		try {
 			con = DBConnectivity.getConnection();
 			int patientID = ViewPDController.getPID();
-			ps = con.prepareStatement("SELECT * FROM patient_masterdata WHERE patient_id='" + patientID + "'");
+			ps = con.prepareStatement("SELECT * FROM patient_masterdata WHERE patient_id='" + patientID + "' and active='Y'");
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -198,7 +198,7 @@ public class ModifyTDController {
 	public static void testDetails() throws Exception {
 		String testname = gettName();
 		con = DBConnectivity.getConnection();
-		ps = con.prepareStatement("SELECT * FROM patient_report WHERE TEST_NAME='" + testname + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_report WHERE TEST_NAME='" + testname + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			tID = rs.getInt("ID");

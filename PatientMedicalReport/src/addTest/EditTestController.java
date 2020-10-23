@@ -245,7 +245,7 @@ public class EditTestController {
 
 	}
     public static void editTestDetails(int tID) throws SQLException {
-		String SQL_view = "SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "'";
+		String SQL_view = "SELECT * FROM patient_reportmasterdata WHERE id='" + tID + "' and active='Y'";
 		setTest_id(tID);
 		try {
 			

@@ -120,7 +120,7 @@ public class EditTestTemplateController implements Initializable {
 		try {
 			con = DBConnectivity.getConnection();
 			int patientID = ViewPDController.getPID();
-			ps = con.prepareStatement("SELECT * FROM patient_masterdata WHERE patient_id='" + patientID + "'");
+			ps = con.prepareStatement("SELECT * FROM patient_masterdata WHERE patient_id='" + patientID + "' and active='Y' ");
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -156,7 +156,7 @@ public class EditTestTemplateController implements Initializable {
 	}
 	public static void edittestDetails(int tId) throws Exception {
 		con = DBConnectivity.getConnection();
-		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tId + "'");
+		ps = con.prepareStatement("SELECT * FROM patient_reportmasterdata WHERE id='" + tId + "' and active='Y'");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			ref_doctor.setText(rs.getString("ref_doctor"));
@@ -209,7 +209,7 @@ public class EditTestTemplateController implements Initializable {
 
 		String timeStamp = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss").format(new Date());
 		String update = "update patient_reportmasterdata set ref_doctor =?,reportDate=?,patientHistory=?,testDescription=?,"
-				+ "table1=?,table2=?,impression=?,note=?,modified_timestamp= '" + timeStamp + "' where id='"
+				+ "table1=?,table2=?,impression=?,note=?,active='Y',modified_timestamp= '" + timeStamp + " ' where id='"
 				+ tId + "'";
 
 		con = DBConnectivity.getConnection();
