@@ -271,7 +271,8 @@ public class PrintableData {
 			testnameParagraph.add(new Chunk(rs.getString("testName"), normalFontBlack));
 			testnameParagraph.setAlignment(Element.ALIGN_CENTER);
 			document.add(testnameParagraph);
-			if (!(rs.getString("patientHistory").equals(""))) {
+			String ph_text = Test_Template.stripHTMLTags(rs.getString("patientHistory"));
+			if (!(ph_text.equals(""))) {
 				document.add(Chunk.NEWLINE);
 				Paragraph psParagraph = new Paragraph();
 				psParagraph.add(new Chunk("Past History", normalFontBlack));
@@ -282,7 +283,8 @@ public class PrintableData {
 				XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
 			}
 
-			if (!(rs.getString("testDescription").equals(""))) {
+			String td_text = Test_Template.stripHTMLTags(rs.getString("testDescription"));
+			if (!(td_text.equals(""))) {
 				document.add(Chunk.NEWLINE);
 				StringBuilder htmlTD = new StringBuilder();
 				htmlTD.append(new String(rs.getString("testDescription")));

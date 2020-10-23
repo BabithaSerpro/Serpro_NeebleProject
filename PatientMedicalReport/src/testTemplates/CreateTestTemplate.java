@@ -65,7 +65,7 @@ public class CreateTestTemplate {
 			Label lblTestname = new Label(testname);
 			lblTestname.setId("testname");
 			lblTestname.setLayoutX(220);
-			lblTestname.setLayoutY(230);
+			lblTestname.setLayoutY(235);
 			lblTestname.setPrefWidth(741);
 			lblTestname.setPrefHeight(32);
 			lblTestname.setTextAlignment(TextAlignment.CENTER);
@@ -74,7 +74,7 @@ public class CreateTestTemplate {
 			
 			vbox.setId("template_vbox");
 			vbox.setLayoutX(40);
-			vbox.setLayoutY(260);
+			vbox.setLayoutY(265);
 			
 			Label lblsign = new Label("DR SUBODH C KHARE");
 			Label lbldesignatn = new Label("CONSULTANT RADIOLOGIST");

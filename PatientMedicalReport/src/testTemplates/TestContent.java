@@ -27,6 +27,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -41,8 +42,10 @@ public class TestContent {
 	public static HTMLEditor table1,table2;
 	public static HTMLEditor etable1, etable2;
 	public static HTMLEditor ehistory, eimpression, enote, etestDetstails;
-
+	public static boolean testdetails_deleted=false;
+	
 	public static void create_testDetails(int tID) throws SQLException {
+		HBox hbox=new HBox(2);
 		HTMLEditor he_Testdetails = new HTMLEditor();
 		he_Testdetails.setPrefHeight(370);
 		he_Testdetails.setPrefWidth(700);
@@ -55,10 +58,19 @@ public class TestContent {
 			he_Testdetails.setHtmlText(rs.getString("testDetails"));
 		}
 
+		Button btnDelete=new Button("Delete");
+		btnDelete.setStyle("-fx-background-color: transparent");
+		btnDelete.setTextFill(Color.BLUE);
+		hbox.getChildren().addAll(he_Testdetails,btnDelete);
+		vbox.getChildren().addAll(hbox);
+		btnDelete.setOnAction(e->{
+			vbox.getChildren().remove(hbox);
+			testdetails_deleted=true;
+			he_Testdetails.setHtmlText("");
+		});
 		String text = Test_Template.stripHTMLTags(he_Testdetails.getHtmlText());
 		if (!(text.equals(""))) {
 			testDetstails = he_Testdetails;
-			vbox.getChildren().addAll(he_Testdetails);
 		}
 	}
 
@@ -396,7 +408,7 @@ public class TestContent {
 			}
 			htmlEditor.setHtmlText(document.children().toString());
 		});
-		HBox hbox = new HBox();
+		HBox hbox = new HBox(10);
 		hbox.getChildren().addAll(btnaddRow, btnaddCol, btnDeleteRow, btnDeleteCol);
 		vbox.getChildren().add(hbox);
 	}

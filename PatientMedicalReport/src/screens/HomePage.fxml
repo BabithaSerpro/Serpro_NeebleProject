@@ -14,7 +14,7 @@
             <AnchorPane layoutY="-1.0" prefHeight="90.0" prefWidth="307.0" style="-fx-background-color: #2dacd3;" />
             <Circle fill="WHITE" layoutX="149.0" layoutY="113.0" radius="70.0" stroke="WHITE" strokeType="INSIDE" />
             <Circle id="profile" fx:id="profile" fill="#2dacd3" layoutX="72.0" layoutY="33.0" radius="57.0" stroke="WHITE" strokeType="INSIDE" translateX="77.5" translateY="77.5" translateZ="77.5" />
-            <Text id="txt_Wshes" fx:id="txt_Wshes" fill="#a2a5a8" layoutX="61.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="185.4316420853138">
+            <Text id="txt_Wshes" fx:id="txt_Wshes" fill="#a2a5a8" layoutX="61.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello!" textAlignment="CENTER" wrappingWidth="185.4316420853138">
                <font>
                   <Font size="22.0" />
                </font>

@@ -137,3 +137,30 @@
     -fx-background-color: #E6E7EE;
     -fx-border-radius:2.0px;
 }
+.label{
+	-fx-font-family: "Roboto";
+}
+.combo-box .list-cell 
+{
+	-fx-background:  #2eacd5;
+    -fx-text-fill: black;    /*white tesxt*/
+    -fx-padding: 3 0 2 7;
+    -fx-font-size: 16.0;
+    -fx-background-radius:5.0px;
+	-fx-border-color:#B3BDC6;
+	-fx-border-radius:5.0px;
+}
+.combo-box  > .arrow-button {
+    /*-fx-background-image:url("/imgs/dropdown.png"); /* Url of the icon */
+    -fx-background-size: 50.0% 50.0%; /* Can be `cover` or `100% 100%` ect. */
+    -fx-background-repeat: no-repeat; /* Put the icon in the center */
+    -fx-background-position: center center;
+    -fx-background-color: #2eacd2;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover 
+{
+    -fx-background: -fx-accent;
+    -fx-background-color: -fx-selection-bar;
+    -fx-text-fill: -fx-selection-bar-text;
+}

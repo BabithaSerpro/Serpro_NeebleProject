@@ -16,32 +16,34 @@ import javafx.scene.layout.BorderPane;
 public class MainScreenController implements Initializable{
 
 	@FXML
-	public AnchorPane mainPane;
-	
-	@FXML
-	private JFXTabPane tabpane;
-	
-	@FXML
-	private AnchorPane HomePage;
+    private AnchorPane mainPane;
 
-	@FXML
-	private AnchorPane HelpPage;
+    @FXML
+    private BorderPane borderPane;
 
-	@FXML
-	private BorderPane borderPane;
+    @FXML
+    private JFXTabPane tabPane;
+
+    @FXML
+    private AnchorPane HomePage;
+
+    @FXML
+    private AnchorPane TemplatePage;
+
 	
 	private static BorderPane border;
-	private static AnchorPane hometab;
+	private static AnchorPane hometab,templateTab;
 	private static JFXTabPane menuBar;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		border = borderPane;
 		hometab = HomePage;
-		menuBar = tabpane;
+		menuBar = tabPane;
 		loadTitleBar();
 		loadHomePage();
 		sidePanel();
+		addTestTemplate();
 	}
 
 	public void sidePanel() {
@@ -59,7 +61,7 @@ public class MainScreenController implements Initializable{
 //			Parent root = FXMLLoader.load(getClass().getResource("/screens/HomePage.fxml"));
 //			root.setTranslateY(30);
 //			root.setTranslateX(30);
-//			HelpPage.getChildren().add(root);
+//			TemplatePage.getChildren().add(root);
 //		} catch (IOException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
@@ -87,6 +89,20 @@ public class MainScreenController implements Initializable{
 			e.printStackTrace();
 		}
 	}
+	
+    public void addTestTemplate() {
+		try {
+			Parent root = FXMLLoader.load(getClass().getResource("/addNewTest/addNewTest.fxml"));
+			root.getStylesheets().add(getClass().getResource("/cssFiles/addTest.css").toExternalForm());
+			TemplatePage.getChildren().add(root);
+			root.setTranslateX(80);
+			root.setTranslateY(60);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Cant load window");
+		}
+    }
+	
 	public static BorderPane getMainLayout() {
 		return border;
 	}
@@ -103,11 +119,11 @@ public class MainScreenController implements Initializable{
 		borderPane = mainLayout;
 	}
 	
-	public AnchorPane getHelpPage() {
-		return HelpPage;
+	public static AnchorPane getTemplateTab() {
+		return templateTab;
 	}
 
-	public void setHelpPage(AnchorPane helpPage) {
-		HelpPage = helpPage;
+	public static void setTemplateTab(AnchorPane templateTab) {
+		MainScreenController.templateTab = templateTab;
 	}
 }

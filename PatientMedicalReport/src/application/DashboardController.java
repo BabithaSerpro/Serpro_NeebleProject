@@ -26,6 +26,9 @@ public class DashboardController {
 	private Button btn_addPatient;
 
 	@FXML
+	private Button btn_addNewTestTemplate;
+
+	@FXML
 	private TextField txt_searchBox;
 
 	@FXML
@@ -45,8 +48,8 @@ public class DashboardController {
 	private TableColumn<PatientData, String> pEmail;
 
 	@FXML
-    private Pagination pgnation;
-	
+	private Pagination pgnation;
+
 	private static TableView<PatientData> tblPatientTable;
 	private static Connection con;
 	private static final int ROWS_PER_PAGE = 10;
@@ -68,35 +71,35 @@ public class DashboardController {
 		buildData();
 
 		int totalPage = (int) (Math.ceil(data.size() * 1.0 / ROWS_PER_PAGE));
-        pgnation.setPageCount(totalPage);
-        pgnation.setCurrentPageIndex(0);
-        changeTableView(0, ROWS_PER_PAGE);
-        pgnation.currentPageIndexProperty().addListener(
-                (observable, oldValue, newValue) -> changeTableView(newValue.intValue(), ROWS_PER_PAGE));
+		pgnation.setPageCount(totalPage);
+		pgnation.setCurrentPageIndex(0);
+		changeTableView(0, ROWS_PER_PAGE);
+		pgnation.currentPageIndexProperty()
+				.addListener((observable, oldValue, newValue) -> changeTableView(newValue.intValue(), ROWS_PER_PAGE));
 
-        tblPatientTable.setOnMouseClicked(e -> {
+		tblPatientTable.setOnMouseClicked(e -> {
 			if (tblPatientTable.getSelectionModel().getSelectedItem() != null) {
 				ClickedPatient(tblPatientTable.getSelectionModel().getSelectedItem().getPatientId());
 			}
 
 		});
-		
+
 	}
 
 	private void changeTableView(int index, int limit) {
 
-        int fromIndex = index * limit;
-        int toIndex = Math.min(fromIndex + limit, data.size());
+		int fromIndex = index * limit;
+		int toIndex = Math.min(fromIndex + limit, data.size());
 
-        int minIndex = Math.min(toIndex, data.size());
-        SortedList<PatientData> sortedData = new SortedList<>(
-                FXCollections.observableArrayList(data.subList(Math.min(fromIndex, minIndex), minIndex)));
-        sortedData.comparatorProperty().bind(tblPatientTable.comparatorProperty());
+		int minIndex = Math.min(toIndex, data.size());
+		SortedList<PatientData> sortedData = new SortedList<>(
+				FXCollections.observableArrayList(data.subList(Math.min(fromIndex, minIndex), minIndex)));
+		sortedData.comparatorProperty().bind(tblPatientTable.comparatorProperty());
 
-        tblPatientTable.setItems(sortedData);
+		tblPatientTable.setItems(sortedData);
 
-    }
-	
+	}
+
 	public static void refreshTable() {
 		data.clear();
 		try {
@@ -125,16 +128,17 @@ public class DashboardController {
 		try {
 			refreshTable();
 
-			txt_searchBox.setOnKeyReleased(e->{
-				if(txt_searchBox.getText().equals("")) {
+			txt_searchBox.setOnKeyReleased(e -> {
+				if (txt_searchBox.getText().equals("")) {
 					refreshTable();
-				}else {
+				} else {
 					try {
 						data.clear();
 						String SQL;
-						SQL = "SELECT * FROM patient_masterdata WHERE patient_name LIKE '%"+ txt_searchBox.getText() + "%'  OR mobileNumber LIKE '%"+ txt_searchBox.getText() +"%'";
+						SQL = "SELECT * FROM patient_masterdata WHERE patient_name LIKE '%" + txt_searchBox.getText()
+								+ "%'  OR mobileNumber LIKE '%" + txt_searchBox.getText() + "%'";
 						ResultSet rs = con.createStatement().executeQuery(SQL);
-						
+
 						while (rs.next()) {
 							PatientData pd = new PatientData();
 							pd.serialNum.set(rs.getRow());
@@ -153,7 +157,7 @@ public class DashboardController {
 						e1.printStackTrace();
 					}
 				}
-				
+
 			});
 
 //			txt_searchBox.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -182,16 +186,17 @@ public class DashboardController {
 	private static void ClickedPatient(int patientID) {
 		try {
 			try {
-				AnchorPane pane=MainScreenController.getHomePage();
-				for(int i=0;i<pane.getChildren().size();i++) {
-					String paneID=pane.getChildren().get(i).getId();
+				AnchorPane pane = MainScreenController.getHomePage();
+				for (int i = 0; i < pane.getChildren().size(); i++) {
+					String paneID = pane.getChildren().get(i).getId();
 					switch (paneID) {
-						case "pane_Dashboard":
-							MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-							break;
+					case "pane_Dashboard":
+						MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+						break;
 					}
 				}
-				Parent root = FXMLLoader.load(DashboardController.class.getResource("/viewPatient/ViewPatientDetails.fxml"));
+				Parent root = FXMLLoader
+						.load(DashboardController.class.getResource("/viewPatient/ViewPatientDetails.fxml"));
 				MainScreenController.getHomePage().getChildren().add(root);
 				root.setTranslateX(370);
 				root.setTranslateY(30);
@@ -199,7 +204,7 @@ public class DashboardController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			ViewPDController.refreshViewDetails(patientID);
 			ViewPDController.ViewTestDetails(patientID);
 		} catch (Exception e) {
@@ -210,16 +215,16 @@ public class DashboardController {
 	@FXML
 	void addPatients(ActionEvent event) {
 		try {
-			AnchorPane pane=MainScreenController.getHomePage();
-			for(int i=0;i<pane.getChildren().size();i++) {
-				String paneID=pane.getChildren().get(i).getId();
+			AnchorPane pane = MainScreenController.getHomePage();
+			for (int i = 0; i < pane.getChildren().size(); i++) {
+				String paneID = pane.getChildren().get(i).getId();
 				switch (paneID) {
-					case "pane_Dashboard":
-						MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-						break;
-					case "pane_viewDetails":
-						MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
-						break;
+				case "pane_Dashboard":
+					MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+					break;
+				case "pane_viewDetails":
+					MainScreenController.getHomePage().getChildren().get(i).setVisible(false);
+					break;
 				}
 			}
 			Parent root = FXMLLoader.load(DashboardController.class.getResource("/addPatient/AddPatient.fxml"));

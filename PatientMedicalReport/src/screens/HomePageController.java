@@ -51,7 +51,7 @@ public class HomePageController implements Initializable {
 		totalTest = txt_totalTest;
 		completedTest = txt_completedTest;
 		pendingTest = txt_pendingTest;
-		wishes();
+//		wishes();
 
 		try {
 			totalTestCount();
