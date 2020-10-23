@@ -135,8 +135,8 @@ public class DashboardController {
 					try {
 						data.clear();
 						String SQL;
-						SQL = "SELECT * FROM patient_masterdata WHERE active='Y' and patient_name LIKE '%" + txt_searchBox.getText()
-								+ "%'  OR mobileNumber LIKE '%" + txt_searchBox.getText() + "%' ";
+						SQL = "SELECT * FROM patient_masterdata WHERE active='Y' and patient_name LIKE '%"
+								+ txt_searchBox.getText() + "%'  OR mobileNumber LIKE '%" + txt_searchBox.getText()+ "%' ";
 						ResultSet rs = con.createStatement().executeQuery(SQL);
 
 						while (rs.next()) {

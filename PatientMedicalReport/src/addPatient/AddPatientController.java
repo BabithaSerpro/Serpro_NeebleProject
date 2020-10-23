@@ -133,12 +133,12 @@ public class AddPatientController implements Initializable {
 	}
 
 	public void addPatient(ActionEvent event) throws Exception {
-		boolean check = checkPatientAlreadyExist(mobNo.getText());
-
+		boolean check = false;
+		if(!(mobNo.getText().equals(""))){
+			check = checkPatientAlreadyExist(mobNo.getText());
+		}
 		if (validateFields() && validateMobileNo() && validateName() &&validateAge() && validateEmail()) {
-
 			if (check == true) { // check existing patient
-
 				Parent root = FXMLLoader.load(getClass().getResource("/addPatient/exists.fxml"));
 				paneNewPatient.getChildren().add(root);
 				clearFields();
@@ -162,16 +162,13 @@ public class AddPatientController implements Initializable {
 						pId = rs.getInt(1);
 					}
 					if (flag > 0) { // redirecting to dashboard
-
 						Parent root = FXMLLoader.load(getClass().getResource("/addPatient/success.fxml"));
 						paneNewPatient.getChildren().add(root);
 						clearFields();
 					} else {
-
 						Parent root = FXMLLoader.load(getClass().getResource("/addPatient/failure.fxml"));
 						pane_newPatient.getChildren().add(root);
 						clearFields();
-
 					}
 				} catch (SQLException e) { // catching exception if any backend error occurs
 					Parent root = FXMLLoader.load(getClass().getResource("/addPatient/failure.fxml"));

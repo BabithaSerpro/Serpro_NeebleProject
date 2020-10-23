@@ -271,6 +271,7 @@ public class PrintableData {
 			testnameParagraph.add(new Chunk(rs.getString("testName"), normalFontBlack));
 			testnameParagraph.setAlignment(Element.ALIGN_CENTER);
 			document.add(testnameParagraph);
+			
 			String ph_text = Test_Template.stripHTMLTags(rs.getString("patientHistory"));
 			if (!(ph_text.equals(""))) {
 				document.add(Chunk.NEWLINE);
